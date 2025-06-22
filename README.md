@@ -51,3 +51,7 @@ RF heating, however, has the advantage of heating the sample volumetric (not req
 We indent to continue theoretical research and design. Simultaneously, we intend to make a mini-scale system, to test our assumptions
 and calculations. That is, we intend to make a very small reaction vessel which can be temperature and pressure controlled, surmounted
 with a controllable valve. We will test this system's ability to dry and char small samples of biological material, such as bread.
+
+![Basic Biochar Toilet Design](https://github.com/user-attachments/assets/ea41856b-7663-43a1-bf12-8a3a2311aef8)
+
+
