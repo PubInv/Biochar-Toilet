@@ -54,4 +54,10 @@ with a controllable valve. We will test this system's ability to dry and char sm
 
 ![Basic Biochar Toilet Design](https://github.com/user-attachments/assets/ea41856b-7663-43a1-bf12-8a3a2311aef8)
 
+# References
+
+"An Experimental 13.56 MHz Radio Frequency Heating System
+for Efficient Thermal Pretreatment of Wastewater Sludge",
+Md. S. Ferdous, Ehssan H. Koupaie, Cigdem Eskicioglu, and Thomas Johnson*
+
 
