@@ -79,9 +79,11 @@ would not survive the 400C temperatures needed for charring.)
 
 I imagine a BOM for the Phase 1 system to be:
 1. An I2C pressure sensor with a range of at least 2.5 Atms.
-2. A heating element, such as a power resistor.
-3. A digital thermometer
-4. A solenoid valve that can open (and close) under micrconctroller control
+2. A heating element, such as a power resistor. (Two of these in series might work: [https://www.digikey.com/en/products/detail/te-connectivity-passive-product/HSC1001R0J/2055297?_gl=1*15lsl1x*_up*MQ..&gclid=Cj0KCQjwzYLABhD4ARIsALySuCTm8nkVdOfNr_GjOg-3iFiSH7pkuDwZ5D46byvvL9cms07OnCRo0-UaAs2xEALw_wcB&gclsrc=aw.ds](https://www.digikey.com/en/products/detail/te-connectivity-passive-product/HSC1001R0J/2055297?_gl=1*15lsl1x*_up*MQ..&gclid=Cj0KCQjwzYLABhD4ARIsALySuCTm8nkVdOfNr_GjOg-3iFiSH7pkuDwZ5D46byvvL9cms07OnCRo0-UaAs2xEALw_wcB&gclsrc=aw.ds).)
+3. A digital thermometer (This operates up to 125C, which may be good enough for phase 1: [https://www.adafruit.com/product/642](https://www.adafruit.com/product/642)).
+4. A solenoid valve that can open (and close) under micrconctroller control (Note, it is unclear if this is air-tight: [https://www.adafruit.com/product/996](https://www.adafruit.com/product/996)).
+5. Either a relay, or relay break out board, or  motor controller, or a transistor with a fly-back diode to control the solenoid.
+6. A transistor to control the power to the heater. [https://www.adafruit.com/product/355](https://www.adafruit.com/product/355).
 
 
 
