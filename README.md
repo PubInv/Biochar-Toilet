@@ -5,13 +5,13 @@ Earth healthier. In many communities, Western-style sewage systems would be very
 such as geology, the lack of density in farming communities made of small land holdings, a lack of capital, and a lack of
 social and political organization able to dig the trenches and lay pipes efficiently.
 
-Reducing a typical human stool to biochar given an energy input of about 600 kilojoules (see detailed analysis in referenced spreadsheet).
-Even for the poorest people, the cost of this electricity is quite low---less than one use cent. One kilowatt hour is 3.6 MJ (megajoules).
+Reducing a typical human stool to biochar requires an energy input of about 600 kilojoules (see detailed analysis in referenced spreadsheet).
+Even for the poorest people, the cost of this electricity is quite low---less than one US cent \$0.01USD. One kilowatt hour is 3.6 MJ (megajoules).
 Expensive electrical power around the world is $0.45/kWh is $0.075 USD--or less than eight cents. Even if our toilet is inefficient, it
 seems possible to make toilet whose operating cost is affordable for the poorest persons, at $27.375 per year (this cost does not include
 the capital costs of the toilet.)
 
-Biochar can be used a fuel or a garden amendment. Note, however, that human stools are so small that this is not an meaninful approach for carbon sequestration.
+Biochar can be used a fuel or a garden amendment. Note, however, that human stools are so small (128 grams nominally) that this is not an meaninful approach for carbon sequestration.
 
 
 # Initial Design Idea
@@ -46,9 +46,50 @@ However, it is expected to become less effective as the sample dries.
 We therefore intend to explore the possibility of using simple Joule resistive heating of a stainless steel vessel directly.
 RF heating, however, has the advantage of heating the sample volumetric (not require conduction), which may be a tremendouse advantage.
 
+# Phase 1
+
+Having gotten a new volunteer who wants to build an embedded system, we propose a Phase 1 as a "spike" prototype to test out the basic principles.
+In this phase, the goal is to build the smallest, safest system that we can. 
+We imagine making a "reaction vessel" which is very small---perhaps 50 ml, large enough to dry a piece of fruit as a test.
+
+As Nupur Bhalla and I have demonstrated in the energy analysis spreadsheet, the act of producing char can be divided into two operations:
+drying to low water content, and then raising the temperature sufficiently to produce char (all in the absence of additionaly O2 to avoid
+combustion.) The Phase 1 system needs to raise the temperature enough to produce a pressure in the chamber of 2 atmospheres (or possibly 
+a lower pressure for testing), but if the sample has a high water content, this will likely occur at just a little above the boiling point 
+of water (100C, or a little higher under pressure.) The Phase 1 system does not need to operate above 150C, which will make it slightly safer.
+
+When the solenoid valve is opened, the pressure drop will instantly lower the boiling point of water, causing the water to "flash" into
+steam. This has the advantage that it "destroy" the sample. For example, a grape with an intact skin would literally be expected to "explode". 
+This will likely be messy in the chamber. However, this is NOT bad for treating a human stool---it has the advantage of being very 
+destructive of intact cells, including bacterian and plant cells that are in the stool, for example.
+
+However, opening the solenoid valve briefly is likely to spray hot, scalding steam out the valve. It is essential for saftey that this steam enter
+a separate containment chamber. The purpose of the containment chamber is allow the offgases to cool (probably liquefying). The containment 
+chamber should be close to atmospheric pressure, probably open to the atmospher. An odor-reduing carbon filter may connect the containment 
+chamber to the outside air, but that is not necessary for Phase 1---but the safety concerns are.
+
+For that reason, an emergency pop-off valve needs to be build into the Phase 1 reaction vessel. A software error or someother error could 
+easily allow the recation vessel to develop high pressure which would be dangerous.  However, a lot of the software and machinery 
+design could be accomplished with a reaction vessel which is simply not tightly closed. Although this will not allow the "flashing" of
+the steam, in other ways the Phase 1 machine could be tested.
+
+If the reaction vessel is not sealed, then it could be constructed in many differnt ways---for example, with a babyfood jar of a Mason jar,
+or even a cardboard box. Since nylon melts at about 230C, it would even be possible to 3D print a nylon reaction vessel for Phase 1. (Nylon
+would not survive the 400C temperatures needed for charring.)
+
+I imagine a BOM for the Phase 1 system to be:
+1. An I2C pressure sensor with a range of at least 2.5 Atms.
+2. A heating element, such as a power resistor.
+3. A digital thermometer
+4. A solenoid valve that can open (and close) under micrconctroller control
+
+
+
+
+
 # Research Plans
 
-We indent to continue theoretical research and design. Simultaneously, we intend to make a mini-scale system, to test our assumptions
+We indent to continue theoretical research and design. Simultaneously, we intend to make a mini-scale (Phase 1) system, to test our assumptions
 and calculations. That is, we intend to make a very small reaction vessel which can be temperature and pressure controlled, surmounted
 with a controllable valve. We will test this system's ability to dry and char small samples of biological material, such as bread.
 
