@@ -1,3 +1,9 @@
+# Current Status
+
+We have made a [spreadsheet model](https://docs.google.com/spreadsheets/d/1ZwIqP0B2wM6QrpZTNiK1hNnNmIEIal7qxYdgEJz8Iog/edit?usp=sharing) of "flash" decompression.
+
+One of our volunteers, Hardhik, has begun prototype a flash system. We need someone to design a reaction vessel.
+
 # Biochar Toilet
 
 A reliable toilet that could quickly reduce human fecal matter to completely sanitary biochar would make the pooreset people of the
