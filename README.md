@@ -91,9 +91,13 @@ I imagine a BOM for the Phase 1 system to be:
 5. Either a relay, or relay break out board, or  motor controller, or a transistor with a fly-back diode to control the solenoid.
 6. A transistor to control the power to the heater. [https://www.adafruit.com/product/355](https://www.adafruit.com/product/355).
 
+# Flash System Prototype - Test 1
 
+For the designing prototype, the first test case was to control the solenoid valve using ESP32 microcontroller. The circuit is designed using a n-MOSFET and diode to protect the circuit from indcutive currents from the solenoid valve. The circuit snippets are attached below. The test run successfully with opening and closing the valve according to serial input to the microcontroller.
 
+# Flash System Prototype - Test 2
 
+For the second test, a K-type thermocouple is added to the circuit to open and close the valve according to temperature sensed. For the test case, the temperature limit is set to 150 degree celsius where if temperature is greater than the limit, valve opens. 
 
 # Research Plans
 
