@@ -93,11 +93,17 @@ I imagine a BOM for the Phase 1 system to be:
 
 # Flash System Prototype - Test 1
 
-For the designing prototype, the first test case was to control the solenoid valve using ESP32 microcontroller. The circuit is designed using a n-MOSFET and diode to protect the circuit from indcutive currents from the solenoid valve. The circuit snippets are attached below. The test run successfully with opening and closing the valve according to serial input to the microcontroller.
+On Nov.7th an initial prototype was tested. This consisted of a pressure cooker containing a cup of water,
+with a thermocouple added and a hose connected to an electronic valve, leading to a condenser.
 
-# Flash System Prototype - Test 2
+This experiment was large confirmatory of our approach, but we learned certain things:
+1. At high power and about 15 psi, the steam does not "flash" off. When the valve is opened, the
+steam escapes, but it keeps flowing. Our valve apparently produces so much restriction that the
+pressure does not drop quickly (though it does drop, but remains positive).
+2. The temperature did rise DRASTICALLY when the water dried up. Our theory that we can detect this by the time that the pressure ceases to rise and the temperature does rise is well established.
+3. A small amount of steam leaked through my high-temperature epoxy around the thermocouple.
 
-For the second test, a K-type thermocouple is added to the circuit to open and close the valve according to temperature sensed. For the test case, the temperature limit is set to 150 degree celsius where if temperature is greater than the limit, valve opens. 
+So in principle, this was a successful test.
 
 # Research Plans
 
