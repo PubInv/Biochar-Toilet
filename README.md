@@ -13,6 +13,9 @@ The outside of the pressure cooker can be kept cool. If our wires will survive t
 We believe having an electric biochar producer will be valuable as a means of testing the disposition of the dangerous
 syngases produced by the charring process. Even though this containment vessel is obviously inadequate for the final purpose of producing a toilet, we believe this will be progress.
 
+<img width="849" height="482" alt="Screenshot 2025-11-21 at 6 10 39 PM" src="https://github.com/user-attachments/assets/6e3a36fb-60a5-46c5-8a6b-8c2908af25fd" />
+
+
 
 We have made a [spreadsheet model](https://docs.google.com/spreadsheets/d/1ZwIqP0B2wM6QrpZTNiK1hNnNmIEIal7qxYdgEJz8Iog/edit?usp=sharing) of "flash" decompression.
 
