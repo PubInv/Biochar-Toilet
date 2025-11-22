@@ -1,5 +1,19 @@
 # Current Status
 
+As of Nov. 21, our EE Hardhik Pyla has our prototype equipment, which consists of a pressure cooker.
+He has calibrated the pressure sensor. He has a small bug controlling the valve.  
+The thermocouple works.  He is going to develop a simple algorithm for detecting when the sample is dry based on temperature and pressure. (Basically, temperature rises without a pressure rise when the sample is dry.)
+
+After that we will use a solid-state relay to control a hot plate to turn it off when we we are "dry".
+This will require supervision at first.
+
+We do not believe it is safe to char inside pressure cooker. Lawrence Kincheloe came up with a good
+idea of using a silicon nitride igniter as a heat source inside a metal or ceramic cup inside the pressure cooker.
+The outside of the pressure cooker can be kept cool. If our wires will survive this level of heat, then we can char.
+We believe having an electric biochar producer will be valuable as a means of testing the disposition of the dangerous
+syngases produced by the charring process. Even though this containment vessel is obviously inadequate for the final purpose of producing a toilet, we believe this will be progress.
+
+
 We have made a [spreadsheet model](https://docs.google.com/spreadsheets/d/1ZwIqP0B2wM6QrpZTNiK1hNnNmIEIal7qxYdgEJz8Iog/edit?usp=sharing) of "flash" decompression.
 
 One of our volunteers, Hardhik, has begun prototype a flash system. We need someone to design a reaction vessel.
