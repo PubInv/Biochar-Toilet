@@ -3,6 +3,7 @@
 This directory contains the schematic and PCB files for the Biochar Toilet prototype control system.
 
 Version: v1.0
+
 KiCad Version: 9.x
 
 Includes:
