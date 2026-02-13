@@ -7,6 +7,14 @@ The thermocouple works.  We have developed a simple algorithm for detecting when
 After that we will use a solid-state relay to control a hot plate to turn it off when we we are "dry".
 This will require supervision at first.
 
+We have continued iterative testing of the prototype system, focusing on improving sensing reliability, pressure integrity, and thermal control. During recent testing, we observed that the pressure chamber (pressure cooker) was not maintaining pressure when the valve was turned off due to minor leaks at the chamber valve interfaces. The valves were resealed, and the vessel was retested using a cup of water to verify pressure retention. After resealing, the chamber successfully sustained pressure, enabling reliable validation of both temperature and pressure sensing.
+
+The pressure sensor was recalibrated against a manual gauge to correct a previously observed offset, resulting in more consistent low-pressure readings during the final drying phase. We integrated a solid-state relay (SSR) to automate hot plate control, allowing the system to shut off heating once dryness is detected using temperature–pressure divergence logic. Early validation tests confirm that when pressure drops below ~1 PSI while temperature continues to rise, the algorithm reliably identifies the dry state and disables the heater. All the preliminary tests were conducted using a cup of water as sample.
+
+As of Jan 23, with sensing and control validated, we initiated preliminary charring experiments using a loaf of bread as a test sample. The bread was heated inside the sealed pressure cooker under controlled temperature and pressure conditions, with the hotplate regulated via the SSR-based control system. After approximately 2 hours and 40 minutes at a relatively low temperature (~110 °C), the loaf was visibly charred. However, the dryness detection algorithm did not trigger in this case, likely due to the relatively low initial moisture content of the bread, which did not produce a sufficiently distinct pressure change during drying.
+
+An additional observation was soot accumulation on the chamber lid following the test, presumably from carbon particles generated during charring. This suggests that particulate management and internal surface maintenance will need to be considered in future iterations.
+
 We do not believe it is safe to char inside pressure cooker. Lawrence Kincheloe came up with a good
 idea of using a silicon nitride igniter as a heat source inside a metal or ceramic cup inside the pressure cooker.
 The outside of the pressure cooker can be kept cool. If our wires will survive this level of heat, then we can char.
