@@ -1,7 +1,8 @@
 [03/20/2026]
 Lawrence and Peter had identified and (Lawrence) updated the project BOM with the bulkhead fittings and hardware required for the induction coil 
 system to insulate the energized copper from the aluminum pot, as well as to seal the fitting and lock the insulated sleeve in place using a 
-furrel nut and insolating washer.
+furrel nut and insolating washer. They also identified 440 stainless steel shot 2mm as being an excellent starting point for mixing with
+the magnetite.
 
 Peter had digitized the bounding box of the induction module (for clearance) and the model of the 1" air line's bulkhead fitting;
 he also imported STEP files of the PSU and T-Pipe fitting. The purpose for this is to create proper mounting systems contining the 
