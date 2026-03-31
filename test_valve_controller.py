@@ -22,8 +22,21 @@ class TestValveController(unittest.TestCase):
 
     def test_threshold_crossing(self):
         controller = ValveController(target_pressure=15.0, target_temperature=121.0)
-        # Both targets met
+
+        # Start below threshold
+        controller.update(pressure=14.0, temperature=120.0)
+        self.assertFalse(controller.is_open())
+
+        # Transition to exactly threshold
         controller.update(pressure=15.0, temperature=121.0)
+        self.assertTrue(controller.is_open())
+
+        # Reset and test crossing from below to strictly above
+        controller.reset()
+        controller.update(pressure=14.9, temperature=120.9)
+        self.assertFalse(controller.is_open())
+
+        controller.update(pressure=15.5, temperature=122.0)
         self.assertTrue(controller.is_open())
 
     def test_latching_behavior(self):
