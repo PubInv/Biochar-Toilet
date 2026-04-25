@@ -1,3 +1,25 @@
+[04/24/2026]
+Lawrence and Peter ran a series of experiments with different amounts of material that we want to use for induction heating. 
+The temperature measurements are located in [Induction experimental data.md](https://github.com/PubInv/Biochar-Toilet/blob/main/Induction experimental data.md)
+Interestng results were that we didn't hit the curie temperature of the carbon steel, as evident by the thermal readings and the presence of a magnetic field. Based on
+color charts for steel and our measurements, we estimate we got up between 900-1000 degrees F for the pure ball bearing. 
+
+Quick Observations
+The Magnetite Advantage: At 5 grams, the Magnetite is significantly more efficient at converting the induction field to heat compared to the same mass of Carbon Steel bearings (reaching 740°F vs 130°F in 60 seconds).
+
+Volume vs. Mass: The Carbon Steel only starts to compete in peak temperature (940°F) when the volume is matched to the Magnetite, suggesting density and surface area are playing a massive role here. 
+It is believed that this is due to eddie currents, which seem to favor lengh wise induced current when the material is making good electrical contact. 
+
+The "Mixed" Thermal Inertia: The mixture shows a much more gradual and staggered climb, likely due to the Bentonite acting as a thermal buffer or insulator between the active heating elements.
+Further adjustments to the mix will need to be determined to balance thermal heat transfer, rapid heating, and options for agitation. 
+
+Peter will drill out the holes for the induction heater next week, and we are continuing to debug issues with the higher power induction coil. 
+Right now we suspect the issue may be the spacing on the coils (currently 10-30mm), but it's interesting to note that coil geometry has a large effect on heating potential. 
+We may need to accelerate our understanding of coil geometry and options for focusing the magnetic field towards the center of the crucible.
+
+
+
+
 [03/27/2026]
 Lawrence and Peter ran an experiment attempting to char cheese puffs. The cheese puffs are about 8mm in diameter, 
 and there were about 6 of them in the crucible, moistened with water and coated in mostly magnetite with some kitty litter.
