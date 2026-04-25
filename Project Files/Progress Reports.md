@@ -1,4 +1,4 @@
-[04/24/2026]
+## **[04/24/2026]**
 Lawrence and Peter ran a series of experiments with different amounts of material that we want to use for induction heating. 
 The temperature measurements are located in [Induction experimental data.md](https://github.com/PubInv/Biochar-Toilet/blob/main/Induction experimental data.md)
 Interestng results were that we didn't hit the curie temperature of the carbon steel, as evident by the thermal readings and the presence of a magnetic field. Based on
@@ -20,7 +20,7 @@ We may need to accelerate our understanding of coil geometry and options for foc
 
 
 
-[03/27/2026]
+## **[03/27/2026]**
 Lawrence and Peter ran an experiment attempting to char cheese puffs. The cheese puffs are about 8mm in diameter, 
 and there were about 6 of them in the crucible, moistened with water and coated in mostly magnetite with some kitty litter.
 The induction coil system had been running for about 5 minutes when the mixture began smoking. The max temperature attained was 833F before the team put a cap on the 
@@ -36,7 +36,7 @@ The total powered time of this experiment was about 16 minutes.
 
 
 
-[03/20/2026]
+## **[03/20/2026]**
 Lawrence and Peter had identified and (Lawrence) updated the project BOM with the bulkhead fittings and hardware required for the induction coil 
 system to insulate the energized copper from the aluminum pot, as well as to seal the fitting and lock the insulated sleeve in place using a 
 furrel nut and insolating washer. They also identified 440 stainless steel shot 2mm as being an excellent starting point for mixing with
@@ -51,7 +51,7 @@ components to make a solid, safe, transportable unit for demonstration and exper
 
 
 
-[03/06/2026]
+## **[03/06/2026]**
 Lawrence and Peter were able to fill a crucible with 100% magnetite and a cup of water, then using only the induction coil 
 system, was able to evaporate all of the water in less than 8 minutes, starting with the sample at room temperature.
 Next steps towards biochar include testing different ratios of kitty litter (bentonite), magnetite, and mild steel shot to not only
