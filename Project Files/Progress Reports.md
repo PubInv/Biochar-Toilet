@@ -57,3 +57,18 @@ system, was able to evaporate all of the water in less than 8 minutes, starting 
 Next steps towards biochar include testing different ratios of kitty litter (bentonite), magnetite, and mild steel shot to not only
 evaporate water quickly, but to char an organic sample. 
 Data will be collected then analyzed via spreadsheet graph comparison.
+
+## **[11/07/2025]**
+**Flash System Prototype - Test 1**
+
+On Nov.7th an initial prototype was tested. This consisted of a pressure cooker containing a cup of water,
+with a thermocouple added and a hose connected to an electronic valve, leading to a condenser.
+
+This experiment was largely confirmatory of our approach, but we learned certain things:
+1. At high power and about 15 psi, the steam does not "flash" off. When the valve is opened, the
+steam escapes, but it keeps flowing. Our valve apparently produces so much restriction that the
+pressure does not drop quickly (though it does drop, but remains positive).
+2. The temperature did rise DRASTICALLY when the water dried up. Our theory that we can detect this by the time that the pressure ceases to rise and the temperature does rise is well established.
+3. A small amount of steam leaked through my high-temperature epoxy around the thermocouple.
+
+So in principle, this was a successful test.

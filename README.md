@@ -118,19 +118,13 @@ I imagine a BOM for the Phase 1 system to be:
 5. Either a relay, or relay break out board, or  motor controller, or a transistor with a fly-back diode to control the solenoid.
 6. A transistor to control the power to the heater. [https://www.adafruit.com/product/355](https://www.adafruit.com/product/355).
 
-# Flash System Prototype - Test 1
+# Project State
 
-On Nov.7th an initial prototype was tested. This consisted of a pressure cooker containing a cup of water,
-with a thermocouple added and a hose connected to an electronic valve, leading to a condenser.
+**Phase 1 (Proof of Concept & Logic) is complete!** We have successfully validated our core architecture and dryness detection logic. By monitoring the divergence between internal temperature and pressure, we've demonstrated the ability to accurately identify the 'Dry State'. We also proved that 'Flash' decompression works—opening a specialized solenoid valve under pressure to flash boil liquid water to steam, helping achieve mechanical sterility.
 
-This experiment was large confirmatory of our approach, but we learned certain things:
-1. At high power and about 15 psi, the steam does not "flash" off. When the valve is opened, the
-steam escapes, but it keeps flowing. Our valve apparently produces so much restriction that the
-pressure does not drop quickly (though it does drop, but remains positive).
-2. The temperature did rise DRASTICALLY when the water dried up. Our theory that we can detect this by the time that the pressure ceases to rise and the temperature does rise is well established.
-3. A small amount of steam leaked through my high-temperature epoxy around the thermocouple.
+**We are currently making preparations for Phase 2: Induction System Development.** We are transitioning from traditional resistive heating to **Pulsed Induction Heating** utilizing a magnetite matrix. This new approach promises accelerated processing by generating heat directly within the internal charring cup, contactless energy transfer, and improved system durability by removing exposed heating coils from the corrosive environment.
 
-So in principle, this was a successful test.
+You can read more about our ongoing experiments and developments in our detailed [Progress Reports](<Project Files/Progress Reports.md>).
 
 # Research Plans
 
