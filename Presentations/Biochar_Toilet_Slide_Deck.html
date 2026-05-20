@@ -140,6 +140,20 @@
             border: 2px solid #1A3D34; transition: all 0.2s;
         }
         .action-button:hover { background: #fff; color: #1A3D34; }
+
+        /* Chart Styles */
+        .chart-container {
+            width: 100%; height: 350px; background: #fff; border-radius: 8px;
+            border: 1px solid #e2e8f0; padding: 20px; position: relative; margin-top: 20px;
+        }
+        .chart-svg { width: 100%; height: 100%; overflow: visible; }
+        .chart-axis { stroke: #94a3b8; stroke-width: 2; }
+        .line-temp { stroke: #ef4444; stroke-width: 4; fill: none; stroke-linecap: round; }
+        .line-press { stroke: #3b82f6; stroke-width: 4; fill: none; stroke-linecap: round; }
+        .chart-label { font-family: 'DM Sans', sans-serif; font-size: 14px; fill: #64748b; }
+        .chart-legend { position: absolute; top: 30px; left: 40px; background: #f8faf9; padding: 10px 15px; border-radius: 6px; border: 1px solid #e2e8f0; }
+        .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; font-size: 14px; font-weight: 700; }
+        .legend-color { width: 20px; height: 4px; border-radius: 2px; }
     </style>
 </head>
 <body>
@@ -467,7 +481,47 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<!-- Slide 13: Phase 2 Induction Development -->
+<!-- Slide 13: NEW - Visualizing the Divergence Curve -->
+<div class="slide-container">
+    <h2 class="slide-title">Visualizing the Dryness Divergence</h2>
+    <div class="content-area">
+        <p>The transition from "drying" to "charring" is triggered by detecting the physical state change of water inside the vessel. When the pressure curve plateaus while the temperature continues to rise, the system safely cuts power to the drying relays.</p>
+
+        <div class="chart-container">
+            <div class="chart-legend">
+                <div class="legend-item"><div class="legend-color" style="background: #ef4444;"></div> Internal Temperature (°C)</div>
+                <div class="legend-item"><div class="legend-color" style="background: #3b82f6;"></div> Vessel Pressure (PSI)</div>
+            </div>
+            <svg class="chart-svg" viewBox="0 0 1000 300" preserveAspectRatio="none">
+                <!-- Grid Lines -->
+                <line x1="50" y1="50" x2="950" y2="50" stroke="#f1f5f9" stroke-width="1"/>
+                <line x1="50" y1="125" x2="950" y2="125" stroke="#f1f5f9" stroke-width="1"/>
+                <line x1="50" y1="200" x2="950" y2="200" stroke="#f1f5f9" stroke-width="1"/>
+
+                <!-- Axes -->
+                <line x1="50" y1="275" x2="950" y2="275" class="chart-axis"/>
+                <line x1="50" y1="275" x2="50" y2="25" class="chart-axis"/>
+
+                <!-- Axis Labels -->
+                <text x="20" y="275" class="chart-label">0</text>
+                <text x="15" y="150" class="chart-label">Units</text>
+                <text x="480" y="295" class="chart-label">Time (Process Cycle)</text>
+                <text x="750" y="100" class="chart-label" fill="#1A3D34" font-weight="bold" font-size="16">→ Divergence Detected (Charring Initiated)</text>
+
+                <!-- Pressure Curve (Blue): Rises, then plateaus -->
+                <path d="M 50 275 Q 150 250 300 150 Q 400 120 500 120 L 950 120" class="line-press"/>
+
+                <!-- Temp Curve (Red): Rises steadily -->
+                <path d="M 50 275 Q 300 200 600 100 Q 800 50 950 25" class="line-temp"/>
+
+                <!-- Vertical Marker for Divergence Event -->
+                <line x1="600" y1="25" x2="600" y2="275" stroke="#1A3D34" stroke-width="2" stroke-dasharray="5,5"/>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 14: Phase 2 Induction Development -->
 <div class="slide-container">
     <h2 class="slide-title">Phase 2: Induction System Development</h2>
     <div class="content-area">
@@ -508,7 +562,7 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<!-- Slide 14: NEW - Induction Innovations: Magnetite Matrix -->
+<!-- Slide 15: NEW - Induction Innovations: Magnetite Matrix -->
 <div class="slide-container">
     <h2 class="slide-title">Induction Innovations: Magnetite Matrix</h2>
     <div class="content-area">
@@ -537,7 +591,58 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<!-- Slide 15: Biochar Circular Economy & Call to Action -->
+<!-- Slide 16: NEW - Off-Grid Power Architecture -->
+<div class="slide-container">
+    <h2 class="slide-title">Off-Grid Power & Energy Buffering</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>Pulsed induction heating introduces significant, localized peak current draws. Because this system is designed for isolated environments without reliable grid ties, continuous high-amperage draw is impossible.</p>
+                <p style="margin-top: 15px;">To solve this, the thermal architecture is paired with a local energy buffering system.</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Solar Integration:</strong> Managed via a hybrid inverter topology capable of handling variable MPPT inputs.</li>
+                    <li><strong>Battery Buffering:</strong> Designed around a standard 48V LiFePO4 battery rack.</li>
+                    <li><strong>Load Shifting:</strong> The LiFePO4 bank absorbs the intense, short-term loads of the induction cycle, safely recharging via solar during the system's idle hours.</li>
+                </ul>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8faf9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 30px;">
+                <i class="fa-solid fa-solar-panel" style="font-size: 40px; color: #B89E6B; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">PV Array</h3>
+                <i class="fa-solid fa-arrow-down" style="color: #94a3b8; margin: 10px 0;"></i>
+                <div style="background: #1A3D34; color: white; padding: 15px 30px; border-radius: 4px; font-weight: 700;">Hybrid Inverter</div>
+                <i class="fa-solid fa-arrow-down-up-across-line" style="color: #94a3b8; margin: 10px 0;"></i>
+                <div style="border: 2px solid #1A3D34; padding: 15px 30px; border-radius: 4px; font-weight: 700; color: #1A3D34;">48V LiFePO4 Battery Bank</div>
+                <i class="fa-solid fa-arrow-down" style="color: #94a3b8; margin: 10px 0;"></i>
+                <h3 style="margin-top: 10px; color: #ef4444;">Biochar Induction Load</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 17: NEW - Manufacturability & BOM -->
+<div class="slide-container">
+    <h2 class="slide-title">Local Fabrication & The Toolchain</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 25px;">For open-source hardware to achieve global equity, it must be replicable. We engineered the Biochar Toilet using accessible toolchains and standard components so it can be built and serviced in local makerspaces around the world.</p>
+
+        <div class="tiled-content">
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-microchip" style="margin-right: 10px; color: #B89E6B;"></i>Control Electronics</h3>
+                <p style="font-size: 16px;">The logic core relies on the ubiquitous ESP32 microcontroller. Custom PCB schematics and routing for the solid-state relay integration are drafted entirely in <strong>KiCad</strong> to ensure anyone can modify or print the boards.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-code" style="margin-right: 10px; color: #B89E6B;"></i>Firmware Deployment</h3>
+                <p style="font-size: 16px;">The dryness monitoring algorithms and hardware control loops are written in C/C++ and managed using <strong>PlatformIO</strong>, providing a consistent compilation environment regardless of the user's local operating system.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-cubes" style="margin-right: 10px; color: #B89E6B;"></i>Hardware Fabrication</h3>
+                <p style="font-size: 16px;">Instead of relying on proprietary manufacturing, non-heat-critical enclosures and mounting brackets are designed parametrically for standard FDM 3D printing, making them easily reproducible in community-driven fabrication studios.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 18: Biochar Circular Economy & Call to Action -->
 <div class="slide-container">
     <h2 class="slide-title">The Circular Economy & Open-Source Impact</h2>
     <div class="content-area">
@@ -568,7 +673,7 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<!-- Slide 16: Q&A -->
+<!-- Slide 19: Q&A -->
 <div class="slide-container" style="justify-content: center; align-items: center; text-align: center;">
     <h2 style="font-size: 60px;">Questions?</h2>
     <p class="subtitle">Thank you for supporting Open-Source Sanitation.</p>
