@@ -97,10 +97,10 @@
         .dense-table .highlight { background-color: rgba(184, 158, 107, 0.1); font-weight: 700; color: #1A3D34; }
 
         /* Tiles */
-        .tiled-content { display: flex; gap: 30px; margin-top: 10px; }
+        .tiled-content { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 10px; }
         .tile {
-            flex: 1; background: #f8faf9; padding: 35px; border-radius: 12px;
-            border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 15px;
+            background: #f8faf9; padding: 25px; border-radius: 12px;
+            border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 10px;
         }
 
         /* Bleed Image Layout */
@@ -269,7 +269,34 @@
     </div>
 </div>
 
-<!-- Slide 6: Incinerating Toilets Deep Dive -->
+<!-- Slide 6: NEW - Why Pyrolysis Over Composting -->
+<div class="slide-container">
+    <h2 class="slide-title">Why Pyrolysis Over Composting?</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 25px;">While composting is mechanically simpler, it introduces severe biological risks and operational complexity. The Biochar Toilet fronts the complexity in the engineering phase to ensure a rapid, foolproof user experience.</p>
+
+        <div class="tiled-content">
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-shield-virus" style="margin-right: 10px; color: #B89E6B;"></i>The Pathogen Failsafe</h3>
+                <p style="font-size: 16px;">Composting requires precise adherence to moisture control and turning schedules for months; mismanagement creates a biohazard. Pyrolysis achieves <strong>100% mechanical sterility in minutes</strong>.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-truck-fast" style="margin-right: 10px; color: #B89E6B;"></i>Supply Chain Independence</h3>
+                <p style="font-size: 16px;">Composting demands a constant supply of external carbon bulking agents (like sawdust or peat). This system operates as a closed loop, using only the waste and our reusable magnetite matrix.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-pills" style="margin-right: 10px; color: #B89E6B;"></i>Contaminant Destruction</h3>
+                <p style="font-size: 16px;">Complex synthetic compounds, such as antibiotics and hormones, pass straight through a biologically fragile compost system. High-temperature pyrolysis physically destroys these structures.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-leaf" style="margin-right: 10px; color: #B89E6B;"></i>Biochar vs. Humus Output</h3>
+                <p style="font-size: 16px;">Standard composting creates a low-grade humus that eventually decomposes, releasing methane. Pyrolysis produces highly stable biochar that sequesters carbon and retains <strong>50% more moisture</strong> in arid soil.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: Incinerating Toilets Deep Dive -->
 <div class="slide-container">
     <h2 class="slide-title">Deep Dive: Incinerating Toilets</h2>
     <div class="content-area">
@@ -296,7 +323,7 @@
     </div>
 </div>
 
-<!-- Slide 7: Biochar Toilet Deep Dive -->
+<!-- Slide 8: Biochar Toilet Deep Dive -->
 <div class="slide-container">
     <h2 class="slide-title">Deep Dive: The Biochar Toilet</h2>
     <div class="content-area">
@@ -323,7 +350,7 @@
     </div>
 </div>
 
-<!-- Slide 8: Project Mission & Goals -->
+<!-- Slide 9: Project Mission & Goals -->
 <div class="slide-container">
     <h2 class="slide-title">Project Mission & Goals</h2>
     <div class="content-area">
@@ -351,7 +378,7 @@
     </div>
 </div>
 
-<!-- Slide 9: Phase 1 Proof of Concept -->
+<!-- Slide 10: Phase 1 Proof of Concept -->
 <div class="slide-container">
     <h2 class="slide-title">Phase 1: Proof of Concept & Logic</h2>
     <div class="content-area">
@@ -386,7 +413,7 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<!-- Slide 10: Phase 2 Induction Development -->
+<!-- Slide 11: Phase 2 Induction Development -->
 <div class="slide-container">
     <h2 class="slide-title">Phase 2: Induction System Development</h2>
     <div class="content-area">
@@ -427,7 +454,7 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<!-- Slide 11: NEW - Induction Innovations: Magnetite Matrix -->
+<!-- Slide 12: NEW - Induction Innovations: Magnetite Matrix -->
 <div class="slide-container">
     <h2 class="slide-title">Induction Innovations: Magnetite Matrix</h2>
     <div class="content-area">
@@ -456,7 +483,7 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<!-- Slide 12: Biochar Circular Economy & Call to Action -->
+<!-- Slide 13: Biochar Circular Economy & Call to Action -->
 <div class="slide-container">
     <h2 class="slide-title">The Circular Economy & Open-Source Impact</h2>
     <div class="content-area">
@@ -487,7 +514,7 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<!-- Slide 13: Q&A -->
+<!-- Slide 14: Q&A -->
 <div class="slide-container" style="justify-content: center; align-items: center; text-align: center;">
     <h2 style="font-size: 60px;">Questions?</h2>
     <p class="subtitle">Thank you for supporting Open-Source Sanitation.</p>
