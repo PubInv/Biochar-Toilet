@@ -154,6 +154,64 @@
         .chart-legend { position: absolute; top: 30px; left: 40px; background: #f8faf9; padding: 10px 15px; border-radius: 6px; border: 1px solid #e2e8f0; }
         .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; font-size: 14px; font-weight: 700; }
         .legend-color { width: 20px; height: 4px; border-radius: 2px; }
+
+        /* Presentation Mode Button */
+        #present-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #B89E6B;
+            color: #1A3D34;
+            border: none;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #present-btn:hover {
+            background: #1A3D34;
+            color: #B89E6B;
+        }
+
+        /* Presentation Mode Styles */
+        body.presentation-mode {
+            padding: 0;
+            margin: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        body.presentation-mode .slide-container {
+            display: none;
+            margin: 0;
+            box-shadow: none;
+            border-radius: 0;
+            /* Scale to fit screen while maintaining aspect ratio */
+            transform-origin: center center;
+        }
+
+        body.presentation-mode .slide-container.active {
+            display: flex;
+        }
+
+        body.presentation-mode #present-btn {
+            opacity: 0.2; /* Less distracting in presentation mode */
+        }
+        body.presentation-mode #present-btn:hover {
+            opacity: 1;
+        }
+
     </style>
 </head>
 <body>
@@ -690,6 +748,121 @@ def detect_dryness(temp, pressure):
         <p style="font-family: 'Azeret Mono'; margin-top: 10px; color: #1A3D34;">www.pubinv.org</p>
     </div>
 </div>
+
+<button id="present-btn">
+    <i class="fa-solid fa-desktop"></i> Present
+</button>
+
+<script>
+    const presentBtn = document.getElementById('present-btn');
+    const body = document.body;
+    const slides = document.querySelectorAll('.slide-container');
+    let currentSlide = 0;
+    let isPresenting = false;
+
+    // Helper to calculate scaling
+    function scaleActiveSlide() {
+        if (!isPresenting) return;
+        const activeSlide = slides[currentSlide];
+        if (!activeSlide) return;
+
+        // Slide natural dimensions (from CSS)
+        const slideWidth = 1280;
+        const slideHeight = 720;
+
+        // Window dimensions
+        const winWidth = window.innerWidth;
+        const winHeight = window.innerHeight;
+
+        // Calculate scale factor to fit
+        const scaleX = winWidth / slideWidth;
+        const scaleY = winHeight / slideHeight;
+        const scale = Math.min(scaleX, scaleY);
+
+        activeSlide.style.transform = `scale(${scale})`;
+    }
+
+    // Toggle presentation mode
+    presentBtn.addEventListener('click', () => {
+        if (!isPresenting) {
+            // Enter presentation mode
+            isPresenting = true;
+            body.classList.add('presentation-mode');
+            presentBtn.innerHTML = '<i class="fa-solid fa-times"></i> Exit';
+
+            // Mark current slide active
+            slides.forEach(s => {
+                s.classList.remove('active');
+                s.style.transform = 'none'; // reset
+            });
+            slides[currentSlide].classList.add('active');
+
+            // Request Fullscreen
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log("Error attempting to enable fullscreen:", err);
+                });
+            }
+
+            scaleActiveSlide();
+
+        } else {
+            // Exit presentation mode
+            isPresenting = false;
+            body.classList.remove('presentation-mode');
+            presentBtn.innerHTML = '<i class="fa-solid fa-desktop"></i> Present';
+
+            // Reset all slides
+            slides.forEach(s => {
+                s.classList.remove('active');
+                s.style.transform = 'none';
+            });
+
+            // Exit Fullscreen
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+
+            // Scroll back to where we were (roughly)
+            slides[currentSlide].scrollIntoView();
+        }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!isPresenting) return;
+
+        if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'Enter') {
+            if (currentSlide < slides.length - 1) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide++;
+                slides[currentSlide].classList.add('active');
+                scaleActiveSlide();
+            }
+        } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+            if (currentSlide > 0) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide--;
+                slides[currentSlide].classList.add('active');
+                scaleActiveSlide();
+            }
+        } else if (e.key === 'Escape') {
+             // Handle escape key (browser usually handles exiting fullscreen,
+             // so we just listen to the fullscreenchange event to clean up CSS state)
+        }
+    });
+
+    // Handle exiting fullscreen via ESC key or browser controls
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement && isPresenting) {
+             presentBtn.click(); // Programmatically exit our mode
+        }
+    });
+
+    // Recalculate scale on resize
+    window.addEventListener('resize', scaleActiveSlide);
+
+</script>
 
 </body>
 </html>
