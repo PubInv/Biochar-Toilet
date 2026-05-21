@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biochar Toilet - Open Source Sanitation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* GLOBAL SETUP */
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: #f1f3f2;
+            margin: 0;
+            display: grid;
+            gap: 40px;
+            place-items: center;
+            padding: 40px 0;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #fcfdfc;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            font-family: 'DM Sans', sans-serif;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.12);
+            border-radius: 4px;
+        }
+
+        /* Background Decorations */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 6px;
+            background: linear-gradient(90deg, #1A3D34 0%, #B89E6B 100%);
+            z-index: 10;
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3 {
+            font-family: 'Merriweather', serif;
+            margin: 0;
+            color: #1A3D34;
+        }
+
+        .slide-title {
+            font-size: 44px;
+            font-weight: 700;
+            margin-bottom: 35px;
+            border-left: 8px solid #B89E6B;
+            padding-left: 20px;
+            line-height: 1.1;
+            width: 100%;
+            text-align: left;
+        }
+
+        h1 { font-size: 72px; letter-spacing: -1px; }
+        p, li { font-size: 20px; line-height: 1.55; color: #334155; }
+
+        .subtitle {
+            font-size: 26px;
+            color: #64748b;
+            margin-top: 15px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        /* LAYOUT UTILITIES */
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            width: 100%;
+        }
+
+        /* Table Layouts */
+        .dense-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 18px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .dense-table th { background-color: #1A3D34; color: #fff; padding: 20px; text-align: left; text-transform: uppercase; letter-spacing: 1px; font-size: 16px; }
+        .dense-table td { padding: 20px; border-bottom: 1px solid #e2e8f0; }
+        .dense-table tr:nth-child(even) { background-color: #f8fafc; }
+        .dense-table .highlight { background-color: rgba(184, 158, 107, 0.1); font-weight: 700; color: #1A3D34; }
+
+        /* Tiles */
+        .tiled-content { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 10px; }
+        .tile {
+            background: #f8faf9; padding: 25px; border-radius: 12px;
+            border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 10px;
+        }
+
+        /* Bleed Image Layout */
+        .slide-container.bleed-image-layout {
+            padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start;
+        }
+        .bleed-text-side { padding: 80px 60px; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+        .bleed-image-side { width: 100%; height: 720px; object-fit: cover; }
+
+        /* Code Block */
+        .code-block {
+            background: #1e293b; color: #e2e8f0; padding: 25px; border-radius: 8px;
+            font-family: 'Azeret Mono', monospace; font-size: 16px; line-height: 1.4;
+            white-space: pre;
+        }
+
+        /* Metrics */
+        .metric-box {
+            background: #1A3D34; color: #fff; padding: 30px; border-radius: 12px; text-align: center;
+        }
+        .metric-value { font-size: 50px; font-weight: 700; display: block; color: #B89E6B; }
+
+        /* Photo Gallery Layout */
+        .photo-gallery {
+            display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 15px; height: 100%;
+        }
+        .photo-placeholder {
+            background: #f1f5f9; border: 2px dashed #94a3b8; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; flex-direction: column;
+            color: #64748b; text-align: center; padding: 20px;
+        }
+        .photo-placeholder.main-img { grid-row: span 2; }
+
+        .action-button {
+            display: inline-block; background: #1A3D34; color: #fff; padding: 12px 24px;
+            border-radius: 6px; text-decoration: none; font-weight: 700; margin-top: 20px;
+            border: 2px solid #1A3D34; transition: all 0.2s;
+        }
+        .action-button:hover { background: #fff; color: #1A3D34; }
+
+        /* Chart Styles */
+        .chart-container {
+            width: 100%; height: 350px; background: #fff; border-radius: 8px;
+            border: 1px solid #e2e8f0; padding: 20px; position: relative; margin-top: 20px;
+        }
+        .chart-svg { width: 100%; height: 100%; overflow: visible; }
+        .chart-axis { stroke: #94a3b8; stroke-width: 2; }
+        .line-temp { stroke: #ef4444; stroke-width: 4; fill: none; stroke-linecap: round; }
+        .line-press { stroke: #3b82f6; stroke-width: 4; fill: none; stroke-linecap: round; }
+        .chart-label { font-family: 'DM Sans', sans-serif; font-size: 14px; fill: #64748b; }
+        .chart-legend { position: absolute; top: 30px; left: 40px; background: #f8faf9; padding: 10px 15px; border-radius: 6px; border: 1px solid #e2e8f0; }
+        .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; font-size: 14px; font-weight: 700; }
+        .legend-color { width: 20px; height: 4px; border-radius: 2px; }
+
+        /* Presentation Mode Button */
+        #present-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #B89E6B;
+            color: #1A3D34;
+            border: none;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #present-btn:hover {
+            background: #1A3D34;
+            color: #B89E6B;
+        }
+
+        /* Presentation Mode Styles */
+        body.presentation-mode {
+            padding: 0;
+            margin: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        body.presentation-mode .slide-container {
+            display: none;
+            margin: 0;
+            box-shadow: none;
+            border-radius: 0;
+            /* Scale to fit screen while maintaining aspect ratio */
+            transform-origin: center center;
+        }
+
+        body.presentation-mode .slide-container.active {
+            display: flex;
+        }
+
+        body.presentation-mode #present-btn {
+            opacity: 0.2; /* Less distracting in presentation mode */
+        }
+        body.presentation-mode #present-btn:hover {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide-container" style="justify-content: center; align-items: center; text-align: center;">
+    <div style="position: absolute; width: 100%; height: 100%; opacity: 0.03; background: url('https://upload.wikimedia.org/wikipedia/commons/4/4d/Biochar.jpg') repeat; z-index: 0;"></div>
+    <h1 style="z-index: 2;">The Biochar Toilet</h1>
+    <p class="subtitle" style="z-index: 2;">Open-Source Sanitation & Global Resource Recovery</p>
+    <div style="margin-top: 50px; display: flex; gap: 20px; justify-content: center; z-index: 2;">
+        <span style="background: #1A3D34; color: white; padding: 10px 25px; border-radius: 4px; font-weight: 500;">Public Invention</span>
+        <span style="border: 1px solid #1A3D34; color: #1A3D34; padding: 10px 25px; border-radius: 4px; font-weight: 500;">GitHub: PubInv/Biochar-Toilet</span>
+    </div>
+</div>
+
+<!-- Slide 2: Infrastructure Gap -->
+<div class="slide-container bleed-image-layout">
+    <div class="bleed-text-side">
+        <h2 class="slide-title">Infrastructure Gap</h2>
+        <p>Over 2.5 billion people lack access to basic sanitation. Traditional solutions fail because:</p>
+        <ul style="margin-top: 20px;">
+            <li><strong>Water Scarcity:</strong> Flush toilets require massive amounts of potable water, making them impossible in arid regions.</li>
+            <li><strong>Pathogen Risk:</strong> Composting toilets require expert management over long periods to be safe.</li>
+            <li><strong>Energy Costs:</strong> Standard incineration is too expensive for rural clinics/homes.</li>
+        </ul>
+    </div>
+    <div class="image-container" style="background: #e2e8f0;">
+        <div class="bleed-image-side" style="display: flex; align-items: center; justify-content: center; font-size: 24px; color: #94a3b8; background: #cbd5e1; text-align: center; padding: 40px;">
+            [Infrastructure/Water Scarcity Image Placeholder]
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3: Sanitation Matrix -->
+<div class="slide-container">
+    <h2 class="slide-title">Sanitation Technology Matrix</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 20px;">How the Biochar Toilet compares to existing infrastructure:</p>
+        <table class="dense-table">
+            <thead>
+                <tr>
+                    <th>System Type</th>
+                    <th>Required Inputs</th>
+                    <th>Primary Output</th>
+                    <th>Key Limitations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Traditional Sewage</strong></td>
+                    <td>Massive Potable Water, Heavy Chemical Treatment</td>
+                    <td>Blackwater / Sludge</td>
+                    <td>High cost; strictly prohibits grease, oils, & medications.</td>
+                </tr>
+                <tr>
+                    <td><strong>Composting</strong></td>
+                    <td>Bulking Agents (Sawdust), Aerobic Oxygen, Time</td>
+                    <td>Humus / Low-Grade Fertilizer</td>
+                    <td>Slow processing; pathogen risk if mismanaged.</td>
+                </tr>
+                <tr>
+                    <td><strong>Incineration</strong></td>
+                    <td>High Electricity/Propane, Ventilation</td>
+                    <td>Sterile Ash, CO2 Emissions</td>
+                    <td>Extremely high energy cost; destroys nutrient value.</td>
+                </tr>
+                <tr class="highlight">
+                    <td><strong>Biochar Toilet</strong></td>
+                    <td>Medium Electricity (Pulse Heating), Sealed Chamber</td>
+                    <td>Sterile Biochar (Carbon Sink)</td>
+                    <td>Requires efficient drying algorithms to manage high liquid volumes affordably.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Slide 4: Traditional Sewage Deep Dive -->
+<div class="slide-container">
+    <h2 class="slide-title">Deep Dive: Traditional Sewage & Septic</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3><i class="fa-solid fa-check-circle" style="color: #1A3D34; margin-right: 10px;"></i> Advantages</h3>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li><strong>User Convenience:</strong> <a href="https://www.premiertechaqua.com/en-us/blog/septic-system-vs-public-sewer" target="_blank" style="color: #1A3D34;">Instantly removes waste</a> from the property with no user interaction.</li>
+                    <li><strong>Capacity:</strong> Handles large volumes of both blackwater (toilets) and graywater (sinks/showers) effortlessly.</li>
+                    <li><strong>Longevity:</strong> Municipal infrastructure and <a href="https://www.mrrooter.com/oneida/about-us/blog/pros-and-cons-of-a-septic-tank-system/" target="_blank" style="color: #1A3D34;">well-built septic tanks</a> can last for decades with minimal user-facing effort.</li>
+                </ul>
+            </div>
+            <div>
+                <h3><i class="fa-solid fa-times-circle" style="color: #b91c1c; margin-right: 10px;"></i> Limitations</h3>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li><strong>Resource Intensive:</strong> Consumes <a href="https://www.epa.gov/watersense/residential-toilets" target="_blank" style="color: #1A3D34;">massive amounts of potable water</a> per flush.</li>
+                    <li><strong>Inflexibility:</strong> Completely unviable in arid environments or areas lacking centralized grid infrastructure.</li>
+                    <li><strong>Environmental Risks:</strong> Vulnerable to heavy storms causing sewer overflows; failing septic tanks can <a href="https://www.epa.gov/septic/septic-systems-and-surface-water" target="_blank" style="color: #1A3D34;">contaminate local groundwater</a>.</li>
+                    <li><strong>High Costs:</strong> Extremely expensive municipal infrastructure and <a href="https://straightflushseptic.com/the-pros-and-cons-of-regular-septic-tank-cleaning/" target="_blank" style="color: #1A3D34;">costly main line/septic repairs</a> for homeowners.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: Why Pyrolysis Over Traditional Sewage? -->
+<div class="slide-container">
+    <h2 class="slide-title">Beyond the Flush: Why Not Sewage?</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 25px;">Traditional sewage works well in wealthy, water-rich urban centers, but it fails structurally and environmentally when deployed in arid or developing regions. Decentralized pyrolysis solves these macro-level issues.</p>
+
+        <div class="tiled-content">
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-droplet-slash" style="margin-right: 10px; color: #B89E6B;"></i>Absolute Water Independence</h3>
+                <p style="font-size: 16px;">Flush systems waste billions of gallons of purified drinking water just to transport waste. The Biochar Toilet requires <strong>zero external water</strong>, making it viable for communities facing severe drought or arid climates.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-network-wired" style="margin-right: 10px; color: #B89E6B;"></i>Decentralized Infrastructure</h3>
+                <p style="font-size: 16px;">Sewage requires billion-dollar investments in subterranean pipes, pump stations, and treatment plants. Our system is an off-grid appliance that can be dropped anywhere without civil engineering.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-water" style="margin-right: 10px; color: #B89E6B;"></i>Zero Aquatic Contamination</h3>
+                <p style="font-size: 16px;">During heavy rains or system failures, traditional sewage treatment plants frequently overflow, dumping raw blackwater into rivers and oceans. A closed-loop dry system eliminates this risk entirely.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-recycle" style="margin-right: 10px; color: #B89E6B;"></i>Sludge vs. Biochar</h3>
+                <p style="font-size: 16px;">Municipal sewage treatment produces a toxic biosolid "sludge" that must be landfilled or heavily processed. Pyrolysis transforms the same inputs into a high-value, safe agricultural asset.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: Composting Toilets Deep Dive -->
+<div class="slide-container">
+    <h2 class="slide-title">Deep Dive: Composting Toilets</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3><i class="fa-solid fa-check-circle" style="color: #1A3D34; margin-right: 10px;"></i> Advantages</h3>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li><strong>Eco-Friendly:</strong> Highly sustainable with <a href="https://www.worldofcompostingtoilets.com/about-composting-toilets/pros-and-cons/" target="_blank" style="color: #1A3D34;">incredibly low or zero water usage</a>.</li>
+                    <li><strong>Resource Recovery:</strong> Transforms human waste into usable <a href="https://www.gardeningknowhow.com/composting/ingredients/composting-toilets.htm" target="_blank" style="color: #1A3D34;">humus/fertilizer for non-edible plants</a>.</li>
+                    <li><strong>Off-Grid Capability:</strong> <a href="https://www.reddit.com/r/OffGridCabins/comments/10niuqk/composting_toilet_yea_or_nay_pros_and_cons/" target="_blank" style="color: #1A3D34;">Completely independent</a> of municipal sewer lines and plumbing infrastructure.</li>
+                </ul>
+            </div>
+            <div>
+                <h3><i class="fa-solid fa-times-circle" style="color: #b91c1c; margin-right: 10px;"></i> Limitations</h3>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li><strong>Active Management:</strong> Requires <a href="https://waterlesstoiletshop.com/what-are-the-drawbacks-of-a-composting-toilet/" target="_blank" style="color: #1A3D34;">active user maintenance</a> (separating urine, managing moisture, adding carbon/bulking agents).</li>
+                    <li><strong>Health & Odor Risks:</strong> High risk of odors and surviving pathogens if the <a href="https://community.goodsam.com/discussions/technicalissues/composting-toilet---pros-and-cons/3555609" target="_blank" style="color: #1A3D34;">composting process is mismanaged</a>.</li>
+                    <li><strong>Slow Processing:</strong> Takes a significant amount of time (months to years) to safely break down waste.</li>
+                    <li><strong>Regulatory Hurdles:</strong> Not universally accepted by local zoning and health codes.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 7: NEW - Why Pyrolysis Over Composting -->
+<div class="slide-container">
+    <h2 class="slide-title">Why Pyrolysis Over Composting?</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 25px;">While composting is mechanically simpler, it introduces severe biological risks and operational complexity. The Biochar Toilet fronts the complexity in the engineering phase to ensure a rapid, foolproof user experience.</p>
+
+        <div class="tiled-content">
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-shield-virus" style="margin-right: 10px; color: #B89E6B;"></i>The Pathogen Failsafe</h3>
+                <p style="font-size: 16px;">Composting requires precise adherence to moisture control and turning schedules for months; mismanagement creates a biohazard. Pyrolysis achieves <strong>100% mechanical sterility in minutes</strong>.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-truck-fast" style="margin-right: 10px; color: #B89E6B;"></i>Supply Chain Independence</h3>
+                <p style="font-size: 16px;">Composting demands a constant supply of external carbon bulking agents (like sawdust or peat). This system operates as a closed loop, using only the waste and our reusable magnetite matrix.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-pills" style="margin-right: 10px; color: #B89E6B;"></i>Contaminant Destruction</h3>
+                <p style="font-size: 16px;">Complex synthetic compounds, such as antibiotics and hormones, pass straight through a biologically fragile compost system. High-temperature pyrolysis physically destroys these structures.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-leaf" style="margin-right: 10px; color: #B89E6B;"></i>Biochar vs. Humus Output</h3>
+                <p style="font-size: 16px;">Standard composting creates a low-grade humus that eventually decomposes, releasing methane. Pyrolysis produces highly stable biochar that sequesters carbon and retains <strong>50% more moisture</strong> in arid soil.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: Incinerating Toilets Deep Dive -->
+<div class="slide-container">
+    <h2 class="slide-title">Deep Dive: Incinerating Toilets</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3><i class="fa-solid fa-check-circle" style="color: #1A3D34; margin-right: 10px;"></i> Advantages</h3>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li><strong>Waterless & Immediate:</strong> Completely waterless operation with <a href="https://dry-flush.com/dry-flush-vs-incinerating-portable-toilets/" target="_blank" style="color: #1A3D34;">rapid, immediate processing of waste</a>.</li>
+                    <li><strong>Total Sterilization:</strong> Produces sterile, completely pathogen-free ash.</li>
+                    <li><strong>Low Output Volume:</strong> Reduces waste to an <a href="https://shop.ecojohn.com/blogs/news/incineration-toilets-guide" target="_blank" style="color: #1A3D34;">extremely low volume</a> (a small cup of ash per week).</li>
+                    <li><strong>Compact:</strong> Highly compact footprint, suitable for <a href="https://www.cabinlife.com/articles/composting-vs-incinerating-toilets/" target="_blank" style="color: #1A3D34;">RVs, tiny homes, and remote cabins</a>.</li>
+                </ul>
+            </div>
+            <div>
+                <h3><i class="fa-solid fa-times-circle" style="color: #b91c1c; margin-right: 10px;"></i> Limitations</h3>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li><strong>Energy Intensive:</strong> Extremely <a href="https://www.homebiogas.com/blog/incineration-toilets-guide/" target="_blank" style="color: #1A3D34;">high energy usage</a> (requires 110V/220V electricity or propane gas).</li>
+                    <li><strong>Destroys Nutrients:</strong> The high heat completely destroys all <a href="https://todayshomeowner.com/bathroom/guides/incinerating-toilets/" target="_blank" style="color: #1A3D34;">agricultural nutrients in the waste</a>.</li>
+                    <li><strong>Costs:</strong> High upfront unit cost, plus ongoing costs for energy and required paper bowl liners.</li>
+                    <li><strong>Maintenance:</strong> Requires external venting and is susceptible to heating element/mechanical failures.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 9: Why Pyrolysis Over Incineration -->
+<div class="slide-container">
+    <h2 class="slide-title">Why Pyrolysis Over Incineration?</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 25px;">Incineration toilets exist, but they use brute-force thermal destruction. The shift from incineration (burning) to pyrolysis (heating in the absence of oxygen) creates a fundamentally different energy profile and output.</p>
+
+        <div class="tiled-content">
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-battery-three-quarters" style="margin-right: 10px; color: #B89E6B;"></i>The Energy Cliff</h3>
+                <p style="font-size: 16px;">Incinerators run heating coils continuously until waste is turned to ash, demanding immense power (often propane or grid-tied 240V). Our algorithm targets specific phase changes (drying vs charring) to drastically reduce energy consumption.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-cloud" style="margin-right: 10px; color: #B89E6B;"></i>Stopping at the Carbon Sink</h3>
+                <p style="font-size: 16px;">Incineration burns carbon, releasing large amounts of CO2 directly into the atmosphere. Pyrolysis stops the reaction before combustion, locking the carbon into a stable, solid matrix instead of off-gassing it.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-seedling" style="margin-right: 10px; color: #B89E6B;"></i>Valuable Output vs. Dead Ash</h3>
+                <p style="font-size: 16px;">The primary output of an incinerator is sterile but agriculturally useless ash. Biochar retains microscopic porosity and trace minerals, transforming it into a "soil sponge" that improves crop yields.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-bolt" style="margin-right: 10px; color: #B89E6B;"></i>Induction Efficiency</h3>
+                <p style="font-size: 16px;">Standard incineration loses massive amounts of energy heating the ambient air around the waste. Our induction system generates heat directly *inside* the waste matrix via the magnetite susceptor.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 10: Biochar Toilet Deep Dive -->
+<div class="slide-container">
+    <h2 class="slide-title">Deep Dive: The Biochar Toilet</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3><i class="fa-solid fa-check-circle" style="color: #1A3D34; margin-right: 10px;"></i> Advantages</h3>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li><strong>Energy Efficiency:</strong> Balances rapid processing speed with lower energy usage via pulse heating and <a href="https://en.wikipedia.org/wiki/Curie_temperature" target="_blank" style="color: #1A3D34;">magnetite matrices</a>.</li>
+                    <li><strong>Total Sterilization:</strong> Achieves 100% sterilization by flash boiling remnant moisture.</li>
+                    <li><strong>Carbon Sequestration:</strong> Captures and locks carbon into a stable, climate-positive matrix instead of releasing it as CO2/methane.</li>
+                    <li><strong>Valuable Byproduct:</strong> Produces <a href="https://en.wikipedia.org/wiki/Biochar" target="_blank" style="color: #1A3D34;">biochar</a>, a highly valuable agricultural amendment that retains soil moisture and nutrients.</li>
+                </ul>
+            </div>
+            <div>
+                <h3><i class="fa-solid fa-times-circle" style="color: #b91c1c; margin-right: 10px;"></i> Limitations</h3>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li><strong>In Development:</strong> Currently in the <a href="https://github.com/PubInv/Biochar-Toilet" target="_blank" style="color: #1A3D34;">prototyping phase</a>, requiring complex hardware and software integration.</li>
+                    <li><strong>Algorithmic Complexity:</strong> Relies on sophisticated drying algorithms and sensor matrices to optimize energy use.</li>
+                    <li><strong>Power Requirement:</strong> Requires a stable electrical power source, though significantly less than full incineration.</li>
+                    <li><strong>User Interaction:</strong> Requires periodic emptying of the biochar collection chamber.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 11: Project Mission & Goals -->
+<div class="slide-container">
+    <h2 class="slide-title">Project Mission & Goals</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Sanitary & Affordable</h3>
+                <p>To provide an efficient, inexpensive, and sanitary way to dispose of human fecal matter in isolated communities.</p>
+                <div class="metric-box" style="margin-top: 30px;">
+                    <span class="metric-value">$27.38</span>
+                    <span>Target Operating Cost per Year</span>
+                </div>
+            </div>
+            <div>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Sanitization:</strong> Flash boil remnant moisture to kill all bacteria.</li>
+                    <li><strong>Carbon Sequestration:</strong> Locking carbon into biochar granules.</li>
+                    <li><strong>Open-Source:</strong> Allowing local fabrication and repair.</li>
+                </ul>
+                <div style="background: #f1f5f9; padding: 25px; border-radius: 8px; margin-top: 20px;">
+                    <strong>The "Sweet Spot"</strong><br>
+                    <p style="margin-top: 10px; font-size: 16px;">The Biochar Toilet hits the perfect balance between the rapid speed of incineration and the low energy profile of composting, while retaining agricultural nutrients.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 12: Phase 1 Proof of Concept -->
+<div class="slide-container">
+    <h2 class="slide-title">Phase 1: Proof of Concept & Logic</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Architecture & Dryness Detection</h3>
+                <p>The core challenge is energy efficiency. Drying and charring are two separate energy stages. The system must detect exactly when moisture has been eliminated to minimize power waste.</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Heat Source:</strong> Silicon Nitride igniter / modified pressure vessels.</li>
+                    <li><strong>Control:</strong> ESP32 with Solid State Relays (SSR).</li>
+                    <li><strong>Sensing:</strong> Calibrated thermocouples and pressure sensors mapping internal divergence.</li>
+                </ul>
+                <div style="background: #f1f5f9; padding: 20px; border-left: 4px solid #1A3D34; margin-top: 20px; font-size: 16px;">
+                    <strong>The "Flash" Decompression:</strong> At 120°C+ under pressure, a specialized solenoid valve suddenly opens. Liquid water inside pathogens instantly turns to steam, causing them to explode. <strong>100% Sterility Achieved mechanically.</strong>
+                </div>
+            </div>
+            <div>
+                <div class="code-block" style="height: 100%;">// dryness_monitor.py : Core Divergence Logic
+def detect_dryness(temp, pressure):
+    # Identifies 'Dry State' by monitoring
+    # the divergence between Temp and Pressure.
+    if temp > 110 and pressure_plateau_detected():
+        # Temperature continues to rise while
+        # pressure flattens. Sample is dry.
+        disengage_drying_relays()
+        initiate_charring_phase()
+        return True
+    return False
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 13: NEW - Visualizing the Divergence Curve -->
+<div class="slide-container">
+    <h2 class="slide-title">Visualizing the Dryness Divergence</h2>
+    <div class="content-area">
+        <p>The transition from "drying" to "charring" is triggered by detecting the physical state change of water inside the vessel. When the pressure curve plateaus while the temperature continues to rise, the system safely cuts power to the drying relays.</p>
+
+        <div class="chart-container">
+            <div class="chart-legend">
+                <div class="legend-item"><div class="legend-color" style="background: #ef4444;"></div> Internal Temperature (°C)</div>
+                <div class="legend-item"><div class="legend-color" style="background: #3b82f6;"></div> Vessel Pressure (PSI)</div>
+            </div>
+            <svg class="chart-svg" viewBox="0 0 1000 300" preserveAspectRatio="none">
+                <!-- Grid Lines -->
+                <line x1="50" y1="50" x2="950" y2="50" stroke="#f1f5f9" stroke-width="1"/>
+                <line x1="50" y1="125" x2="950" y2="125" stroke="#f1f5f9" stroke-width="1"/>
+                <line x1="50" y1="200" x2="950" y2="200" stroke="#f1f5f9" stroke-width="1"/>
+
+                <!-- Axes -->
+                <line x1="50" y1="275" x2="950" y2="275" class="chart-axis"/>
+                <line x1="50" y1="275" x2="50" y2="25" class="chart-axis"/>
+
+                <!-- Axis Labels -->
+                <text x="20" y="275" class="chart-label">0</text>
+                <text x="15" y="150" class="chart-label">Units</text>
+                <text x="480" y="295" class="chart-label">Time (Process Cycle)</text>
+                <text x="750" y="100" class="chart-label" fill="#1A3D34" font-weight="bold" font-size="16">→ Divergence Detected (Charring Initiated)</text>
+
+                <!-- Pressure Curve (Blue): Rises, then plateaus -->
+                <path d="M 50 275 Q 150 250 300 150 Q 400 120 500 120 L 950 120" class="line-press"/>
+
+                <!-- Temp Curve (Red): Rises steadily -->
+                <path d="M 50 275 Q 300 200 600 100 Q 800 50 950 25" class="line-temp"/>
+
+                <!-- Vertical Marker for Divergence Event -->
+                <line x1="600" y1="25" x2="600" y2="275" stroke="#1A3D34" stroke-width="2" stroke-dasharray="5,5"/>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 14: Phase 2 Induction Development -->
+<div class="slide-container">
+    <h2 class="slide-title">Phase 2: Induction System Development</h2>
+    <div class="content-area">
+        <div class="two-column" style="grid-template-columns: 1fr 1.2fr;">
+            <div>
+                <h3>Rapid Joule Heating via Induction</h3>
+                <p>Transitioning from resistive heating to <strong>Pulsed Induction Heating</strong> to overcome the thermal inefficiency of processing high liquid volumes.</p>
+                <ul style="margin-top: 15px; padding-left: 20px;">
+                    <li><strong>Contactless Energy Transfer:</strong> Heat is generated directly within the internal charring cup.</li>
+                    <li><strong>Accelerated Processing:</strong> Reaches charring thresholds (300°C+) exponentially faster.</li>
+                    <li><strong>System Durability:</strong> Removes exposed heating coils from the corrosive waste environment.</li>
+                </ul>
+                <div style="margin-top: 40px;">
+                    <p style="font-weight: 700; color: #1A3D34; margin-bottom: 10px;">Live Prototype Documentation:</p>
+                    <a href="https://photos.app.goo.gl/5jF5LfbVHRVnEhmv7" target="_blank" class="action-button">
+                        <i class="fa-solid fa-images" style="margin-right: 8px;"></i> View Induction Album
+                    </a>
+                </div>
+            </div>
+            <div class="photo-gallery">
+                <div class="photo-placeholder main-img">
+                    <i class="fa-solid fa-microchip" style="font-size: 40px; margin-bottom: 15px; color: #B89E6B;"></i>
+                    <strong>Induction Coil Assembly</strong>
+                    <span style="font-size: 12px; margin-top: 10px;">Replace with image from album</span>
+                </div>
+                <div class="photo-placeholder">
+                    <i class="fa-solid fa-bolt" style="font-size: 30px; margin-bottom: 10px; color: #B89E6B;"></i>
+                    <strong>Power Electronics / SSR</strong>
+                    <span style="font-size: 12px; margin-top: 10px;">Replace with image from album</span>
+                </div>
+                <div class="photo-placeholder">
+                    <i class="fa-solid fa-temperature-arrow-up" style="font-size: 30px; margin-bottom: 10px; color: #B89E6B;"></i>
+                    <strong>Reaction Vessel Mount</strong>
+                    <span style="font-size: 12px; margin-top: 10px;">Replace with image from album</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 15: NEW - Induction Innovations: Magnetite Matrix -->
+<div class="slide-container">
+    <h2 class="slide-title">Induction Innovations: Magnetite Matrix</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 30px;">The induction system goes beyond basic contactless heating. By utilizing a <strong>magnetite and clay-based medium</strong> as the magnetic susceptor, we achieve major breakthroughs in processing physics:</p>
+
+        <div class="two-column">
+            <div style="display: flex; flex-direction: column; gap: 25px;">
+                <div style="background: #1A3D34; color: white; padding: 25px; border-radius: 8px;">
+                    <h3 style="color: #B89E6B; margin-bottom: 10px; font-size: 22px;"><i class="fa-solid fa-droplet" style="margin-right: 10px;"></i>1. Massive Surface Area</h3>
+                    <p style="color: #e2e8f0; font-size: 16px;">The clay acts as a highly effective absorber, distributing liquid waste (feces and urine) evenly throughout the entire substrate. This creates an optimal surface area to wet mass ratio.</p>
+                </div>
+                <div style="background: #1e293b; color: white; padding: 25px; border-radius: 8px;">
+                    <h3 style="color: #B89E6B; margin-bottom: 10px; font-size: 22px;"><i class="fa-solid fa-wind" style="margin-right: 10px;"></i>2. Rapid Dewatering</h3>
+                    <p style="color: #e2e8f0; font-size: 16px;">A relatively low induction frequency provides <strong>even volumetric heating</strong> (except at the containment walls). This triggers rapid boiling and steam generation, drastically accelerating the dewatering phase.</p>
+                </div>
+            </div>
+            <div>
+                <div style="border: 2px solid #1A3D34; background: #f8faf9; padding: 40px 30px; border-radius: 8px; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                    <i class="fa-solid fa-shield-halved" style="font-size: 50px; color: #1A3D34; margin-bottom: 20px;"></i>
+                    <h3 style="margin-bottom: 15px; font-size: 26px;">Inherent Safety:<br>The Curie Effect</h3>
+                    <p style="font-size: 18px;">Magnetite has a fixed <strong>Curie temperature</strong>. Once the substrate reaches a specific thermal threshold, it naturally loses its magnetic properties and stops absorbing induction energy.</p>
+                    <p style="margin-top: 15px; font-size: 18px; font-weight: 700; color: #B89E6B;">This provides a physical failsafe against thermal runaway, independent of software.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 16: NEW - Off-Grid Power Architecture -->
+<div class="slide-container">
+    <h2 class="slide-title">Off-Grid Power & Energy Buffering</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <p>Pulsed induction heating introduces significant, localized peak current draws. Because this system is designed for isolated environments without reliable grid ties, continuous high-amperage draw is impossible.</p>
+                <p style="margin-top: 15px;">To solve this, the thermal architecture is paired with a local energy buffering system.</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Solar Integration:</strong> Managed via a hybrid inverter topology capable of handling variable MPPT inputs.</li>
+                    <li><strong>Battery Buffering:</strong> Designed around a standard 48V LiFePO4 battery rack.</li>
+                    <li><strong>Load Shifting:</strong> The LiFePO4 bank absorbs the intense, short-term loads of the induction cycle, safely recharging via solar during the system's idle hours.</li>
+                </ul>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8faf9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 30px;">
+                <i class="fa-solid fa-solar-panel" style="font-size: 40px; color: #B89E6B; margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">PV Array</h3>
+                <i class="fa-solid fa-arrow-down" style="color: #94a3b8; margin: 10px 0;"></i>
+                <div style="background: #1A3D34; color: white; padding: 15px 30px; border-radius: 4px; font-weight: 700;">Hybrid Inverter</div>
+                <i class="fa-solid fa-arrow-down-up-across-line" style="color: #94a3b8; margin: 10px 0;"></i>
+                <div style="border: 2px solid #1A3D34; padding: 15px 30px; border-radius: 4px; font-weight: 700; color: #1A3D34;">48V LiFePO4 Battery Bank</div>
+                <i class="fa-solid fa-arrow-down" style="color: #94a3b8; margin: 10px 0;"></i>
+                <h3 style="margin-top: 10px; color: #ef4444;">Biochar Induction Load</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 17: NEW - Manufacturability & BOM -->
+<div class="slide-container">
+    <h2 class="slide-title">Local Fabrication & The Toolchain</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 25px;">For open-source hardware to achieve global equity, it must be replicable. We engineered the Biochar Toilet using accessible toolchains and standard components so it can be built and serviced in local makerspaces around the world.</p>
+
+        <div class="tiled-content">
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-microchip" style="margin-right: 10px; color: #B89E6B;"></i>Control Electronics</h3>
+                <p style="font-size: 16px;">The logic core relies on the ubiquitous ESP32 microcontroller. Custom PCB schematics and routing for the solid-state relay integration are drafted entirely in <strong>KiCad</strong> to ensure anyone can modify or print the boards.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-code" style="margin-right: 10px; color: #B89E6B;"></i>Firmware Deployment</h3>
+                <p style="font-size: 16px;">The dryness monitoring algorithms and hardware control loops are written in C/C++ and managed using <strong>PlatformIO</strong>, providing a consistent compilation environment regardless of the user's local operating system.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;"><i class="fa-solid fa-cubes" style="margin-right: 10px; color: #B89E6B;"></i>Hardware Fabrication</h3>
+                <p style="font-size: 16px;">Instead of relying on proprietary manufacturing, non-heat-critical enclosures and mounting brackets are designed parametrically for standard FDM 3D printing, making them easily reproducible in community-driven fabrication studios.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 18: Biochar Circular Economy & Call to Action -->
+<div class="slide-container">
+    <h2 class="slide-title">The Circular Economy & Open-Source Impact</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Beyond Disposal: Net-Negative Sanitation</h3>
+                <p>The byproduct of this process is not waste—it is a climate-positive resource. High-temperature pyrolysis locks carbon into a stable matrix that prevents methane release.</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Agriculture:</strong> Biochar-amended soil holds 50% more moisture.</li>
+                    <li><strong>Nutrient Sponge:</strong> Prevents fertilizer runoff during heavy rains.</li>
+                    <li><strong>Carbon Sink:</strong> Sequesters carbon in the soil for 100+ years.</li>
+                </ul>
+            </div>
+            <div style="background: #1e293b; color: white; padding: 40px; border-radius: 8px;">
+                <h3 style="color: #B89E6B; margin-bottom: 20px;">Open Source Collaboration</h3>
+                <p style="color: #e2e8f0; margin-bottom: 20px;">This hardware is being developed in the public domain for global equity. We need contributors for:</p>
+                <ul style="color: #e2e8f0; margin-bottom: 30px;">
+                    <li style="color: #e2e8f0;">High-pressure mechanical seals</li>
+                    <li style="color: #e2e8f0;">Induction heating optimization</li>
+                    <li style="color: #e2e8f0;">IoT monitoring & control logic</li>
+                </ul>
+                <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 6px; text-align: center;">
+                    <i class="fa-brands fa-github" style="font-size: 24px; margin-bottom: 10px; color: #e2e8f0;"></i><br>
+                    <a href="https://github.com/PubInv/Biochar-Toilet" style="font-family: 'Azeret Mono', monospace; font-size: 16px; color: #B89E6B; text-decoration: none;">github.com/PubInv/Biochar-Toilet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 19: Q&A -->
+<div class="slide-container" style="justify-content: center; align-items: center; text-align: center;">
+    <h2 style="font-size: 60px;">Questions?</h2>
+    <p class="subtitle">Thank you for supporting Open-Source Sanitation.</p>
+
+    <div style="margin-top: 40px; background: rgba(184, 158, 107, 0.1); padding: 20px 40px; border-radius: 8px; border-left: 4px solid #B89E6B;">
+        <p style="margin: 0; font-size: 18px; font-weight: 500; color: #1A3D34;">
+            <i class="fa-solid fa-heart" style="color: #b91c1c; margin-right: 10px;"></i>
+            Special thanks to <strong>Public Invention</strong> and Invention Coach <strong>Robert Read</strong>
+        </p>
+    </div>
+
+    <div style="margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 30px;">
+        <p>Lawrence Kincheloe | Peter Shryock | Hardhik Pyla</p>
+        <p style="font-family: 'Azeret Mono'; margin-top: 10px; color: #1A3D34;">www.pubinv.org</p>
+    </div>
+</div>
+
+<button id="present-btn">
+    <i class="fa-solid fa-desktop"></i> Present
+</button>
+
+<script>
+    const presentBtn = document.getElementById('present-btn');
+    const body = document.body;
+    const slides = document.querySelectorAll('.slide-container');
+    let currentSlide = 0;
+    let isPresenting = false;
+
+    // Helper to calculate scaling
+    function scaleActiveSlide() {
+        if (!isPresenting) return;
+        const activeSlide = slides[currentSlide];
+        if (!activeSlide) return;
+
+        // Slide natural dimensions (from CSS)
+        const slideWidth = 1280;
+        const slideHeight = 720;
+
+        // Window dimensions
+        const winWidth = window.innerWidth;
+        const winHeight = window.innerHeight;
+
+        // Calculate scale factor to fit
+        const scaleX = winWidth / slideWidth;
+        const scaleY = winHeight / slideHeight;
+        const scale = Math.min(scaleX, scaleY);
+
+        activeSlide.style.transform = `scale(${scale})`;
+    }
+
+    // Toggle presentation mode
+    presentBtn.addEventListener('click', () => {
+        if (!isPresenting) {
+            // Enter presentation mode
+            isPresenting = true;
+            body.classList.add('presentation-mode');
+            presentBtn.innerHTML = '<i class="fa-solid fa-times"></i> Exit';
+
+            // Mark current slide active
+            slides.forEach(s => {
+                s.classList.remove('active');
+                s.style.transform = 'none'; // reset
+            });
+            slides[currentSlide].classList.add('active');
+
+            // Request Fullscreen
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log("Error attempting to enable fullscreen:", err);
+                });
+            }
+
+            scaleActiveSlide();
+
+        } else {
+            // Exit presentation mode
+            isPresenting = false;
+            body.classList.remove('presentation-mode');
+            presentBtn.innerHTML = '<i class="fa-solid fa-desktop"></i> Present';
+
+            // Reset all slides
+            slides.forEach(s => {
+                s.classList.remove('active');
+                s.style.transform = 'none';
+            });
+
+            // Exit Fullscreen
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+
+            // Scroll back to where we were (roughly)
+            slides[currentSlide].scrollIntoView();
+        }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!isPresenting) return;
+
+        if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'Enter') {
+            if (currentSlide < slides.length - 1) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide++;
+                slides[currentSlide].classList.add('active');
+                scaleActiveSlide();
+            }
+        } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+            if (currentSlide > 0) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide--;
+                slides[currentSlide].classList.add('active');
+                scaleActiveSlide();
+            }
+        } else if (e.key === 'Escape') {
+             // Handle escape key (browser usually handles exiting fullscreen,
+             // so we just listen to the fullscreenchange event to clean up CSS state)
+        }
+    });
+
+    // Handle exiting fullscreen via ESC key or browser controls
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement && isPresenting) {
+             presentBtn.click(); // Programmatically exit our mode
+        }
+    });
+
+    // Recalculate scale on resize
+    window.addEventListener('resize', scaleActiveSlide);
+
+</script>
+
+</body>
+</html>
