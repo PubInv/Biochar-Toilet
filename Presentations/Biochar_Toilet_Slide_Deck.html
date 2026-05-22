@@ -219,6 +219,7 @@
 <!-- Slide 1: Title -->
 <div class="slide-container" style="justify-content: center; align-items: center; text-align: center;">
     <div style="position: absolute; width: 100%; height: 100%; opacity: 0.03; background: url('https://upload.wikimedia.org/wikipedia/commons/4/4d/Biochar.jpg') repeat; z-index: 0;"></div>
+    <img src="../images/s-blob-v1-IMAGE-u5mOaW5JDZ4.webp" alt="Biochar Toilet Project Logo" style="z-index: 2; height: 250px; object-fit: contain; margin-bottom: 20px;">
     <h1 style="z-index: 2;">The Biochar Toilet</h1>
     <p class="subtitle" style="z-index: 2;">Open-Source Sanitation & Global Resource Recovery</p>
     <div style="margin-top: 50px; display: flex; gap: 20px; justify-content: center; z-index: 2;">
@@ -239,9 +240,7 @@
         </ul>
     </div>
     <div class="image-container" style="background: #e2e8f0;">
-        <div class="bleed-image-side" style="display: flex; align-items: center; justify-content: center; font-size: 24px; color: #94a3b8; background: #cbd5e1; text-align: center; padding: 40px;">
-            [Infrastructure/Water Scarcity Image Placeholder]
-        </div>
+        <img class="bleed-image-side" src="../images/image.webp" alt="High-Level Data Flow architectural diagram" style="width: 100%; height: 100%; object-fit: contain;">
     </div>
 </div>
 
@@ -539,7 +538,29 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<!-- Slide 13: NEW - Visualizing the Divergence Curve -->
+<!-- Slide 13: Phase 1 PCB Design -->
+<div class="slide-container bleed-image-layout" style="height: 100%; width: 100%;">
+    <div class="bleed-text-side">
+        <h2 class="slide-title">Phase 1 Control Board</h2>
+        <div class="content-area">
+            <ul style="font-size: 1.05rem; line-height: 1.35; margin-top: 10px;">
+                <li style="margin-bottom: 8px;"><strong>Consolidated Control:</strong> Custom 2-layer PCB designed specifically for Phase 1, housing the ESP32-H2 embedded system.</li>
+                <li style="margin-bottom: 8px;"><strong>Integrated Drivers:</strong> Features dual MOSFET valve drivers and dual Solid-State Relay (SSR) outputs for robust power switching.</li>
+                <li style="margin-bottom: 8px;"><strong>Autonomous Dryness Detection:</strong> Processes thermocouple and analog pressure sensor data, shutting off heating when pressure drops below ~1 PSI while temperature rises.</li>
+                <li style="margin-bottom: 8px;"><strong>Cost-Effective:</strong> Achieves all sensing and control needs on a single board with a low ~$48 BOM.</li>
+                <li style="margin-bottom: 8px;"><strong>Key Finding & Pivot:</strong> Validated end-to-end operation including Flash Decompression. The inability to safely reach full charring temperatures motivated the Phase 2 transition.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="bleed-image-side" style="height: 100%; display: flex; align-items: center; justify-content: center; background-color: #f1f5f9;">
+        <div class="photo-placeholder" style="width: 100%; height: 100%; border-radius: 0; overflow: hidden; position: relative; border: none;">
+            <img src="../images/PCB_Board.webp" alt="Phase 1 ESP32 PCB" style="width: 100%; height: 100%; object-fit: cover; object-position: center; transform: scale(1.0);">
+            <div class="photo-caption" style="position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.7); color: white; padding: 10px; border-radius: 4px;">Custom ESP32-H2 Control PCB</div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 14: NEW - Visualizing the Divergence Curve -->
 <div class="slide-container">
     <h2 class="slide-title">Visualizing the Dryness Divergence</h2>
     <div class="content-area">
@@ -600,21 +621,35 @@ def detect_dryness(temp, pressure):
                 </div>
             </div>
             <div class="photo-gallery">
-                <div class="photo-placeholder main-img">
-                    <i class="fa-solid fa-microchip" style="font-size: 40px; margin-bottom: 15px; color: #B89E6B;"></i>
-                    <strong>Induction Coil Assembly</strong>
-                    <span style="font-size: 12px; margin-top: 10px;">Replace with image from album</span>
+                <div class="photo-placeholder main-img" style="padding: 0; border: none; overflow: hidden;">
+                    <img src="../images/PXL_20260424_215319406.webp" alt="Induction Coil Assembly with bare copper coil" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.6); object-position: 50% 20%;">
                 </div>
-                <div class="photo-placeholder">
-                    <i class="fa-solid fa-bolt" style="font-size: 30px; margin-bottom: 10px; color: #B89E6B;"></i>
-                    <strong>Power Electronics / SSR</strong>
-                    <span style="font-size: 12px; margin-top: 10px;">Replace with image from album</span>
+                <div class="photo-placeholder" style="padding: 0; border: none; overflow: hidden;">
+                    <img src="../images/PXL_20260307_002658313.webp" alt="Power Electronics and Solid-State Relays in a gray box" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.5); object-position: 50% 30%;">
                 </div>
-                <div class="photo-placeholder">
-                    <i class="fa-solid fa-temperature-arrow-up" style="font-size: 30px; margin-bottom: 10px; color: #B89E6B;"></i>
-                    <strong>Reaction Vessel Mount</strong>
-                    <span style="font-size: 12px; margin-top: 10px;">Replace with image from album</span>
+                <div class="photo-placeholder" style="padding: 0; border: none; overflow: hidden;">
+                    <img src="../images/PXL_20260327_165919695.webp" alt="Reaction Vessel Mount resting on wooden structural mounts" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.5); object-position: 30% 60%;">
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Slide 14.5: Conductive Heating System -->
+<div class="slide-container">
+    <h2 class="slide-title">Conductive Heating Prototype</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Direct Thermal Transfer</h3>
+                <p>Demonstration of the conductive heating system prototype, highlighting direct energy transfer.</p>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center; background: #000; border-radius: 8px;">
+                <video width="100%" controls style="border-radius: 8px; border: 1px solid #e2e8f0; max-height: 400px;">
+                    <source src="conductive_heating.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
         </div>
     </div>
