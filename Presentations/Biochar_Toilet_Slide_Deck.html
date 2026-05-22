@@ -538,7 +538,29 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<!-- Slide 13: NEW - Visualizing the Divergence Curve -->
+<!-- Slide 13: Phase 1 PCB Design -->
+<div class="slide-container bleed-image-layout" style="height: 100%; width: 100%;">
+    <div class="bleed-text-side">
+        <h2 class="slide-title">Phase 1 Control Board</h2>
+        <div class="content-area">
+            <ul style="font-size: 1.05rem; line-height: 1.35; margin-top: 10px;">
+                <li style="margin-bottom: 8px;"><strong>Consolidated Control:</strong> Custom 2-layer PCB designed specifically for Phase 1, housing the ESP32-H2 embedded system.</li>
+                <li style="margin-bottom: 8px;"><strong>Integrated Drivers:</strong> Features dual MOSFET valve drivers and dual Solid-State Relay (SSR) outputs for robust power switching.</li>
+                <li style="margin-bottom: 8px;"><strong>Autonomous Dryness Detection:</strong> Processes thermocouple and analog pressure sensor data, shutting off heating when pressure drops below ~1 PSI while temperature rises.</li>
+                <li style="margin-bottom: 8px;"><strong>Cost-Effective:</strong> Achieves all sensing and control needs on a single board with a low ~$48 BOM.</li>
+                <li style="margin-bottom: 8px;"><strong>Key Finding & Pivot:</strong> Validated end-to-end operation including Flash Decompression. The inability to safely reach full charring temperatures motivated the Phase 2 transition.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="bleed-image-side" style="height: 100%; display: flex; align-items: center; justify-content: center; background-color: #f1f5f9;">
+        <div class="photo-placeholder" style="width: 100%; height: 100%; border-radius: 0; overflow: hidden; position: relative; border: none;">
+            <img src="../images/PCB_Board.webp" alt="Phase 1 ESP32 PCB" style="width: 100%; height: 100%; object-fit: cover; object-position: center; transform: scale(1.0);">
+            <div class="photo-caption" style="position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.7); color: white; padding: 10px; border-radius: 4px;">Custom ESP32-H2 Control PCB</div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 14: NEW - Visualizing the Divergence Curve -->
 <div class="slide-container">
     <h2 class="slide-title">Visualizing the Dryness Divergence</h2>
     <div class="content-area">
