@@ -1,33 +1,14 @@
 # Current Status
 
-As of Nov. 21, our EE Hardhik Pyla has our prototype equipment, which consists of a pressure cooker.
-He has calibrated the pressure sensor. He has a small bug controlling the valve.  
-The thermocouple works.  We have developed a simple algorithm for detecting when the sample is dry based on temperature and pressure (see `dryness_monitor.py`). (Basically, temperature rises without a pressure rise when the sample is dry.)
+Phase 1 (conductive heating prototype) is complete. All experiment data, firmware, schematics, PCB design files, and progress reports are in the [`Conductive Heating Prototype/`](./Conductive%20Heating%20Prototype/) folder.
 
-After that we will use a solid-state relay to control a hot plate to turn it off when we we are "dry".
-This will require supervision at first.
+We're now in Phase 2: induction heating using a magnetite matrix. The shift from resistive heating matters because induction generates heat directly inside the charring cup — no exposed coils corroding in the process environment, and faster energy delivery to the material itself.
 
-We have continued iterative testing of the prototype system, focusing on improving sensing reliability, pressure integrity, and thermal control. During recent testing, we observed that the pressure chamber (pressure cooker) was not maintaining pressure when the valve was turned off due to minor leaks at the chamber valve interfaces. The valves were resealed, and the vessel was retested using a cup of water to verify pressure retention. After resealing, the chamber successfully sustained pressure, enabling reliable validation of both temperature and pressure sensing.
-
-The pressure sensor was recalibrated against a manual gauge to correct a previously observed offset, resulting in more consistent low-pressure readings during the final drying phase. We integrated a solid-state relay (SSR) to automate hot plate control, allowing the system to shut off heating once dryness is detected using temperature–pressure divergence logic. Early validation tests confirm that when pressure drops below ~1 PSI while temperature continues to rise, the algorithm reliably identifies the dry state and disables the heater. All the preliminary tests were conducted using a cup of water as sample.
-
-As of Jan 23, with sensing and control validated, we initiated preliminary charring experiments using a loaf of bread as a test sample. The bread was heated inside the sealed pressure cooker under controlled temperature and pressure conditions, with the hotplate regulated via the SSR-based control system. After approximately 2 hours and 40 minutes at a relatively low temperature (~110 °C), the loaf was visibly charred. However, the dryness detection algorithm did not trigger in this case, likely due to the relatively low initial moisture content of the bread, which did not produce a sufficiently distinct pressure change during drying.
-
-An additional observation was soot accumulation on the chamber lid following the test, presumably from carbon particles generated during charring. This suggests that particulate management and internal surface maintenance will need to be considered in future iterations.
-
-We do not believe it is safe to char inside pressure cooker. Lawrence Kincheloe came up with a good
-idea of using a silicon nitride igniter as a heat source inside a metal or ceramic cup inside the pressure cooker.
-The outside of the pressure cooker can be kept cool. If our wires will survive this level of heat, then we can char.
-We believe having an electric biochar producer will be valuable as a means of testing the disposition of the dangerous
-syngases produced by the charring process. Even though this containment vessel is obviously inadequate for the final purpose of producing a toilet, we believe this will be progress.
+Ongoing experiment logs are in the [Progress Reports](https://github.com/PubInv/Biochar-Toilet/blob/main/Project%20Files/Progress%20Reports.md).
 
 <img width="849" height="482" alt="Screenshot 2025-11-21 at 6 10 39 PM" src="https://github.com/user-attachments/assets/6e3a36fb-60a5-46c5-8a6b-8c2908af25fd" />
 
-
-
-We have made a [spreadsheet model](https://docs.google.com/spreadsheets/d/1ZwIqP0B2wM6QrpZTNiK1hNnNmIEIal7qxYdgEJz8Iog/edit?usp=sharing) of "flash" decompression.
-
-One of our volunteers, Hardhik, has begun to prototype a flash system. We need someone to design a reaction vessel.
+---
 
 # Biochar Toilet
 
@@ -37,102 +18,67 @@ geology, the lack of density in farming communities made of small land holdings,
 social and political organization to dig trenches and lay pipes efficiently.
 
 Reducing a typical human stool to biochar requires an energy input of about 600 kilojoules (see detailed analysis in referenced spreadsheet).
-Even for the poorest people, the cost of this electricity is quite low---less than one US cent \$0.01USD. One kilowatt hour is 3.6 MJ (megajoules).
+Even for the poorest people, the cost of this electricity is quite low---less than one US cent $0.01USD. One kilowatt hour is 3.6 MJ (megajoules).
 Expensive electrical power around the world is $0.45/kWh is $0.075 USD--or less than eight cents. Even if our toilet is inefficient, it
 seems possible to make a toilet whose operating cost is affordable for the poorest people, at $27.375 per year (this cost does not include
 the capital costs of the toilet).
 
-Biochar can be used as a fuel or a garden amendment. Note, however, that human stools are so small (128 grams nominally) that this is not a meaninful approach for carbon sequestration.
-
+Biochar can be used as a fuel or a garden amendment. Note, however, that human stools are so small (128 grams nominally) that this is not a meaningful approach for carbon sequestration.
 
 # Initial Design Idea
+
 The problem of toilets is a widely researched area. Our approach may be slightly novel. We start from some assumptions:
 
-1. Electicity is an input.
-1. Complete biological safety of the endproduct is required.
-1. We choose to temporarily ignore the capital costs of the toilet in our research.
-1. Because we have to char in the absence of oxygen to prevent combustion, we can assume that we need an air-tight or pressure controlled
-    reaction vessel.
-1. A major problem in charring is to first dry the sample, and drying is primarily a problem of water transport.
+1. Electricity is an input.
+2. Complete biological safety of the end product is required.
+3. We choose to temporarily ignore the capital costs of the toilet in our research.
+4. Because we have to char in the absence of oxygen to prevent combustion, we can assume that we need an air-tight or pressure controlled reaction vessel.
+5. A major problem in charring is to first dry the sample, and drying is primarily a problem of water transport.
 
 We therefore conclude that our basic design will be a sealed reaction vessel with a valve that allows steam to be transported out
 of the reaction chamber. We will heat the chamber contents until a desired pressure is created and then transport the water
-vapor away by opening the valve. The valve will be controlled so as to avoid most gases (air) from enterring the chamber.
+vapor away by opening the valve. The valve will be controlled so as to avoid most gases (air) from entering the chamber.
 Opening the valve will "flash" the water in the sample into steam, which will have the desirable properties of being
 extremely murderous to any organisms present in the sample, and physically destructive to both plant and animal cells.
 It may even physically disrupt the sample, which could be advantageous.
 
 When the sample is sufficiently dry, we will heat it to charring temperature. When the sample is fully charred, and then cooled
-and possibly wetted to avoid spontaneous combustion, the
-operator will be alerted that the sample is safe to remove and either combust or use as a garden amendment.
+and possibly wetted to avoid spontaneous combustion, the operator will be alerted that the sample is safe to remove and either combust or use as a garden amendment.
 
 # Energy Analysis
 
-Volunter Nupur Bhalla working with Invention Coach Robert L. Read has produced a [Google Sheet](https://docs.google.com/spreadsheets/d/1ZwIqP0B2wM6QrpZTNiK1hNnNmIEIal7qxYdgEJz8Iog/edit?usp=sharing) representing an energy analysis of the drying and heating process.
-
-
+Volunteer Nupur Bhalla working with Invention Coach Robert L. Read has produced a [Google Sheet](https://docs.google.com/spreadsheets/d/1ZwIqP0B2wM6QrpZTNiK1hNnNmIEIal7qxYdgEJz8Iog/edit?usp=sharing) representing an energy analysis of the drying and heating process.
 
 # Heating Mechanisms
+
 Since we will have a sealed metal reaction vessel, radio frequency (RF) heating is a possibility.
 However, it is expected to become less effective as the sample dries.
 We therefore intend to explore the possibility of using simple Joule resistive heating of a stainless steel vessel directly.
-RF heating, however, has the advantage of heating the sample volumetric (not require conduction), which may be a tremendouse advantage.
+RF heating, however, has the advantage of heating the sample volumetrically (not requiring conduction), which may be a tremendous advantage.
 
-# Phase 1
+# Phase 1: Conductive Heating Prototype (Complete)
 
-Having gained a new volunteer who wants to build an embedded system, we propose a Phase 1 as a "spike" prototype to test out the basic principles.
-In this phase, the goal is to build the smallest, safest system that we can. 
-We imagine making a "reaction vessel" which is very small---perhaps 50 ml, large enough to dry a piece of fruit as a test.
+Phase 1 used a pressure cooker as the reaction vessel, a hot plate controlled by an SSR, and an ESP32-based sensing system. The goal was to confirm the core architecture before committing to higher-temperature methods.
 
-As Nupur Bhalla and I have demonstrated in the energy analysis spreadsheet, the act of producing char can be divided into two operations:
-drying to low water content, and then raising the temperature sufficiently to produce char (all in the absence of additionaly O2 to avoid
-combustion). The Phase 1 system needs to raise the temperature enough to produce a pressure in the chamber of 2 atmospheres (or possibly 
-a lower pressure for testing), but if the sample has a high water content, this will likely occur at just a little above the boiling point 
-of water (100C, or a little higher under pressure). The Phase 1 system does not need to operate above 150C, which will make it slightly safer.
+It worked. When pressure drops below ~1 PSI while temperature keeps climbing, the system correctly identifies the dry state and cuts heater power automatically. Flash decompression also checked out — opening the solenoid under pressure causes trapped water to flash to steam. A bread charring test (~110°C, 2h40m) produced a visibly charred loaf, though the dryness algorithm didn't trigger since the bread's low moisture content didn't produce a distinct enough pressure signature during drying. Soot accumulation on the lid also flagged particulate management as something to design for in future iterations.
 
-When the solenoid valve is opened, the pressure drop will instantly lower the boiling point of water, causing the water to "flash" into
-steam. This has the advantage that it "destroy" the sample. For example, a grape with an intact skin would literally be expected to "explode". 
-This will likely be messy in the chamber. However, this is NOT bad for treating a human stool---it has the advantage of being very 
-destructive of intact cells, including bacterian and plant cells that are in the stool, for example.
+The hard limit we hit: full charring temperatures aren't safe inside a standard pressure cooker. Lawrence Kincheloe suggested placing an inner cup (heated by a silicon nitride igniter) inside the vessel so the outer shell stays cool — that idea feeds directly into Phase 2.
 
-However, opening the solenoid valve briefly is likely to spray hot, scalding steam out the valve. It is essential for safety that this steam enter
-a separate containment chamber. The purpose of the containment chamber is to allow the offgases to cool (probably liquefying). The containment 
-chamber should be close to atmospheric pressure, probably open to the atmosphere. An odor-reducing carbon filter may connect the containment 
-chamber to the outside air, but that is not necessary for Phase 1---but the safety concerns are.
+We also designed a custom control PCB for this phase (ESP32-H2, v0.3.0) with dual MOSFET valve drivers, dual SSR outputs, a pressure ADC, and a MAX31855 thermocouple interface. Everything is in the [`Conductive Heating Prototype/`](./Conductive%20Heating%20Prototype/) folder.
 
-For that reason, an emergency pop-off valve needs to be built into the Phase 1 reaction vessel. A software error or some other error could 
-easily allow the reaction vessel to develop high pressure, which would be dangerous.  However, a lot of the software and machinery 
-design could be accomplished with a reaction vessel which is simply not tightly closed. Although this will not allow the "flashing" of
-the steam, in other ways the Phase 1 machine could be tested.
+# Phase 2: Induction System Development (In Progress)
 
-If the reaction vessel is not sealed, then it could be constructed in many different ways---for example, with a babyfood jar, a Mason jar,
-or even a cardboard box. Since nylon melts at about 230C, it would even be possible to 3D print a nylon reaction vessel for Phase 1. (Nylon
-would not survive the 400C temperatures needed for charring.)
+We've switched from resistive heating to pulsed induction using a magnetite matrix. The magnetite sits inside the charring cup and converts the induction field directly into heat — no exposed coils, no conduction losses through the vessel wall.
 
-I imagine a BOM for the Phase 1 system to be:
+Early results from Lawrence Kincheloe and Peter are encouraging. Five grams of magnetite reached 740°F in 60 seconds; the same mass of carbon steel bearings only hit 130°F. Volume-matching the steel to the magnetite closes the gap considerably (~940°F peak), which suggests surface area and density matter more than material choice at this scale. They also charred cheese puffs at 833°F over 16 minutes in open air, with residue on the crucible cap showing evidence of partial pyrolysis.
 
-1. An I2C pressure sensor with a range of at least 2.5 Atms.
-2. A heating element, such as a power resistor. (Two of these in series might work: [https://www.digikey.com/en/products/detail/te-connectivity-passive-product/HSC1001R0J/2055297?_gl=1*15lsl1x*_up*MQ..&gclid=Cj0KCQjwzYLABhD4ARIsALySuCTm8nkVdOfNr_GjOg-3iFiSH7pkuDwZ5D46byvvL9cms07OnCRo0-UaAs2xEALw_wcB&gclsrc=aw.ds](https://www.digikey.com/en/products/detail/te-connectivity-passive-product/HSC1001R0J/2055297?_gl=1*15lsl1x*_up*MQ..&gclid=Cj0KCQjwzYLABhD4ARIsALySuCTm8nkVdOfNr_GjOg-3iFiSH7pkuDwZ5D46byvvL9cms07OnCRo0-UaAs2xEALw_wcB&gclsrc=aw.ds).)
-3. A digital thermometer (This operates up to 125C, which may be good enough for phase 1: [https://www.adafruit.com/product/642](https://www.adafruit.com/product/642)).
-4. A solenoid valve that can open (and close) under micrconctroller control (Note, it is unclear if this is air-tight: [https://www.adafruit.com/product/996](https://www.adafruit.com/product/996)).
-5. Either a relay, or relay break out board, or  motor controller, or a transistor with a fly-back diode to control the solenoid.
-6. A transistor to control the power to the heater. [https://www.adafruit.com/product/355](https://www.adafruit.com/product/355).
-
-# Project State
-
-**Phase 1 (Proof of Concept & Logic) is complete!** We have successfully validated our core architecture and dryness detection logic. By monitoring the divergence between internal temperature and pressure, we've demonstrated the ability to accurately identify the 'Dry State'. We also proved that 'Flash' decompression works—opening a specialized solenoid valve under pressure to flash boil liquid water to steam, helping achieve mechanical sterility.
-
-**We are currently making preparations for Phase 2: Induction System Development.** We are transitioning from traditional resistive heating to **Pulsed Induction Heating** utilizing a magnetite matrix. This new approach promises accelerated processing by generating heat directly within the internal charring cup, contactless energy transfer, and improved system durability by removing exposed heating coils from the corrosive environment.
-
-You can read more about our ongoing experiments and developments in our detailed [Progress Reports](<Project Files/Progress Reports.md>).
+Full experiment logs are in the [Progress Reports](https://github.com/PubInv/Biochar-Toilet/blob/main/Project%20Files/Progress%20Reports.md).
 
 # Research Plans
 
-We intend to continue theoretical research and design. Simultaneously, we intend to make a mini-scale (Phase 1) system, to test our assumptions
-and calculations. That is, we intend to make a very small reaction vessel which can be temperature and pressure controlled, surmounted
-with a controllable valve. We will test this system's ability to dry and char small samples of biological material, such as bread.
+The next step is pushing the induction system to actual charring temperatures — hot enough to produce biochar from organic material comparable to human stool. Work on coil geometry and magnetic field focusing is ongoing in parallel with fabrication.
 
-![Basic Biochar Toilet Design](https://github.com/user-attachments/assets/ea41856b-7663-43a1-bf12-8a3a2311aef8)
+[![Basic Biochar Toilet Design](https://private-user-images.githubusercontent.com/5296671/457669252-ea41856b-7663-43a1-bf12-8a3a2311aef8.png)](https://private-user-images.githubusercontent.com/5296671/457669252-ea41856b-7663-43a1-bf12-8a3a2311aef8.png)
 
 # References
 
@@ -142,11 +88,6 @@ Md. S. Ferdous, Ehssan H. Koupaie, Cigdem Eskicioglu, and Thomas Johnson*
 
 # Volunteer Opportunities
 
-This project is currently active! That means that there is still time to get involved, meet the team, and work towards providing a sanitary option for impoverished communities. Please reach out to us if you have a background in any of the following areas:
+This project is still active. If you have a background in mechanical engineering, heat engineering, or chemistry, we'd be glad to hear from you.
 
-* Mechanical engineering
-* Heat engineering
-* Chemistry
-
-If interested in joining the Biochar Toilet or projects like it, reach out to Inventor Coach [Robert L. Read](read.robert@gmail.com) or Volunteer Coordinator [Miriam Castillo](https://www.linkedin.com/in/cstllgtrrz/). Ultimately, our mission is to further the reach of open-source medical engineering, and invent in the public, for the public. Check out our [Volunteer Page](https://www.pubinv.org/volunteer/) to learn more.
-
+Reach out to Inventor Coach [Robert L. Read](https://github.com/PubInv/Biochar-Toilet/blob/main/read.robert@gmail.com) or Volunteer Coordinator [Miriam Castillo](https://www.linkedin.com/in/cstllgtrrz/). More at the [Volunteer Page](https://www.pubinv.org/volunteer/).
