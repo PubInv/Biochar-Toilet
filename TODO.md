@@ -24,4 +24,11 @@ We should consider opening the valve before the lid, allowing air into the syste
 
 We should wear PPE, respirator, eye protection, and heat resistant gloves. 
 
+### Presentation Improvements
+- [ ] Develop a snappy script for the presentation to keep the narrative engaging.
+- [ ] Add story narrative slides to the presentation covering:
+  - How the team conceived of the project.
+  - The heat transfer difficulty discovered during Hardhik's experiment.
+  - Lawrence's invention of the induction approach.
+  - Progress and difficulties with charring things.
 
