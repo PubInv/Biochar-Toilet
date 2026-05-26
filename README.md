@@ -1,6 +1,6 @@
 # Current Status
 
-Phase 1 (conductive heating prototype) is complete. All experiment data, firmware, schematics, PCB design files, and progress reports are in the [`Conductive Heating Prototype/`](./Conductive%20Heating%20Prototype/) folder.
+Phase 1 (conductive heating prototype) is complete. All experiment data, firmware, schematics, PCB design files, and progress reports are in the [`Conductive Heating Prototype/`](https://github.com/PubInv/Biochar-Toilet/tree/main/Project%20Files/Conductive%20Heating%20Prototype) folder.
 
 We're now in Phase 2: induction heating using a magnetite matrix. The shift from resistive heating matters because induction generates heat directly inside the charring cup — no exposed coils corroding in the process environment, and faster energy delivery to the material itself.
 
@@ -64,7 +64,7 @@ It worked. When pressure drops below ~1 PSI while temperature keeps climbing, th
 
 The hard limit we hit: full charring temperatures aren't safe inside a standard pressure cooker. Lawrence Kincheloe suggested placing an inner cup (heated by a silicon nitride igniter) inside the vessel so the outer shell stays cool — that idea feeds directly into Phase 2.
 
-We also designed a custom control PCB for this phase (ESP32-H2, v0.3.0) with dual MOSFET valve drivers, dual SSR outputs, a pressure ADC, and a MAX31855 thermocouple interface. Everything is in the [`Conductive Heating Prototype/`](./Conductive%20Heating%20Prototype/) folder.
+We also designed a custom control PCB for this phase (ESP32-H2, v0.3.0) with dual MOSFET valve drivers, dual SSR outputs, a pressure ADC, and a MAX31855 thermocouple interface. Everything is in the [`Conductive Heating Prototype/`](https://github.com/PubInv/Biochar-Toilet/tree/main/Project%20Files/Conductive%20Heating%20Prototype) folder.
 
 # Phase 2: Induction System Development (In Progress)
 
