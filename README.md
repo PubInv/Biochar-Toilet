@@ -78,7 +78,8 @@ Full experiment logs are in the [Progress Reports](https://github.com/PubInv/Bio
 
 The next step is pushing the induction system to actual charring temperatures — hot enough to produce biochar from organic material comparable to human stool. Work on coil geometry and magnetic field focusing is ongoing in parallel with fabrication.
 
-[![Basic Biochar Toilet Design](https://private-user-images.githubusercontent.com/5296671/457669252-ea41856b-7663-43a1-bf12-8a3a2311aef8.png)](https://private-user-images.githubusercontent.com/5296671/457669252-ea41856b-7663-43a1-bf12-8a3a2311aef8.png)
+[![Basic Biochar Toilet Design](https://github.com/user-attachments/assets/ea41856b-7663-43a1-bf12-8a3a2311aef8)](https://github.com/user-attachments/assets/ea41856b-7663-43a1-bf12-8a3a2311aef8) 
+
 
 # References
 
