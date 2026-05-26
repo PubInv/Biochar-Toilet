@@ -1,8 +1,8 @@
 # Conductive Heating Prototype — Phase 1
 
-**Biochar Toilet Project | Phase 1 Documentation**
-**Contributor:** Hardhik Pyla ([@hardhik03](https://github.com/hardhik03))
-**Period:** November 2025 – May 2026
+**Biochar Toilet Project | Phase 1 Documentation** |
+**Contributor:** Hardhik Pyla ([@hardhik03](https://github.com/hardhik03)) |
+**Period:** November 2025 – May 2026 |
 **Status:** Complete
 
 ---
@@ -110,7 +110,7 @@ The ESP-IDF firmware (`Firmware/main/main.c`) uses **active HIGH** accordingly. 
 
 ## Experiment Timeline
 
-See [`Progress Reports.md`](main/Project%20Files/Progress%20Reports.md) for full dated entries. Summary:
+See [`Progress Reports.md`](https://github.com/PubInv/Biochar-Toilet/blob/main/Project%20Files/Progress%20Reports.md) for full dated entries. Summary:
 
 | Date | Milestone |
 |---|---|
