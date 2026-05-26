@@ -110,7 +110,7 @@ The ESP-IDF firmware (`Firmware/main/main.c`) uses **active HIGH** accordingly. 
 
 ## Experiment Timeline
 
-See [`Progress Reports.md`](./Progress%20Reports.md) for full dated entries. Summary:
+See [`Progress Reports.md`](main/Project%20Files/Progress%20Reports.md) for full dated entries. Summary:
 
 | Date | Milestone |
 |---|---|
