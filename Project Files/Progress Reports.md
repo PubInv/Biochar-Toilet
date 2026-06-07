@@ -8,7 +8,7 @@ GPIO13 and GPIO14 traces to the SSR control lines were physically cut on the PCB
 
 Diodes D2 and D5 (1N4148) on the solenoid valve safety switch circuits were desoldered and replaced with 1N4001 diodes. The 1N4148's forward voltage drop under the switch current was high enough to prevent the safety switches from pulling the gate logic low cleanly, keeping the solenoid valves from opening. The 1N4001's lower drop at higher currents resolved this. Valve operation was re-verified after the swap and both solenoids opened and closed correctly.
 
-These changes are hardware-only — no firmware modifications were required.
+These changes are hardware-only, no firmware modifications were required.
 
 
 
