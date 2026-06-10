@@ -5,7 +5,9 @@ set -e
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Setup or install ESP-IDF
-export IDF_PATH="$HOME/esp-idf"
+if [ -z "$IDF_PATH" ]; then
+    export IDF_PATH="$HOME/esp-idf"
+fi
 
 if [ ! -d "$IDF_PATH" ]; then
     echo "ESP-IDF not found at $IDF_PATH. Cloning and installing..."
