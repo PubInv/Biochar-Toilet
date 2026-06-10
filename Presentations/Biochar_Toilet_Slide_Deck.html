@@ -205,6 +205,10 @@
             display: flex;
         }
 
+        body.presentation-mode .slide-container.bleed-image-layout.active {
+            display: grid;
+        }
+
         body.presentation-mode #present-btn {
             opacity: 0.2; /* Less distracting in presentation mode */
         }
@@ -460,7 +464,7 @@ def detect_dryness(temp, pressure):
 </div>
 
 <!-- Slide 13: Phase 1 PCB Design -->
-<div class="slide-container bleed-image-layout" style="height: 100%; width: 100%;">
+<div class="slide-container bleed-image-layout">
     <div class="bleed-text-side">
         <h2 class="slide-title">Phase 1 Control Board</h2>
         <div class="content-area">
@@ -570,7 +574,7 @@ def detect_dryness(temp, pressure):
             </ul>
         </div>
     </div>
-    <img class="bleed-image-side" src="../images/coil_vessel_liner.webp" alt="Induction coil embedded in a ceramic liner inside the stainless steel pressure vessel">
+    <img class="bleed-image-side" src="../images/coil_vessel_liner.webp" alt="Induction coil embedded in a ceramic liner inside the stainless steel pressure vessel" style="width: 100%; height: 100%; object-fit: contain;">
 </div>
 
 <!-- Slide 14.5: Conductive Heating System -->
