@@ -8,14 +8,15 @@ set "PROJECT_DIR=%~dp0"
 if "%IDF_PATH%"=="" set "IDF_PATH=%USERPROFILE%\esp-idf"
 
 if not exist "%IDF_PATH%\install.bat" (
-    echo ESP-IDF not found at %IDF_PATH%. Cloning and installing...
+    echo ESP-IDF not found at %IDF_PATH%. Cloning...
     git clone -b v5.2.1 --recursive https://github.com/espressif/esp-idf.git "%IDF_PATH%"
-    cd /d "%IDF_PATH%"
-    call install.bat esp32h2
 )
 
-echo Sourcing ESP-IDF environment...
+echo Installing ESP-IDF tools...
 cd /d "%IDF_PATH%"
+call install.bat esp32h2
+
+echo Sourcing ESP-IDF environment...
 call export.bat
 
 echo Navigating to firmware directory: %PROJECT_DIR%

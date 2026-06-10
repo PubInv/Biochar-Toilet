@@ -10,11 +10,13 @@ if [ -z "$IDF_PATH" ]; then
 fi
 
 if [ ! -d "$IDF_PATH" ]; then
-    echo "ESP-IDF not found at $IDF_PATH. Cloning and installing..."
+    echo "ESP-IDF not found at $IDF_PATH. Cloning..."
     git clone -b v5.2.1 --recursive https://github.com/espressif/esp-idf.git "$IDF_PATH"
-    cd "$IDF_PATH"
-    ./install.sh esp32h2
 fi
+
+echo "Installing ESP-IDF tools..."
+cd "$IDF_PATH"
+./install.sh esp32h2
 
 echo "Sourcing ESP-IDF environment..."
 source "$IDF_PATH/export.sh"
