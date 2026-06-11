@@ -8,4 +8,7 @@ idf_component_register(
         freertos
         log
         spi_flash
+    PRIV_REQUIRES
+        esp_driver_gpio
+        esp_driver_spi
 )
