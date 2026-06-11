@@ -216,6 +216,61 @@
             opacity: 1;
         }
 
+        /* Mobile Responsiveness */
+        @media (max-width: 800px) {
+            .slide-container {
+                width: 100% !important;
+                height: auto !important;
+                min-height: 100vh;
+                padding: 20px !important;
+            }
+
+            .two-column,
+            .tiled-content,
+            .photo-gallery,
+            .slide-container.bleed-image-layout {
+                grid-template-columns: 1fr !important;
+            }
+
+            .slide-container.bleed-image-layout {
+                display: flex !important;
+                flex-direction: column;
+            }
+
+            .bleed-text-side {
+                padding: 20px !important;
+            }
+
+            .bleed-image-side {
+                height: auto !important;
+                max-height: 300px !important;
+            }
+
+            .dense-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .slide-title {
+                font-size: 32px !important;
+                margin-bottom: 20px !important;
+            }
+
+            h1 {
+                font-size: 40px !important;
+            }
+
+            .metric-value {
+                font-size: 36px !important;
+            }
+
+            body.presentation-mode {
+                overflow-y: auto !important;
+                align-items: flex-start !important;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -942,6 +997,11 @@ def detect_dryness(temp, pressure):
         if (!isPresenting) return;
         const activeSlide = slides[currentSlide];
         if (!activeSlide) return;
+
+        if (window.innerWidth <= 800) {
+            activeSlide.style.transform = 'none';
+            return;
+        }
 
         // Slide natural dimensions (from CSS)
         const slideWidth = 1280;
