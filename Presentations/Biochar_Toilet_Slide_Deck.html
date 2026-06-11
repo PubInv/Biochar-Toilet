@@ -433,22 +433,34 @@
 <div class="slide-container">
     <h2 class="slide-title">The "Buffer & Batch" Architecture</h2>
     <div class="content-area">
-        <div class="tiled-content">
-            <div class="tile">
-                <h3 style="color: #1A3D34; font-size: 20px;">Decoupled Interface</h3>
-                <p style="font-size: 16px;">The user interface is separated from the reactor to handle back-to-back users without waiting for a 45-minute cycle.</p>
+        <div class="tiled-content" style="grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px;">
+            <div class="tile" style="padding: 20px;">
+                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 8px;">Decoupled Interface</h3>
+                <ul style="font-size: 14px; margin-left: 20px; line-height: 1.4; color: #4a5568;">
+                    <li><strong>Capacity:</strong> 15-liter volumetric buffer tank handles up to 8 back-to-back users.</li>
+                    <li><strong>Throughput:</strong> Asynchronous queuing completely isolates user wait times from the rigid 45-minute reactor cycle constraint.</li>
+                </ul>
             </div>
-            <div class="tile">
-                <h3 style="color: #1A3D34; font-size: 20px;">The "Throat" Mixer</h3>
-                <p style="font-size: 16px;">A holding tank buffer utilizing a Teflon-coated "bomb bay" trapdoor and a heavy-duty ribbon auger.</p>
+            <div class="tile" style="padding: 20px;">
+                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 8px;">The "Throat" Mixer</h3>
+                <ul style="font-size: 14px; margin-left: 20px; line-height: 1.4; color: #4a5568;">
+                    <li><strong>Agitation:</strong> Heavy-duty ribbon auger driven by a high-torque NEMA 23 stepper motor (approx. 3.0 Nm holding torque).</li>
+                    <li><strong>Actuation:</strong> Teflon-coated "bomb bay" style dual-flap trapdoor mechanism via linear actuator for complete and rapid batch transfer.</li>
+                </ul>
             </div>
-            <div class="tile">
-                <h3 style="color: #1A3D34; font-size: 20px;">Active Dosing</h3>
-                <p style="font-size: 16px;">Automatically dusts waste with bentonite/magnetite powder to coat it and prevent fouling.</p>
+            <div class="tile" style="padding: 20px;">
+                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 8px;">Active Dosing</h3>
+                <ul style="font-size: 14px; margin-left: 20px; line-height: 1.4; color: #4a5568;">
+                    <li><strong>Susceptor Ratio:</strong> Precisely meters bentonite/magnetite powder at a 1:10 ratio (by weight) to the incoming bio-waste.</li>
+                    <li><strong>Fouling Prevention:</strong> Creates a uniform physical coating on wet mass, dramatically reducing wall-adhesion in both buffer and reactor.</li>
+                </ul>
             </div>
-            <div class="tile">
-                <h3 style="color: #1A3D34; font-size: 20px;">Continuous Preparation</h3>
-                <p style="font-size: 16px;">Continuously mixes the batch while users wait, ensuring perfect distribution of the magnetic susceptor before loading the reactor.</p>
+            <div class="tile" style="padding: 20px;">
+                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 8px;">Continuous Preparation</h3>
+                <ul style="font-size: 14px; margin-left: 20px; line-height: 1.4; color: #4a5568;">
+                    <li><strong>Homogenization:</strong> Auger operates at a continuous low 15 RPM to knead the mixture.</li>
+                    <li><strong>Pre-conditioning:</strong> 10-minute active mixing guarantees optimal spatial distribution of the magnetic susceptor matrix prior to induction heating.</li>
+                </ul>
             </div>
         </div>
     </div>
