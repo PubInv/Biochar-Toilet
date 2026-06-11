@@ -638,17 +638,108 @@ def detect_dryness(temp, pressure):
 <!-- Slide 14.1: Induction Hardware Deep Dive -->
 <div class="slide-container bleed-image-layout">
     <div class="bleed-text-side">
-        <h2 class="slide-title">Induction Hardware: Internal Coil Design</h2>
+        <h2 class="slide-title">Induction Hardware: Current Development Status</h2>
         <div class="content-area">
-            <p>To maximize energy transfer and avoid the Faraday Cage effect, the system uses a <strong>Potted Internal Coil</strong> design.</p>
+            <p>
+                The Phase 2 induction architecture is nearing its first integrated
+                test cycle. Major subsystems have been fabricated and assembled,
+                with final vessel integration currently underway.
+            </p>
             <ul style="margin-top: 20px; line-height: 1.6;">
-                <li><strong>Induction Coil:</strong> Engineered as a hollow tube that routes directly through the vessel wall, delivering contactless energy to the center.</li>
-                <li><strong>Pressure Vessel:</strong> Constructed from 316 Stainless Steel to provide critical corrosion resistance against urine.</li>
-                <li><strong>Ceramic Liner:</strong> The coils are embedded within a specialized ceramic liner <em>inside</em> the pressure vessel to thermally and electrically isolate them while withstanding extreme pyrolysis temperatures.</li>
+                <li>
+                    <strong>Copper Induction Coil:</strong>
+                    A formed hollow copper coil has been fabricated to deliver
+                    contactless energy directly to the processing chamber.
+                </li>
+                <li>
+                    <strong>Nested Vessel Assembly:</strong>
+                    The prototype utilizes inner and outer vessels integrated
+                    within a modified pressure pot to evaluate thermal performance
+                    and sealing strategies.
+                </li>
+                <li>
+                    <strong>Thermal Insulation:</strong>
+                    Rockwool insulation lines the vessel walls, while an insulated
+                    base minimizes heat loss and improves energy efficiency.
+                </li>
+                <li>
+                    <strong>Coil Isolation:</strong>
+                    The current design electrically isolates the induction coil
+                    using Kapton tape. Future iterations may transition to a
+                    modular ceramic coil assembly to improve manufacturability,
+                    durability, and serviceability.
+                </li>
+                <li>
+                    <strong>Next Milestone:</strong>
+                    Final bulkhead integration and vessel sealing will enable
+                    the first fully assembled induction test runs and validation
+                    of the complete thermal process.
+                </li>
             </ul>
         </div>
     </div>
-    <img class="bleed-image-side" src="../images/coil_vessel_liner.webp" alt="Induction coil embedded in a ceramic liner inside the stainless steel pressure vessel" style="width: 100%; height: 100%; object-fit: contain;">
+    <img class="bleed-image-side" src="../images/coil_vessel_liner.webp" alt="Current induction prototype architecture and future ceramic module concept" style="width: 100%; height: 100%; object-fit: contain;">
+</div>
+
+<!-- Slide 14.2: From Kitchenware to Prototype -->
+<div class="slide-container">
+    <h2 class="slide-title">From Kitchenware to Prototype</h2>
+    <div class="content-area">
+        <p style="margin-bottom: 25px;">
+            One of the guiding principles of this project is accessibility. Rather than waiting for custom manufacturing, we leveraged affordable, widely available components to rapidly validate the induction architecture and learn where future refinements are needed.
+        </p>
+
+        <div class="tiled-content">
+            <div class="tile">
+                <h3 style="color:#1A3D34; font-size:20px;">
+                    <i class="fa-solid fa-kitchen-set" style="margin-right:10px; color:#B89E6B;"></i>
+                    Start with Existing Hardware
+                </h3>
+                <p style="font-size:16px;">
+                    A <strong>$75 Hawkins 12L pressure cooker</strong> provided a ready-made pressure vessel with an inward-locking safety lid. Its aluminum construction made modifications achievable using common workshop tools.
+                </p>
+            </div>
+
+            <div class="tile">
+                <h3 style="color:#1A3D34; font-size:20px;">
+                    <i class="fa-solid fa-compass-drafting" style="margin-right:10px; color:#B89E6B;"></i>
+                    Model Before You Build
+                </h3>
+                <p style="font-size:16px;">
+                    The assembly was recreated in <strong>FreeCAD</strong> to determine tubing lengths, validate clearances, and reduce material waste before fabrication began.
+                </p>
+            </div>
+
+            <div class="tile">
+                <h3 style="color:#1A3D34; font-size:20px;">
+                    <i class="fa-solid fa-hammer" style="margin-right:10px; color:#B89E6B;"></i>
+                    Learn Through Fabrication
+                </h3>
+                <p style="font-size:16px;">
+                    Nearly <strong>50 feet of copper tubing</strong> was hand-formed around the vessel using manual bending tools. The process validated the design while revealing opportunities for improved tooling and assembly methods.
+                </p>
+            </div>
+
+            <div class="tile">
+                <h3 style="color:#1A3D34; font-size:20px;">
+                    <i class="fa-solid fa-arrow-trend-up" style="margin-right:10px; color:#B89E6B;"></i>
+                    Design the Next Iteration
+                </h3>
+                <p style="font-size:16px;">
+                    Lessons learned are already informing future designs, including dedicated coil-winding jigs, slip-cast ceramic modules with integrated channels, soft magnetic flux concentrators, and stainless steel production vessels.
+                </p>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; background: #f8faf9; border-left: 6px solid #B89E6B; padding: 25px; border-radius: 8px;">
+            <strong style="color:#1A3D34; font-size:20px;">
+                Engineering Insight
+            </strong>
+            <p style="margin-top:10px; font-size:18px;">
+                The prototype was built using tools commonly found in community workshops and makerspaces. By prioritizing accessible fabrication, each challenge became an opportunity to improve manufacturability, reduce cost, and strengthen the open-source pathway toward global adoption.
+            </p>
+        </div>
+    </div>
 </div>
 
 <!-- Slide 14.5: Conductive Heating System -->
