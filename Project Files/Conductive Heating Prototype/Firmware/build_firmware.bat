@@ -13,11 +13,10 @@ if not exist "%IDF_PATH%\install.bat" (
 )
 
 echo Installing ESP-IDF tools...
-cd /d "%IDF_PATH%"
-call install.bat esp32h2
+call "%IDF_PATH%\install.bat" esp32h2
 
 echo Sourcing ESP-IDF environment...
-call export.bat
+call "%IDF_PATH%\export.bat"
 
 echo Navigating to firmware directory: %PROJECT_DIR%
 cd /d "%PROJECT_DIR%"
