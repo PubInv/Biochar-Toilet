@@ -21,6 +21,9 @@ call "%IDF_PATH%\export.bat"
 echo Navigating to firmware directory: %PROJECT_DIR%
 cd /d "%PROJECT_DIR%"
 
+echo Cleaning old build files to prevent cache conflicts...
+idf.py fullclean
+
 echo Setting target to esp32h2...
 idf.py set-target esp32h2
 
