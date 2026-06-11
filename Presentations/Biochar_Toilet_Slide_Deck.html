@@ -205,6 +205,10 @@
             display: flex;
         }
 
+        body.presentation-mode .slide-container.bleed-image-layout.active {
+            display: grid;
+        }
+
         body.presentation-mode #present-btn {
             opacity: 0.2; /* Less distracting in presentation mode */
         }
@@ -424,6 +428,45 @@
     </div>
 </div>
 
+
+<!-- NEW Slide: The "Buffer & Batch" Architecture -->
+<div class="slide-container">
+    <h2 class="slide-title">The "Buffer & Batch" Architecture</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;">Decoupled Interface</h3>
+                <p style="font-size: 16px;">The user interface is separated from the reactor to handle back-to-back users without waiting for a 45-minute cycle.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;">The "Throat" Mixer</h3>
+                <p style="font-size: 16px;">A holding tank buffer utilizing a Teflon-coated "bomb bay" trapdoor and a heavy-duty ribbon auger.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;">Active Dosing</h3>
+                <p style="font-size: 16px;">Automatically dusts waste with bentonite/magnetite powder to coat it and prevent fouling.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;">Continuous Preparation</h3>
+                <p style="font-size: 16px;">Continuously mixes the batch while users wait, ensuring perfect distribution of the magnetic susceptor before loading the reactor.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- NEW Slide: Energy Efficiency via Vacuum-Assisted Drying -->
+<div class="slide-container">
+    <h2 class="slide-title">Energy Efficiency via Vacuum-Assisted Drying</h2>
+    <div class="content-area">
+        <ul style="margin-top: 15px; font-size: 22px; line-height: 1.8;">
+            <li><strong>Lowering the Boiling Point:</strong> By using a vacuum pump to lower the internal pressure to 250 mbar absolute, water boils at 67°C instead of 100°C.</li>
+            <li><strong>Massive Energy Savings:</strong> Saves a significant amount of energy during the pre-treatment drying stage by combining gentle heat with low pressure.</li>
+            <li><strong>Efficient Phase Change:</strong> Minimizes heat loss to the surrounding environment while boiling off the high water content of the waste.</li>
+        </ul>
+    </div>
+</div>
+
 <!-- Slide 12: Phase 1 Proof of Concept -->
 <div class="slide-container">
     <h2 class="slide-title">Phase 1: Proof of Concept & Logic</h2>
@@ -460,7 +503,7 @@ def detect_dryness(temp, pressure):
 </div>
 
 <!-- Slide 13: Phase 1 PCB Design -->
-<div class="slide-container bleed-image-layout" style="height: 100%; width: 100%;">
+<div class="slide-container bleed-image-layout">
     <div class="bleed-text-side">
         <h2 class="slide-title">Phase 1 Control Board</h2>
         <div class="content-area">
@@ -521,6 +564,29 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
+
+<!-- NEW Slide: Flash Decompression & Mechanical Sterility -->
+<div class="slide-container">
+    <h2 class="slide-title">Flash Decompression: 100% Mechanical Sterility</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Guaranteed Sterilization</h3>
+                <p>Pathogens literally explode, achieving 100% mechanical sterility automatically without relying on slow biological composting processes.</p>
+                <ul style="margin-top: 15px;">
+                    <li><strong>The Mechanism:</strong> At temperatures of 120°C+ under pressure, a specialized solenoid valve suddenly opens.</li>
+                    <li><strong>Cellular Destruction:</strong> The rapid drop in pressure causes liquid water inside any pathogens to instantly flash to steam.</li>
+                </ul>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center; padding: 20px;">
+                <div style="background: #f1f5f9; padding: 30px; border-radius: 8px; border-left: 8px solid #b91c1c; font-size: 20px; font-weight: 500; color: #1A3D34;">
+                    100% Mechanical Sterility achieved via rapid pressure drop. No biological delay.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Slide 14: Phase 2 Induction Development -->
 <div class="slide-container">
     <h2 class="slide-title">Phase 2: Induction System Development</h2>
@@ -570,7 +636,7 @@ def detect_dryness(temp, pressure):
             </ul>
         </div>
     </div>
-    <img class="bleed-image-side" src="../images/coil_vessel_liner.webp" alt="Induction coil embedded in a ceramic liner inside the stainless steel pressure vessel">
+    <img class="bleed-image-side" src="../images/coil_vessel_liner.webp" alt="Induction coil embedded in a ceramic liner inside the stainless steel pressure vessel" style="width: 100%; height: 100%; object-fit: contain;">
 </div>
 
 <!-- Slide 14.5: Conductive Heating System -->
@@ -644,6 +710,42 @@ def detect_dryness(temp, pressure):
                 <div style="border: 2px solid #1A3D34; padding: 15px 30px; border-radius: 4px; font-weight: 700; color: #1A3D34;">48V LiFePO4 Battery Bank</div>
                 <i class="fa-solid fa-arrow-down" style="color: #94a3b8; margin: 10px 0;"></i>
                 <h3 style="margin-top: 10px; color: #ef4444;">Biochar Induction Load</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- NEW Slide: Secondary Catalytic Filtration Stage -->
+<div class="slide-container">
+    <h2 class="slide-title">Secondary Catalytic Filtration: Zero Emissions</h2>
+    <div class="content-area">
+        <ul style="margin-top: 15px; font-size: 20px; line-height: 1.8;">
+            <li><strong>Lid-Mounted "Smart Stack":</strong> Exhaust is routed through a central chimney pipe equipped with a steam-rated solenoid valve.</li>
+            <li><strong>Thermal Cracking:</strong> A cartridge heater brings a magnetite (Fe<sub>3</sub>O<sub>4</sub>) catalyst bed up to ~350°C to crack volatile organic compounds (VOCs) and odors.</li>
+            <li><strong>Dual-Function Magnetite:</strong> Oxidizes Carbon Monoxide (CO) into harmless CO<sub>2</sub>.</li>
+            <li><strong>Self-Sustaining SCR:</strong> Uses the ammonia (NH<sub>3</sub>) naturally present in the urine to neutralize Nitrogen Oxides (NO<sub>x</sub>) into harmless Nitrogen (N<sub>2</sub>) and water.</li>
+        </ul>
+    </div>
+</div>
+
+
+<!-- NEW Slide: Hard Economics & Manufacturability -->
+<div class="slide-container">
+    <h2 class="slide-title">Hard Economics: The Bottom Line</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;">Target Operating Cost</h3>
+                <p style="font-size: 16px;">Designed to be affordable for the poorest communities, with a target operating cost of just <strong>$27.38 per year</strong>.</p>
+            </div>
+            <div class="tile">
+                <h3 style="color: #1A3D34; font-size: 20px;">Affordable Electronics</h3>
+                <p style="font-size: 16px;">The Phase 1 integrated control board (housing the ESP32 and solid-state relays) requires a highly affordable Bill of Materials (BOM) of <strong>~$48</strong>.</p>
+            </div>
+            <div class="tile" style="grid-column: span 2;">
+                <h3 style="color: #1A3D34; font-size: 20px;">Open-Source Hardware</h3>
+                <p style="font-size: 16px;">Built using accessible toolchains (KiCad, PlatformIO) and standard FDM 3D printing to ensure global replicability and local repair.</p>
             </div>
         </div>
     </div>
