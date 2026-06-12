@@ -10,7 +10,7 @@
  *   GPIO0  → MAX31855 CLK
  *   GPIO1  → MAX31855 CS
  *   GPIO2  → MAX31855 DO (MISO — read-only, no MOSI needed)
- *   GPIO3  → Pressure Sensor ADC  (ADC1_CH3, 0–100 PSI via voltage divider)
+ *   GPIO3  → Pressure Sensor ADC  (ADC1_CH2, 0–100 PSI via voltage divider)
  *   GPIO4  → SSR 1 / Heater       (active HIGH — drives BJT base to complete SSR circuit)
  *   GPIO5  → SSR 2                (reserved, not currently active — see commented code)
  *   GPIO10 → Solenoid Valve 1     (MOSFET-driven)
@@ -65,7 +65,7 @@ static const char *TAG = "biochar";
 // ===============================================================
 // -------------------------- PINS --------------------------------
 // ===============================================================
-#define PIN_ADC_PRESSURE  ADC_CHANNEL_3   // GPIO3 — Pressure sensor (ADC1_CH3)
+#define PIN_ADC_PRESSURE  ADC_CHANNEL_2   // GPIO3 — Pressure sensor (ADC1_CH2)
 #define PIN_VALVE         GPIO_NUM_10     // GPIO10 — Solenoid Valve 1 (MOSFET)
 #define PIN_HEATER        GPIO_NUM_4      // GPIO4 — SSR 1 (active HIGH → BJT → SSR)
 
