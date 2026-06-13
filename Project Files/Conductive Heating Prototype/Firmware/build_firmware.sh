@@ -25,6 +25,7 @@ echo "Navigating to firmware directory: $PROJECT_DIR"
 cd "$PROJECT_DIR"
 
 echo "Cleaning old build files to prevent cache conflicts..."
+rm -rf build
 idf.py fullclean
 
 echo "Setting target to esp32h2..."
