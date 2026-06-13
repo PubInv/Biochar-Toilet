@@ -22,6 +22,7 @@ echo Navigating to firmware directory: %PROJECT_DIR%
 cd /d "%PROJECT_DIR%"
 
 echo Cleaning old build files to prevent cache conflicts...
+if exist build rmdir /s /q build
 idf.py fullclean
 
 echo Setting target to esp32h2...
