@@ -1,4 +1,3 @@
-
-## 2024-05-18 - [Optimize High-Frequency Data Storage]
-**Learning:** For high-frequency sensor data recording (e.g., storing a rolling window of history in `collections.deque`), allocating a new dictionary for each data point creates significant object creation overhead and uses ~60% more memory compared to using tuples.
-**Action:** When storing simple, structured data points continuously in a rolling buffer, prefer tuples or namedtuples over dictionaries to reduce memory pressure and object creation time.
+## 2025-02-14 - HTML Presentation Deck Media Loading
+**Learning:** Native `loading="lazy"` for images and `preload="none"` for `<video>` tags are highly effective, low-risk frontend performance patterns for large slide decks like `Presentations/Biochar_Toilet_Slide_Deck.html` that default to loading all assets synchronously. Avoiding lazy loading on above-the-fold content prevents LCP penalties while still saving bandwidth on below-the-fold media.
+**Action:** Always verify if large media assets in HTML/React/Vue components are loaded synchronously and default to using native lazy loading/preloading attributes for anything off-screen. Use Playwright to visually assert that these HTML-level optimizations do not break the CSS styling or DOM structure.
