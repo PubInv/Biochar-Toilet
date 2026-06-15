@@ -141,6 +141,12 @@
         }
         .action-button:hover { background: #fff; color: #1A3D34; }
 
+        /* Accessibility: Focus visible */
+        a:focus-visible, button:focus-visible {
+            outline: 3px solid #B89E6B;
+            outline-offset: 4px;
+        }
+
         /* Chart Styles */
         .chart-container {
             width: 100%; height: 350px; background: #fff; border-radius: 8px;
@@ -486,33 +492,33 @@
 
 <!-- NEW Slide: The "Buffer & Batch" Architecture -->
 <div class="slide-container">
-    <h2 class="slide-title">The "Buffer & Batch" Architecture (Future Goal)</h2>
+    <h2 class="slide-title" style="margin-bottom: 15px;">The "Buffer & Batch" Architecture (Future Goal)</h2>
     <div class="content-area">
-        <div class="tiled-content" style="grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px;">
-            <div class="tile" style="padding: 20px;">
-                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 8px;">Decoupled Interface</h3>
-                <ul style="font-size: 14px; margin-left: 20px; line-height: 1.4; color: #4a5568;">
+        <div class="tiled-content" style="grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 0px;">
+            <div class="tile" style="padding: 12px;">
+                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 4px;">Decoupled Interface</h3>
+                <ul style="font-size: 14px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px; line-height: 1.3; color: #4a5568;">
                     <li><strong>Capacity:</strong> 15-liter volumetric buffer tank handles up to 8 back-to-back users.</li>
                     <li><strong>Throughput:</strong> Asynchronous queuing completely isolates user wait times from the rigid 45-minute reactor cycle constraint.</li>
                 </ul>
             </div>
-            <div class="tile" style="padding: 20px;">
-                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 8px;">The "Throat" Mixer</h3>
-                <ul style="font-size: 14px; margin-left: 20px; line-height: 1.4; color: #4a5568;">
+            <div class="tile" style="padding: 12px;">
+                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 4px;">The "Throat" Mixer</h3>
+                <ul style="font-size: 14px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px; line-height: 1.3; color: #4a5568;">
                     <li><strong>Agitation:</strong> Heavy-duty ribbon auger driven by a high-torque NEMA 23 stepper motor (approx. 3.0 Nm holding torque).</li>
                     <li><strong>Actuation:</strong> Teflon-coated "bomb bay" style dual-flap trapdoor mechanism via linear actuator for complete and rapid batch transfer.</li>
                 </ul>
             </div>
-            <div class="tile" style="padding: 20px;">
-                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 8px;">Active Dosing</h3>
-                <ul style="font-size: 14px; margin-left: 20px; line-height: 1.4; color: #4a5568;">
+            <div class="tile" style="padding: 12px;">
+                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 4px;">Active Dosing</h3>
+                <ul style="font-size: 14px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px; line-height: 1.3; color: #4a5568;">
                     <li><strong>Susceptor Ratio:</strong> Precisely meters bentonite/magnetite powder at a 1:10 ratio (by weight) to the incoming bio-waste.</li>
                     <li><strong>Fouling Prevention:</strong> Creates a uniform physical coating on wet mass, dramatically reducing wall-adhesion in both buffer and reactor.</li>
                 </ul>
             </div>
-            <div class="tile" style="padding: 20px;">
-                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 8px;">Continuous Preparation</h3>
-                <ul style="font-size: 14px; margin-left: 20px; line-height: 1.4; color: #4a5568;">
+            <div class="tile" style="padding: 12px;">
+                <h3 style="color: #1A3D34; font-size: 18px; margin-bottom: 4px;">Continuous Preparation</h3>
+                <ul style="font-size: 14px; margin-top: 5px; margin-bottom: 5px; margin-left: 20px; line-height: 1.3; color: #4a5568;">
                     <li><strong>Homogenization:</strong> Auger operates at a continuous low 15 RPM to knead the mixture.</li>
                     <li><strong>Pre-conditioning:</strong> 10-minute active mixing guarantees optimal spatial distribution of the magnetic susceptor matrix prior to induction heating.</li>
                 </ul>
@@ -527,7 +533,7 @@
     <h2 class="slide-title">Energy Efficiency via Vacuum-Assisted Drying</h2>
     <div class="content-area">
         <ul style="margin-top: 15px; font-size: 22px; line-height: 1.8;">
-            <li><strong>Lowering the Boiling Point:</strong> By using a vacuum pump to lower the internal pressure to 250 mbar absolute, water boils at 67°C instead of 100°C.</li>
+            <li><strong>Lowering the Boiling Point:</strong> We use thermally driven pressure swing drying, which induces vacuum-assisted drying. By lowering the internal pressure to 250 mbar absolute, water boils at 67°C instead of 100°C.</li>
             <li><strong>Massive Energy Savings:</strong> Saves a significant amount of energy during the pre-treatment drying stage by combining gentle heat with low pressure.</li>
             <li><strong>Efficient Phase Change:</strong> Minimizes heat loss to the surrounding environment while boiling off the high water content of the waste.</li>
         </ul>
@@ -543,7 +549,7 @@
                 <h3>Architecture & Dryness Detection</h3>
                 <p>The core challenge is energy efficiency. Drying and charring are two separate energy stages. The system must detect exactly when moisture has been eliminated to minimize power waste.</p>
                 <ul style="margin-top: 15px;">
-                    <li><strong>Heat Source:</strong> Silicon Nitride igniter / modified pressure vessels.</li>
+                    <li><strong>Heat Source:</strong> Hot plate / modified pressure vessels.</li>
                     <li><strong>Control:</strong> ESP32 with Solid State Relays (SSR).</li>
                     <li><strong>Sensing:</strong> Calibrated thermocouples and pressure sensors mapping internal divergence.</li>
                 </ul>
@@ -692,39 +698,39 @@ def detect_dryness(temp, pressure):
 
 <!-- Slide 14.1: Induction Hardware Deep Dive -->
 <div class="slide-container bleed-image-layout">
-    <div class="bleed-text-side">
-        <h2 class="slide-title">Induction Hardware: Current Development Status</h2>
-        <div class="content-area">
-            <p>
+    <div class="bleed-text-side" style="padding: 10px 30px; display: flex; flex-direction: column; justify-content: center; height: 100%; box-sizing: border-box;">
+        <h2 class="slide-title" style="margin-bottom: 10px; font-size: 24px;">Induction Hardware: Current Development Status</h2>
+        <div class="content-area" style="font-size: 14px; line-height: 1.4;">
+            <p style="margin-bottom: 8px;">
                 The Phase 2 induction architecture is nearing its first integrated
                 test cycle. Major subsystems have been fabricated and assembled,
                 with final vessel integration currently underway.
             </p>
-            <ul style="margin-top: 20px; line-height: 1.6;">
-                <li>
+            <ul style="margin-top: 5px; line-height: 1.3; margin-bottom: 0;">
+                <li style="margin-bottom: 4px;">
                     <strong>Copper Induction Coil:</strong>
                     A formed hollow copper coil has been fabricated to deliver
                     contactless energy directly to the processing chamber.
                 </li>
-                <li>
+                <li style="margin-bottom: 4px;">
                     <strong>Nested Vessel Assembly:</strong>
                     The prototype utilizes inner and outer vessels integrated
                     within a modified pressure pot to evaluate thermal performance
                     and sealing strategies.
                 </li>
-                <li>
+                <li style="margin-bottom: 4px;">
                     <strong>Thermal Insulation:</strong>
                     Rockwool insulation lines the vessel walls, while an insulated
                     base minimizes heat loss and improves energy efficiency.
                 </li>
-                <li>
+                <li style="margin-bottom: 4px;">
                     <strong>Coil Isolation:</strong>
                     The current design electrically isolates the induction coil
                     using Kapton tape. Future iterations may transition to a
                     modular ceramic coil assembly to improve manufacturability,
                     durability, and serviceability.
                 </li>
-                <li>
+                <li style="margin-bottom: 0px;">
                     <strong>Next Milestone:</strong>
                     Final bulkhead integration and vessel sealing will enable
                     the first fully assembled induction test runs and validation
@@ -740,57 +746,57 @@ def detect_dryness(temp, pressure):
 <div class="slide-container">
     <h2 class="slide-title">From Kitchenware to Prototype</h2>
     <div class="content-area">
-        <p style="margin-bottom: 25px;">
+        <p style="margin-bottom: 10px; font-size: 18px;">
             One of the guiding principles of this project is accessibility. Rather than waiting for custom manufacturing, we leveraged affordable, widely available components to rapidly validate the induction architecture and learn where future refinements are needed.
         </p>
 
-        <div class="tiled-content">
-            <div class="tile">
-                <h3 style="color:#1A3D34; font-size:20px;">
+        <div class="tiled-content" style="gap: 10px; margin-top: 0px;">
+            <div class="tile" style="padding: 15px; margin-bottom: 0;">
+                <h3 style="color:#1A3D34; font-size:18px; margin-bottom: 5px;">
                     <i class="fa-solid fa-kitchen-set" style="margin-right:10px; color:#B89E6B;"></i>
                     Start with Existing Hardware
                 </h3>
-                <p style="font-size:16px;">
+                <p style="font-size:14px;">
                     A <strong>$75 Hawkins 12L pressure cooker</strong> provided a ready-made pressure vessel with an inward-locking safety lid. Its aluminum construction made modifications achievable using common workshop tools.
                 </p>
             </div>
 
-            <div class="tile">
-                <h3 style="color:#1A3D34; font-size:20px;">
+            <div class="tile" style="padding: 15px; margin-bottom: 0;">
+                <h3 style="color:#1A3D34; font-size:18px; margin-bottom: 5px;">
                     <i class="fa-solid fa-compass-drafting" style="margin-right:10px; color:#B89E6B;"></i>
                     Model Before You Build
                 </h3>
-                <p style="font-size:16px;">
+                <p style="font-size:14px;">
                     The assembly was recreated in <strong>FreeCAD</strong> to determine tubing lengths, validate clearances, and reduce material waste before fabrication began.
                 </p>
             </div>
 
-            <div class="tile">
-                <h3 style="color:#1A3D34; font-size:20px;">
+            <div class="tile" style="padding: 15px; margin-bottom: 0;">
+                <h3 style="color:#1A3D34; font-size:18px; margin-bottom: 5px;">
                     <i class="fa-solid fa-hammer" style="margin-right:10px; color:#B89E6B;"></i>
                     Learn Through Fabrication
                 </h3>
-                <p style="font-size:16px;">
+                <p style="font-size:14px;">
                     Nearly <strong>50 feet of copper tubing</strong> was hand-formed around the vessel using manual bending tools. The process validated the design while revealing opportunities for improved tooling and assembly methods.
                 </p>
             </div>
 
-            <div class="tile">
-                <h3 style="color:#1A3D34; font-size:20px;">
+            <div class="tile" style="padding: 15px; margin-bottom: 0;">
+                <h3 style="color:#1A3D34; font-size:18px; margin-bottom: 5px;">
                     <i class="fa-solid fa-arrow-trend-up" style="margin-right:10px; color:#B89E6B;"></i>
                     Design the Next Iteration
                 </h3>
-                <p style="font-size:16px;">
+                <p style="font-size:14px;">
                     Lessons learned are already informing future designs, including dedicated coil-winding jigs, slip-cast ceramic modules with integrated channels, soft magnetic flux concentrators, and stainless steel production vessels.
                 </p>
             </div>
         </div>
 
-        <div style="margin-top: 30px; background: #f8faf9; border-left: 6px solid #B89E6B; padding: 25px; border-radius: 8px;">
+        <div style="margin-top: 10px; background: #f8faf9; border-left: 6px solid #B89E6B; padding: 10px 20px; border-radius: 8px;">
             <strong style="color:#1A3D34; font-size:20px;">
                 Engineering Insight
             </strong>
-            <p style="margin-top:10px; font-size:18px;">
+            <p style="margin-top:5px; font-size:16px;">
                 The prototype was built using tools commonly found in community workshops and makerspaces. By prioritizing accessible fabrication, each challenge became an opportunity to improve manufacturability, reduce cost, and strengthen the open-source pathway toward global adoption.
             </p>
         </div>
@@ -981,8 +987,8 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<button id="present-btn">
-    <i class="fa-solid fa-desktop"></i> Present
+<button id="present-btn" aria-label="Enter presentation mode" title="Enter presentation mode">
+    <i class="fa-solid fa-desktop" aria-hidden="true"></i> Present
 </button>
 
 <script>
@@ -1025,7 +1031,9 @@ def detect_dryness(temp, pressure):
             // Enter presentation mode
             isPresenting = true;
             body.classList.add('presentation-mode');
-            presentBtn.innerHTML = '<i class="fa-solid fa-times"></i> Exit';
+            presentBtn.innerHTML = '<i class="fa-solid fa-times" aria-hidden="true"></i> Exit';
+            presentBtn.setAttribute('aria-label', 'Exit presentation mode (Esc)');
+            presentBtn.setAttribute('title', 'Exit presentation mode (Esc)');
 
             // Mark current slide active
             slides.forEach(s => {
@@ -1047,7 +1055,9 @@ def detect_dryness(temp, pressure):
             // Exit presentation mode
             isPresenting = false;
             body.classList.remove('presentation-mode');
-            presentBtn.innerHTML = '<i class="fa-solid fa-desktop"></i> Present';
+            presentBtn.innerHTML = '<i class="fa-solid fa-desktop" aria-hidden="true"></i> Present';
+            presentBtn.setAttribute('aria-label', 'Enter presentation mode');
+            presentBtn.setAttribute('title', 'Enter presentation mode');
 
             // Reset all slides
             slides.forEach(s => {
