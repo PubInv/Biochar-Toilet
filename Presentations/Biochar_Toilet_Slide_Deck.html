@@ -1028,6 +1028,8 @@ def detect_dryness(temp, pressure):
 
     // Toggle presentation mode
     presentBtn.addEventListener('click', () => {
+        presentBtn.blur(); // Remove focus to prevent spacebar from double-clicking it
+
         if (!isPresenting) {
             // Enter presentation mode
             isPresenting = true;
@@ -1081,6 +1083,7 @@ def detect_dryness(temp, pressure):
         if (!isPresenting) return;
 
         if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'Enter') {
+            e.preventDefault(); // Prevent default scrolling/clicking
             if (currentSlide < slides.length - 1) {
                 slides[currentSlide].classList.remove('active');
                 currentSlide++;
@@ -1088,6 +1091,7 @@ def detect_dryness(temp, pressure):
                 scaleActiveSlide();
             }
         } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+            e.preventDefault(); // Prevent default scrolling/clicking
             if (currentSlide > 0) {
                 slides[currentSlide].classList.remove('active');
                 currentSlide--;
