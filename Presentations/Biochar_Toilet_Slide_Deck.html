@@ -1108,7 +1108,17 @@ def detect_dryness(temp, pressure):
     });
 
     // Recalculate scale on resize
-    window.addEventListener('resize', scaleActiveSlide);
+    // ⚡ Bolt Optimization: Throttled resize event using requestAnimationFrame to prevent layout thrashing
+    let resizeTicking = false;
+    window.addEventListener('resize', () => {
+        if (!resizeTicking) {
+            window.requestAnimationFrame(() => {
+                scaleActiveSlide();
+                resizeTicking = false;
+            });
+            resizeTicking = true;
+        }
+    });
 
 </script>
 
