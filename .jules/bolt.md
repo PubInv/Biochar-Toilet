@@ -4,3 +4,6 @@
 ## 2025-02-14 - Throttling Resize Events in Presentation Deck
 **Learning:** In the `Biochar_Toilet_Slide_Deck.html` presentation, window resize event listeners that trigger DOM layout recalculations (like `scaleActiveSlide`) must be throttled to prevent layout thrashing and main-thread blocking. A simple `window.addEventListener('resize', scaleActiveSlide)` causes performance issues during window adjustments.
 **Action:** When adding resize event listeners in vanilla JS frontend code, always use a `requestAnimationFrame` (or similar) throttle to ensure DOM updates are capped at the display refresh rate (e.g., ~60fps).
+## 2025-02-14 - Caching repeated remote asset fetches during export
+**Learning:** The offline export script (`Presentations/export_offline.py`) was repeatedly fetching the same remote CSS and font assets via `requests.get()` because the same URLs were referenced multiple times in the HTML and CSS. This caused the script to be significantly slower and waste network requests.
+**Action:** When writing or optimizing scripts that fetch remote assets or read local files, always introduce a memory cache (e.g., a dictionary) to avoid redundant I/O operations for identical paths/URLs.
