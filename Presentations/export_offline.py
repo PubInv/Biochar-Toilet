@@ -10,7 +10,14 @@ from urllib.parse import urljoin, urlparse
 INPUT_HTML = "Biochar_Toilet_Slide_Deck.html"
 OUTPUT_HTML = "Biochar_Toilet_Slide_Deck_Offline.html"
 
+
+# ⚡ Bolt Optimization: Added url_cache and file_cache to eliminate redundant
+# network requests and I/O for assets referenced multiple times.
+url_cache = {}
+
 def get_base64_from_url(url):
+    if url in url_cache:
+        return url_cache[url]
     try:
         headers = {
             'User-Agent': 'BiocharToiletOfflineExporter/1.0 (https://github.com/PubInv/Biochar-Toilet; your@email.com)'
@@ -21,17 +28,26 @@ def get_base64_from_url(url):
         if not mime_type:
             mime_type = mimetypes.guess_type(url)[0] or 'application/octet-stream'
         b64_data = base64.b64encode(response.content).decode('utf-8')
-        return f"data:{mime_type};base64,{b64_data}"
+        result = f"data:{mime_type};base64,{b64_data}"
+        url_cache[url] = result
+        return result
     except Exception as e:
         print(f"Error fetching URL {url}: {e}")
         # Return a transparent 1x1 pixel image if it's an image
         if url.endswith('.jpg') or url.endswith('.png') or url.endswith('.jpeg'):
-            return "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-        return url
+            result = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        else:
+            result = url
+        url_cache[url] = result
+        return result
 
 from urllib.parse import unquote
 
+file_cache = {}
+
 def get_base64_from_file(filepath):
+    if filepath in file_cache:
+        return file_cache[filepath]
     try:
         # Remove query params if any
         if '?' in filepath:
@@ -45,9 +61,12 @@ def get_base64_from_file(filepath):
         mime_type = mimetypes.guess_type(filepath)[0] or 'application/octet-stream'
         with open(filepath, 'rb') as f:
             b64_data = base64.b64encode(f.read()).decode('utf-8')
-        return f"data:{mime_type};base64,{b64_data}"
+        result = f"data:{mime_type};base64,{b64_data}"
+        file_cache[filepath] = result
+        return result
     except Exception as e:
         print(f"Error reading file {filepath}: {e}")
+        file_cache[filepath] = filepath
         return filepath
 
 def is_url(path):
