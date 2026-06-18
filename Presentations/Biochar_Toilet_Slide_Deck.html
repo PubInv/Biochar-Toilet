@@ -186,6 +186,25 @@
             color: #B89E6B;
         }
 
+        /* Progress Bar */
+        #progress-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 1001;
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #B89E6B;
+            transition: width 0.3s ease-out;
+        }
+
         /* Presentation Mode Styles */
         body.presentation-mode {
             padding: 0;
@@ -196,6 +215,10 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
+        }
+
+        body.presentation-mode #progress-container {
+            display: block;
         }
 
         body.presentation-mode .slide-container {
@@ -988,16 +1011,34 @@ def detect_dryness(temp, pressure):
     </div>
 </div>
 
-<button id="present-btn" aria-label="Enter presentation mode" title="Enter presentation mode">
+<div id="progress-container" role="progressbar" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1">
+    <div id="progress-bar"></div>
+</div>
+
+<button id="present-btn" aria-label="Enter presentation mode (Use Space/Arrows to navigate)" title="Enter presentation mode (Use Space/Arrows to navigate)">
     <i aria-hidden="true" class="fa-solid fa-desktop"></i> Present
 </button>
 
 <script>
     const presentBtn = document.getElementById('present-btn');
+    const progressContainer = document.getElementById('progress-container');
+    const progressBar = document.getElementById('progress-bar');
     const body = document.body;
     const slides = document.querySelectorAll('.slide-container');
     let currentSlide = 0;
     let isPresenting = false;
+
+    // Helper to update progress bar
+    function updateProgress() {
+        if (!isPresenting) return;
+        const totalSlides = slides.length;
+        const current = currentSlide + 1;
+        const percentage = (current / totalSlides) * 100;
+
+        progressBar.style.width = `${percentage}%`;
+        progressContainer.setAttribute('aria-valuemax', totalSlides);
+        progressContainer.setAttribute('aria-valuenow', current);
+    }
 
     // Helper to calculate scaling
     function scaleActiveSlide() {
@@ -1053,14 +1094,15 @@ def detect_dryness(temp, pressure):
             }
 
             scaleActiveSlide();
+            updateProgress();
 
         } else {
             // Exit presentation mode
             isPresenting = false;
             body.classList.remove('presentation-mode');
             presentBtn.innerHTML = '<i aria-hidden="true" class="fa-solid fa-desktop"></i> Present';
-            presentBtn.setAttribute('aria-label', 'Enter presentation mode');
-            presentBtn.setAttribute('title', 'Enter presentation mode');
+            presentBtn.setAttribute('aria-label', 'Enter presentation mode (Use Space/Arrows to navigate)');
+            presentBtn.setAttribute('title', 'Enter presentation mode (Use Space/Arrows to navigate)');
 
             // Reset all slides
             slides.forEach(s => {
@@ -1089,6 +1131,7 @@ def detect_dryness(temp, pressure):
                 currentSlide++;
                 slides[currentSlide].classList.add('active');
                 scaleActiveSlide();
+                updateProgress();
             }
         } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
             e.preventDefault(); // Prevent default scrolling/clicking
@@ -1097,6 +1140,7 @@ def detect_dryness(temp, pressure):
                 currentSlide--;
                 slides[currentSlide].classList.add('active');
                 scaleActiveSlide();
+                updateProgress();
             }
         } else if (e.key === 'Escape') {
              // Handle escape key (browser usually handles exiting fullscreen,
