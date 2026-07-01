@@ -2,7 +2,7 @@
 
 **Phase 3 Ideation – Syngas Processing and Ceramic Liners**
 
-Documented advanced Phase 3 concepts regarding the management of syngas exhaust and modular ceramic liner assemblies. A new engineering memo was created detailing two primary pathways for converting Syngas to CO₂ (Water-Gas Shift Reaction vs. Lean Combustion), analyzing their respective economic trade-offs based on scale (household vs. community), and exploring sulfur mitigation strategies directly within the biochar mixture using in-situ fixation and Iron Sponge dry scrubbers. Furthermore, design guidelines for "leaky" modular ceramic assemblies with slip-fit baffles were established to prevent thermal shear failure in the heat exchanger. The complete analysis is recorded in the [Syngas Processing Memo](Memos/Syngas_Processing_Memo.md) and linked in `DESIGN_IDEAS.md`.
+Documented advanced Phase 3 concepts regarding the management of syngas exhaust and modular ceramic liner assemblies. A new engineering memo was created detailing the highly practical lean combustion pathway for oxidizing Syngas into CO₂, and exploring sulfur mitigation strategies directly within the biochar mixture using in-situ fixation and Iron Sponge dry scrubbers. Furthermore, design guidelines for "leaky" modular ceramic assemblies with slip-fit baffles were established to prevent thermal shear failure in the heat exchanger. The complete analysis is recorded in the [Syngas Processing Memo](Memos/Syngas_Processing_Memo.md) and linked in `DESIGN_IDEAS.md`.
 
 
 
