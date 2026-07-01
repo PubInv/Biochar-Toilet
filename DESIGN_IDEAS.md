@@ -129,6 +129,12 @@ Magnetite acts as a dual-function catalyst here:
 
 ---
 
+## Future Phases: Syngas Processing and Advanced Catalysis
+
+For detailed engineering considerations on managing exhaust gases, syngas conversion pathways (Water-Gas Shift vs. Lean Combustion), and sulfur mitigation strategies within the biochar mix, please refer to the advanced Phase 3 memo: [Syngas Processing Memo](Project Files/Memos/Syngas_Processing_Memo.md).
+
+---
+
 ## System Monitoring & Valorization
 
 The project utilizes a pressure cooker, modified with a 1" solenoid and an integrated induction heating loop. The induction loop itself is quite large, needing to encompass human fecal matter. The system uses a pressure sensor to monitor the state of the system; because we use pressure, we can monitor the state of valorization.
