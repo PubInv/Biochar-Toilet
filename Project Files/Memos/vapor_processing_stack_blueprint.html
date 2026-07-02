@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vapor Processing Stack: Downdraft Catalytic Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="p-6 md:p-12 min-h-screen flex flex-col gap-8">
+
+    <!-- Header -->
+    <header class="mb-8 border-b border-slate-700 pb-6">
+        <h1 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-600 mb-2">
+            Downdraft Catalytic Vapor Stack
+        </h1>
+        <p class="text-slate-400 text-lg">System Architecture: Dual-Zone Induction & Bi-Directional Venting</p>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        
+        <!-- Left Column: Visual Diagram -->
+        <section class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center min-h-[500px]">
+            <h2 class="text-xl font-semibold text-slate-200 mb-6 w-full text-left border-b border-slate-700 pb-2">Process Flow Diagram</h2>
+            <div class="mermaid w-full flex justify-center text-sm">
+                graph TD
+                classDef primary fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff;
+                classDef hot fill:#7c2d12,stroke:#ea580c,stroke-width:2px,color:#fff;
+                classDef cold fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#fff;
+
+                subgraph Top["Phase 1: Dewatering (Updraft)"]
+                    A[15 PSI Pressure Lid]:::primary --> B(Steam Solenoid Valve):::primary
+                    B -.->|Latent Heat limited to 100°C| C[Steam Exhaust / Steam Explosion]:::cold
+                end
+
+                subgraph Chamber["Primary Pyrolysis Chamber (~300°C - 400°C)"]
+                    D[Primary Induction Coil]:::primary --> E[Ferritic Susceptor Shell]:::primary
+                    E --> F[Waste Mass & Biochar Bed]:::primary
+                    A --- F
+                end
+
+                subgraph Downdraft["Phase 2: Pyrolysis (Downdraft)"]
+                    F -.->|Vapor Pressure Forces Tars DOWN| G[Biochar Bed acts as Physical Filter]:::hot
+                end
+
+                subgraph Catalytic["Secondary Catalytic Zone (~800°C - 1000°C)"]
+                    H[Secondary Induction Coil]:::hot --> I[SiC / High-Curie Susceptor Plug]:::hot
+                    I --> J[Catalytic Matrix: Ni/Fe Coated]:::hot
+                    G --> I
+                end
+
+                subgraph Output["Output & Quench"]
+                    I -.->|Thermal Cracking of VOCs/Tars| K(Bottom Exhaust Port):::cold
+                    K --> L[Clean Syngas to Scrubber/PEM]:::cold
+                end
+            </div>
+        </section>
+
+        <!-- Right Column: Engineering Breakdown -->
+        <section class="flex flex-col gap-6">
+            
+            <!-- Phase 1 -->
+            <div class="glass-panel p-6 rounded-2xl border-l-4 border-blue-500">
+                <h3 class="text-xl font-bold text-blue-400 mb-2">Phase 1: Bi-Directional Isolation (The Steam Cycle)</h3>
+                <p class="text-slate-300 leading-relaxed text-sm">
+                    During the dewatering phase, the bottom port remains sealed. The primary induction coil drives energy into the shell, but the mass temperature is locked at the boiling point due to the latent heat of vaporization. The top solenoid manages the 15 PSI threshold, eventually triggering the <strong>steam explosion</strong>. Because pyrolysis hasn't begun, the steam exiting the top lid is largely free of heavy, sticky tars, preserving the integrity of the Viton O-rings and top-mounted solenoid seals.
+                </p>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="glass-panel p-6 rounded-2xl border-l-4 border-amber-500">
+                <h3 class="text-xl font-bold text-amber-500 mb-2">Phase 2: Downdraft Autofiltration</h3>
+                <p class="text-slate-300 leading-relaxed text-sm">
+                    Once water is evacuated, the top valve is locked shut. As the primary susceptor climbs to 300°C–400°C, VOCs, suspended particles, and heavy oils vaporize. Expanding gases create internal pressure. With the top closed, these gases are forced <strong>downward</strong> through the newly formed biochar. The porous biochar acts as a high-surface-area activated carbon filter, mechanically trapping heavy suspended particles before they can reach any plumbing.
+                </p>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="glass-panel p-6 rounded-2xl border-l-4 border-orange-600">
+                <h3 class="text-xl font-bold text-orange-500 mb-2">Phase 3: The SiC Catalytic Choke Point</h3>
+                <p class="text-slate-300 leading-relaxed text-sm">
+                    The bottom port contains a secondary induction zone. Because it utilizes a material with a much higher Curie temperature (e.g., a Silicon Carbide matrix or specialized ferrite alloy), the secondary coil drives this specific plug to <strong>800°C - 1000°C</strong>. 
+                </p>
+                <ul class="list-disc list-inside text-slate-300 mt-3 text-sm space-y-1">
+                    <li><strong>Material:</strong> A porous SiC foam coated with transition metals (Nickel/Iron) to promote catalytic tar cracking.</li>
+                    <li><strong>Chemistry:</strong> As the heavy tars and VOCs are forced through this glowing hot, catalyzed matrix, they are thermally and chemically cracked into non-condensable syngas (CO, H2, CH4).</li>
+                    <li><strong>Result:</strong> The gas exiting the bottom port is a clean, dry syngas that will not foul downstream plumbing, ready to be routed to your PEM/NaOH scrubber cell.</li>
+                </ul>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-8 text-center text-slate-500 text-sm">
+        Designed for Biochar Induction Processing System &bull; High-Pressure Reaction Vessel Sub-Assembly
+    </footer>
+
+</body>
+</html>
