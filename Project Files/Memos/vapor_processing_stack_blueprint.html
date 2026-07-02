@@ -36,6 +36,7 @@
                 classDef primary fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff;
                 classDef hot fill:#7c2d12,stroke:#ea580c,stroke-width:2px,color:#fff;
                 classDef cold fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#fff;
+                classDef module fill:#334155,stroke:#94a3b8,stroke-width:1px,stroke-dasharray: 5 5,color:#fff;
 
                 subgraph Top["Phase 1: Dewatering (Updraft)"]
                     A[15 PSI Pressure Lid]:::primary --> B(Steam Solenoid Valve):::primary
@@ -48,19 +49,31 @@
                     A --- F
                 end
 
-                subgraph Downdraft["Phase 2: Pyrolysis (Downdraft)"]
+                subgraph Downdraft["Phase 2: Pyrolysis & In-Situ Fixation (Downdraft)"]
                     F -.->|Vapor Pressure Forces Tars DOWN| G[Biochar Bed acts as Physical Filter]:::hot
+                    G -.->|Lime/Magnetite Blend| G2[In-Situ Sulfur Fixation]:::hot
                 end
 
-                subgraph Catalytic["Secondary Catalytic Zone (~800°C - 1000°C)"]
+                subgraph Catalytic["Phase 3: Secondary Catalytic Zone (~800°C - 1000°C)"]
                     H[Secondary Induction Coil]:::hot --> I[SiC / High-Curie Susceptor Plug]:::hot
                     I --> J[Catalytic Matrix: Ni/Fe Coated]:::hot
-                    G --> I
+                    G2 --> I
                 end
 
-                subgraph Output["Output & Quench"]
-                    I -.->|Thermal Cracking of VOCs/Tars| K(Bottom Exhaust Port):::cold
-                    K --> L[Clean Syngas to Scrubber/PEM]:::cold
+                subgraph Sulfur["Phase 4: Sulfur Mitigation"]
+                    I -.->|Thermal Cracking of VOCs/Tars| K[Iron Sponge Dry Scrubber]:::cold
+                    K -.->|Fe2O3 strips H2S| L[Desulfurized Syngas]:::cold
+                end
+
+                subgraph Combustion["Phase 5: Lean Combustion & Modular Ceramic Assembly"]
+                    M(Ambient Air Injection / Venturi):::cold --> N[Combustion Chamber]:::hot
+                    L --> N
+                    N --> O[Modular Ceramic Heat Exchanger]:::module
+                    O --> P1[Inner Sleeve: Dense SiC/Alumina]:::hot
+                    O --> P2[Core: Leaky Slip-Fit Baffles / Sponge]:::hot
+                    O --> P3[Outer Jacket: Porous Insulator]:::hot
+                    P2 -.->|Exothermic Heat Recovery| D
+                    P1 -.-> Q(Clean CO2 / H2O Exhaust):::cold
                 end
             </div>
         </section>
@@ -80,7 +93,9 @@
             <div class="glass-panel p-6 rounded-2xl border-l-4 border-amber-500">
                 <h3 class="text-xl font-bold text-amber-500 mb-2">Phase 2: Downdraft Autofiltration</h3>
                 <p class="text-slate-300 leading-relaxed text-sm">
-                    Once water is evacuated, the top valve is locked shut. As the primary susceptor climbs to 300°C–400°C, VOCs, suspended particles, and heavy oils vaporize. Expanding gases create internal pressure. With the top closed, these gases are forced <strong>downward</strong> through the newly formed biochar. The porous biochar acts as a high-surface-area activated carbon filter, mechanically trapping heavy suspended particles before they can reach any plumbing.
+                    Once water is evacuated, the top valve is locked shut. As the primary susceptor climbs to 300°C–400°C, VOCs, suspended particles, and heavy oils vaporize. Expanding gases create internal pressure. With the top closed, these gases are forced <strong>downward</strong> through the newly formed biochar. The porous biochar acts as a high-surface-area activated carbon filter, mechanically trapping heavy suspended particles before they can reach any plumbing.</p>
+                <p class="text-slate-300 leading-relaxed text-sm mt-3">
+                    <strong>In-Situ Sulfur Fixation:</strong> A low-cost mineral blend (Lime and Magnetite) is introduced into the waste mass. During pyrolysis, this chemistry permanently locks 70-80% of sulfur into the solid biochar matrix as inert metal sulfides (e.g., FeS, CaS), scrubbing the gas stream natively before it proceeds.
                 </p>
             </div>
 
@@ -96,6 +111,32 @@
                     <li><strong>Result:</strong> The gas exiting the bottom port is a clean, dry syngas that will not foul downstream plumbing, ready to be routed to your PEM/NaOH scrubber cell.</li>
                 </ul>
             </div>
+
+            <!-- Phase 4 -->
+            <div class="glass-panel p-6 rounded-2xl border-l-4 border-yellow-500">
+                <h3 class="text-xl font-bold text-yellow-500 mb-2">Phase 4: Sulfur Mitigation (The Iron Sponge)</h3>
+                <p class="text-slate-300 leading-relaxed text-sm">
+                    To protect downstream thermal recovery components from sulfuric acid corrosion, the syngas exits the catalytic zone and passes through an unheated inline pre-combustion dry scrubber.
+                </p>
+                <ul class="list-disc list-inside text-slate-300 mt-3 text-sm space-y-1">
+                    <li><strong>Mechanism:</strong> A steel canister filled with iron-oxide coated media strips the remaining 20-30% of trace H₂S from the syngas.</li>
+                    <li><strong>Regeneration:</strong> It passively regenerates when exposed to ambient oxygen while offline, dropping out pure elemental sulfur as a solid dust.</li>
+                </ul>
+            </div>
+
+            <!-- Phase 5 -->
+            <div class="glass-panel p-6 rounded-2xl border-l-4 border-red-500">
+                <h3 class="text-xl font-bold text-red-500 mb-2">Phase 5: Lean Combustion & Modular Ceramic Heat Exchanger</h3>
+                <p class="text-slate-300 leading-relaxed text-sm">
+                    The desulfurized syngas undergoes lean combustion to extract its exothermic energy. This heat is captured and routed back to the primary pyrolysis vessel via a specialized, highly durable ceramic assembly.
+                </p>
+                <ul class="list-disc list-inside text-slate-300 mt-3 text-sm space-y-1">
+                    <li><strong>Lean Combustion:</strong> Controlled ambient air is introduced, cleanly oxidizing the CO, H₂, and CH₄ into water vapor and CO₂, creating immense usable heat and lowering electrical OpEx.</li>
+                    <li><strong>Modular Architecture:</strong> Avoids monolithic casting to prevent thermal shear. It utilizes three nested components: a dense heat-transferring <em>Inner Sleeve</em> (SiC), a highly insulating <em>Outer Jacket</em>, and an active ceramic <em>Baffle Insert</em>.</li>
+                    <li><strong>The "Leaky" Baffle:</strong> The baffle insert sits with a "leaky" slip-fit between the jackets. This decoupling allows components with massive temperature differentials to expand independently without cracking, relying on a tortuous path rather than airtight seals to direct gas flow.</li>
+                </ul>
+            </div>
+
 
         </section>
     </main>
