@@ -1,3 +1,9 @@
+## **[07/03/2026]**
+
+**Phase 3 Ideation – High-Temperature H2S Scrubbing Refinement**
+
+Refined the Phase 3 sulfur mitigation strategy by proposing a high-temperature Silicon Carbide (SiC) and Magnetite cartridge at the bottom of the reaction vessel. This cartridge serves as the final high-temperature "choke point" (800°C+) for downdraft syngas, maximizing H2S removal efficiency before the gas reaches the solenoid valve and external heat recovery hardware. This addition completes the three-tier sulfur defense architecture: in-situ fixation (biochar), peak-temp scrubbing (bottom cartridge), and low-temp polishing (iron sponge). Updates were applied to the [Syngas Processing Memo](Memos/Syngas_Processing_Memo.md) and `DESIGN_IDEAS.md`.
+
 ## **[07/01/2026]**
 
 **Phase 3 Ideation – Syngas Processing and Ceramic Liners**
