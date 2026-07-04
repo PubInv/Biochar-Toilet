@@ -71,13 +71,25 @@ If in-situ fixation isn't enough to protect your heat exchanger, you need a pre-
     *   **CapEx:** Very low. Just a sealed steel tube with basic mesh filters at both ends.
     *   **OpEx:** Minimal. The media lasts for months or years depending on regeneration cycles, and replacement media (iron-coated wood chips) is DIY-friendly and ultra-cheap.
 
+### Strategy 3: The High-Temperature Ceramic/Magnetite Cartridge (The Choke Point Scrubber)
+
+This strategy leverages the peak temperatures at the bottom of the induction vessel to maximize chemical reaction rates.
+
+*   **The Concept:** A replaceable Silicon Carbide (SiC) and Magnetite cartridge located at the bottom of the pot, serving as the final "choke point" for the downdraft gas path.
+*   **The Chemistry:** At temperatures exceeding 800°C, the reaction between H₂S and the concentrated magnetite in the cartridge becomes extremely efficient. The SiC matrix ensures the cartridge remains structurally sound and highly thermally conductive, staying at peak temperature throughout the cycle.
+*   **The Engineering Value:**
+    *   **Maximized Efficiency:** Concentrating the scrubbing media in the hottest zone of the reactor ensures that even refractory sulfur compounds are cracked and captured.
+    *   **Hardware Protection:** By removing H₂S inside the primary vessel before it reaches the solenoid valve or the external heat exchanger, you virtually eliminate high-temperature sulfuric corrosion in your expensive plumbing.
+    *   **Modularity:** The cartridge can be easily replaced during routine maintenance, similar to a ceramic oil filter.
+
 ### The Recommended Architecture
 
-Combine both.
+Combine all three for a "Zero-Corrosion" system.
 
-1.  Dose the waste with a cheap Lime/Magnetite mineral blend to capture 70-80% of the sulfur in the solid biochar phase (solving your heavy metal issue simultaneously).
-2.  Route the exiting syngas through a small, modular Iron Sponge canister to scrub the remaining 20-30% of trace H₂S.
-3.  Combust the purified syngas cleanly, transferring the heat safely through your heat exchanger back to your primary induction coil, with zero risk of sulfuric acid corrosion.
+1.  **In-Situ Fixation:** Dose waste with Lime/Magnetite to capture the bulk of the sulfur in the biochar.
+2.  **High-Temp Cartridge:** Force the exiting syngas through the bottom SiC/Magnetite cartridge at 800°C+ to scrub the majority of the remaining H₂S.
+3.  **Iron Sponge:** Use a small, passive external canister for final polishing and as a visual indicator of system health.
+4.  **Clean Combustion:** Burn the purified syngas for heat recovery with zero risk to the heat exchanger.
 
 This keeps the base unit virtually maintenance-free while drastically extending the lifespan of your thermal recovery hardware.
 

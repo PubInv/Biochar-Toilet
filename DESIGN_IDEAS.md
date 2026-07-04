@@ -127,6 +127,15 @@ Magnetite acts as a dual-function catalyst here:
 * The Lid has a **High-Amperage Ceramic Feedthrough**.
 * **Connection:** When you lower the lid into the pot, you plug the coil into the bottom of the lid (using a high-temp connector like a ceramic terminal block), then twist and lock the lid.
 
+### 5. High-Temperature Bottom Cartridge (H2S Scrubbing)
+
+To prevent downstream corrosion of the steam valve and heat exchanger, a high-temperature scrubbing cartridge is integrated at the bottom of the vessel.
+
+* **Placement:** Located at the base of the reaction vessel, serving as the exit "choke point" for the downdraft gas flow.
+* **Composition:** A modular Silicon Carbide (SiC) and Magnetite matrix.
+* **Function:** Operates at peak induction temperatures (800°C+) to chemically strip Hydrogen Sulfide (H₂S) from the syngas stream before it exits the vessel. This protects the stainless steel solenoid valve and thermal recovery hardware from sulfuric acid corrosion.
+* **Maintenance:** Designed as a drop-in replaceable cartridge.
+
 ---
 
 ## Future Phases: Syngas Processing and Advanced Catalysis
