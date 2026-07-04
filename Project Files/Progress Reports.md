@@ -1,3 +1,17 @@
+
+## **[07/03/2026]**
+
+**Phase 3 Ideation – High-Temperature H2S Scrubbing Refinement**
+
+Refined the Phase 3 sulfur mitigation strategy by proposing a high-temperature Silicon Carbide (SiC) and Magnetite cartridge at the bottom of the reaction vessel. This cartridge serves as the final high-temperature "choke point" (800°C+) for downdraft syngas, maximizing H2S removal efficiency before the gas reaches the solenoid valve and external heat recovery hardware. This addition completes the three-tier sulfur defense architecture: in-situ fixation (biochar), peak-temp scrubbing (bottom cartridge), and low-temp polishing (iron sponge). Updates were applied to the [Syngas Processing Memo](Memos/Syngas_Processing_Memo.md) and `DESIGN_IDEAS.md`.
+
+## **[07/01/2026]**
+
+**Phase 3 Ideation – Syngas Processing and Ceramic Liners**
+
+Documented advanced Phase 3 concepts regarding the management of syngas exhaust and modular ceramic liner assemblies. A new engineering memo was created detailing the highly practical lean combustion pathway for oxidizing Syngas into CO₂, and exploring sulfur mitigation strategies directly within the biochar mixture using in-situ fixation and Iron Sponge dry scrubbers. Furthermore, design guidelines for "leaky" modular ceramic assemblies with slip-fit baffles were established to prevent thermal shear failure in the heat exchanger. The complete analysis is recorded in the [Syngas Processing Memo](Memos/Syngas_Processing_Memo.md) and linked in `DESIGN_IDEAS.md`.
+
+
 ## **[06/17/2026]**
 
 **Post presentation notes on live demo**
@@ -18,6 +32,7 @@ We were able to biochar or induce pyrolysis with the hot plate version, it took 
 We demonstrated that magnetic seperation worked with the magnetite mixed sample, using a harddrive magnet and a glass test tube. An electromagnet or a rotating magnet bar would be ideal for this application in the future. 
 
 We should have created a fresh batch of tested mix, our existing mix may not be performing optimally. We also need to run more tests with water and fully drying times.
+
 
 ## **[05/14/2026]**
 

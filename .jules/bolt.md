@@ -1,4 +1,9 @@
-
-## 2024-05-18 - [Optimize High-Frequency Data Storage]
-**Learning:** For high-frequency sensor data recording (e.g., storing a rolling window of history in `collections.deque`), allocating a new dictionary for each data point creates significant object creation overhead and uses ~60% more memory compared to using tuples.
-**Action:** When storing simple, structured data points continuously in a rolling buffer, prefer tuples or namedtuples over dictionaries to reduce memory pressure and object creation time.
+## 2025-02-14 - HTML Presentation Deck Media Loading
+**Learning:** Native `loading="lazy"` for images and `preload="none"` for `<video>` tags are highly effective, low-risk frontend performance patterns for large slide decks like `Presentations/Biochar_Toilet_Slide_Deck.html` that default to loading all assets synchronously. Avoiding lazy loading on above-the-fold content prevents LCP penalties while still saving bandwidth on below-the-fold media.
+**Action:** Always verify if large media assets in HTML/React/Vue components are loaded synchronously and default to using native lazy loading/preloading attributes for anything off-screen. Use Playwright to visually assert that these HTML-level optimizations do not break the CSS styling or DOM structure.
+## 2025-02-14 - Throttling Resize Events in Presentation Deck
+**Learning:** In the `Biochar_Toilet_Slide_Deck.html` presentation, window resize event listeners that trigger DOM layout recalculations (like `scaleActiveSlide`) must be throttled to prevent layout thrashing and main-thread blocking. A simple `window.addEventListener('resize', scaleActiveSlide)` causes performance issues during window adjustments.
+**Action:** When adding resize event listeners in vanilla JS frontend code, always use a `requestAnimationFrame` (or similar) throttle to ensure DOM updates are capped at the display refresh rate (e.g., ~60fps).
+## 2025-02-14 - Caching repeated remote asset fetches during export
+**Learning:** The offline export script (`Presentations/export_offline.py`) was repeatedly fetching the same remote CSS and font assets via `requests.get()` because the same URLs were referenced multiple times in the HTML and CSS. This caused the script to be significantly slower and waste network requests.
+**Action:** When writing or optimizing scripts that fetch remote assets or read local files, always introduce a memory cache (e.g., a dictionary) to avoid redundant I/O operations for identical paths/URLs.
