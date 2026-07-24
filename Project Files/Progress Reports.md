@@ -1,3 +1,9 @@
+## **[07/24/2026]**
+
+**Phase 3 Ideation – Physical System Frame Design**
+
+Worked in FreeCAD 1.1 to pull together Hawkins 12L Pressure Pot assembly components and to start initial system frame rigging design using 20mm x 40mm extruded aluminum and compatible hardware. Uploaded current FCStd file status into the Public Invention/Biochar-Toilet/Project Files/CAD Files folder as "Frame for Assembly_v2.FCStd". Once all essential components are uploaded, and component assembly layout has been established, specific joint bracket hardware will be added to a parts list to create a Frame BOM, and custom brackets will be designed and sent to fabrication as-needed, with details uploaded to Frame BOM. 
+
 
 ## **[07/03/2026]**
 
