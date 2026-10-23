@@ -84,17 +84,10 @@ This rapid volumetric expansion produces localized cellular steam explosions. As
 
 A key thermodynamic phenomenon governing this process is the drying-pathway thermal hysteresis effect. At identical dry densities ($\rho_d$) and gravimetric water contents ($w$), soil and clay matrices that reach moisture equilibrium via *drying* exhibit significantly higher thermal conductivity ($K$) than those prepared via *wetting*.
 
-```
-  Thermal Conductivity (K) [W/m·K]
-        ^
-        |            /--- Drying Pathway (Higher K due to continuous liquid films)
-        |           /
-        |          /  <-- Dewatering operating regime leverages drying hysteresis
-        |         /
-        |        /---- Wetting Pathway (Lower K)
-        |       /
-        +---------------------------------------->
-        0      Moisture Content (w) / Saturation
+```mermaid
+graph LR
+    A["Moisture Content (w) / Saturation"] -->|Drying Pathway| B["Higher K (Continuous Liquid Films)"]
+    A -->|Wetting Pathway| C["Lower K (Discontinuous Liquid Contact)"]
 ```
 
 By forcing the waste matrix down a rapid drying pathway via pulsed flash evaporation, the system preserves continuous liquid-solid contact bridges within the residual solids longer than would occur under steady boiling. Consequently, thermal transport through the residual organic bed remains elevated during the critical transition from latent drying to full carbonization.
@@ -103,36 +96,14 @@ By forcing the waste matrix down a rapid drying pathway via pulsed flash evapora
 
 Physical moisture and liquid level probes rapidly fail, corrode, or drift when exposed to high-temperature pyrolytic vapors, condensing tars, and carbon deposition. To eliminate physical probes, the platform employs a sensorless, algorithmic dryness detection model that tracks real-time thermodynamic divergence between temperature rise ($dT/dt$) and system pressure rebound rate ($dP/dt$).
 
-```
-                      +-----------------------------------+
-                      |   Process Start: Thermal Input    |
-                      +-----------------------------------+
-                                        |
-                                        v
-                      +-----------------------------------+
-                      | Monitor Temperature Rise (dT/dt)  |
-                      | & Pressure Rebound Rate (dP/dt)   |
-                      +-----------------------------------+
-                                        |
-                                        v
-                      +-----------------------------------+
-                      |  Latent Phase: High dP/dt, Low dT |
-                      |    (Water Vaporization Active)    |
-                      +-----------------------------------+
-                                        |
-                                        v
-                     /-------------------------------------\
-                    /   Has Pressure Rebound Rate Collapsed \
-                   <     (dP/dt -> 0 kPa/s) AND Has dT/dt    >
-                    \        Exceeded Dry Threshold?        /
-                     \-------------------------------------/
-                                   /         \
-                             YES  /           \  NO
-                                 v             v
-      +-----------------------------------+   +----------------------------+
-      | Dryness Point Reached: Transition |   | Continue Solenoid Pulsing  |
-      |   System to Pyrolysis Phase       |   |   (Maintain 8 to 4 psi)    |
-      +-----------------------------------+   +----------------------------+
+```mermaid
+flowchart TD
+    A["Process Start: Thermal Input"] --> B["Monitor Temperature Rise (dT/dt)<br/>& Pressure Rebound Rate (dP/dt)"]
+    B --> C["Latent Phase: High dP/dt, Low dT<br/>(Water Vaporization Active)"]
+    C --> D{"Has Pressure Rebound Rate Collapsed<br/>(dP/dt → 0 kPa/s) AND Has dT/dt<br/>Exceeded Dry Threshold?"}
+    D -- YES --> E["Dryness Point Reached:<br/>Transition System to Pyrolysis Phase"]
+    D -- NO --> F["Continue Solenoid Pulsing<br/>(Maintain 8 to 4 psi)"]
+    F --> B
 ```
 
 During the initial drying phase, energy absorbed by the feedstock is consumed as latent heat of vaporization ($\Delta H_{\text{vap}}$), holding the bed temperature near the boiling point while generating steam (producing a high pressure rebound rate, $dP/dt$, following each pulse release). As liquid water is depleted:
@@ -159,29 +130,20 @@ Continuous solid-state thermochemical reactors must maintain predictable materia
 
 To manage these granular dynamics, the main reaction chamber uses a vertically zoned, "flower pot" tapered reactor geometry. The inverted conical profile narrows toward the bottom carbonization exit while expanding toward the top vapor zone.
 
-```
-       +--------------------------------------------------------+
-       |               Raw Wet Feedstock Entry                  |
-       +--------------------------------------------------------+
-       | \                                                    / |
-       |  \   UPPER ZONE: High-Flux Induction Coupling       /  |
-       |   \  - Large wet feedstock particles retained      /   |
-       |    \ - High moisture, active flash drying         /    |
-       |     \                                            /     |
-       |      +------------------------------------------+      |
-       |       \  MID-ZONE: Pyrolytic Devolatilization  /       |
-       |        \ - Temperature: 350 °C - 900 °C       /        |
-       |         \ - Hydrocarbon thermal cracking     /         |
-       |          +----------------------------------+          |
-       |           \ LOWER ZONE: Fine Char Discharge /          |
-       |            \ - RBNE passive particle sorting /         |
-       |             \ - Descending carbonized biochar/         |
-       |              +------------------------------+          |
-       |                             ||                         |
-       |                             || (Fully Carbonized)      |
-       |                             v                          |
-       |                     Char Discharge Valve               |
-       +--------------------------------------------------------+
+```mermaid
+graph TD
+    subgraph Reactor["Flower Pot Tapered Reactor Geometry"]
+        A["Raw Wet Feedstock Entry"]
+        B["UPPER ZONE: High-Flux Induction Coupling<br/>• Large wet feedstock particles retained<br/>• High moisture, active flash drying"]
+        C["MID-ZONE: Pyrolytic Devolatilization<br/>• Temperature: 350 °C - 900 °C<br/>• Hydrocarbon thermal cracking"]
+        D["LOWER ZONE: Fine Char Discharge<br/>• RBNE passive particle sorting<br/>• Descending carbonized biochar"]
+        E["Char Discharge Valve"]
+
+        A --> B
+        B --> C
+        C --> D
+        D -->|Fully Carbonized| E
+    end
 ```
 
 This tapered geometry harnesses the granular segregation dynamics of the Reverse Brazil Nut Effect (RBNE). Under continuous low-amplitude thermal expansion stress and mechanical pulsing, fine particles migrate downward while larger, less dense particles rise or remain suspended in the upper zone. In this reactor:
@@ -193,19 +155,20 @@ This tapered geometry harnesses the granular segregation dynamics of the Reverse
 
 Maintaining endothermic pyrolytic conditions requires a dynamic thermal seal that prevents ambient oxygen ingress into the reaction chamber during cyclic thermal expansion ($350\text{--}900\text{ }^\circ\text{C}$). Oxygen intrusion risks premature combustion of syngas products, leading to localized runaway overheating, safety hazards, and soot formation.
 
-```
-       ==========================================================
-                      Outer Steel Reactor Vessel Wall
-       ----------------------------------------------------------
-                     Ceramic Fiber Board Cone (Structural)
-       ..........................................................
-                    Braided Ceramic Rope Gasket (Resilient)
-       ----------------------------------------------------------
-                   Ceramic Fiber Bag (Particulate Barrier)
-       ==========================================================
-                     Oxygen-Deprived Pyrolytic Core
-                   (350 °C - 900 °C, PO2 approx equal to 0)
-       ==========================================================
+```mermaid
+graph TD
+    subgraph Sealing["Multi-Layer Conformal Sealing Assembly"]
+        A["Outer Steel Reactor Vessel Wall"]
+        B["Ceramic Fiber Board Cone (Structural Thermal Barrier)"]
+        C["Braided Ceramic Rope Gasket (Resilient Flange Seal)"]
+        D["Ceramic Fiber Bag (Particulate Barrier & Oxygen Shield)"]
+        E["Oxygen-Deprived Pyrolytic Core<br/>(350 °C - 900 °C, PO2 ≈ 0)"]
+
+        A --- B
+        B --- C
+        C --- D
+        D --- E
+    end
 ```
 
 The reactor utilizes a multi-layered conformal sealing assembly composed of three integrated layers:
@@ -221,30 +184,17 @@ Together, this assembly isolates the processing core, maintaining an oxygen-depr
 
 Pyrolysis of human fecal sludge generates volatile off-gases containing condensate fractions, volatile organic compounds (VOCs), polycyclic aromatic hydrocarbons (PAHs), hazardous air pollutants (HAPs), reduced nitrogen compounds (such as ammonia, $\text{NH}_3$), and carbon monoxide ($\text{CO}$). Compliance with environmental emissions standards requires integrated multi-phase catalytic processing.
 
-```
-                  Raw Pyrolytic Volatiles Exit
-            (VOCs, PAHs, NH3, CO, NOx, H2O Steam)
-                              |
-                              v
-       +----------------------------------------------+
-       | ZONE 1: Selective Catalytic Reduction (SCR)  |
-       | Catalyst: V2O5-TiO2 / Cu-Zeolite             |
-       | Temp Window: 200 °C - 400 °C                 |
-       | Reaction: Native NH3 reduces NOx to N2 + H2O |
-       +----------------------------------------------+
-                              |
-                              v
-       +----------------------------------------------+
-       | ZONE 2: Water-Gas Shift & VOC Cracking       |
-       | Catalyst: Magnetite (Fe3O4) / MnOx           |
-       | Temp Window: 350 °C - 650 °C                 |
-       | Reaction: CO + H2O -> CO2 + H2               |
-       |           PAHs/Tars -> Light Syngas          |
-       +----------------------------------------------+
-                              |
-                              v
-               Clean, Energy-Dense Syngas Stream
-                      (H2, CO2, CH4)
+```mermaid
+flowchart TD
+    A["Raw Pyrolytic Volatiles Exit<br/>(VOCs, PAHs, NH3, CO, NOx, H2O Steam)"] --> B
+    subgraph Zone1["ZONE 1: Selective Catalytic Reduction (SCR)"]
+        B["Catalyst: V2O5-TiO2 / Cu-Zeolite<br/>Temp Window: 200 °C - 400 °C<br/>Reaction: Native NH3 reduces NOx to N2 + H2O"]
+    end
+    B --> C
+    subgraph Zone2["ZONE 2: Water-Gas Shift & VOC Cracking"]
+        C["Catalyst: Magnetite (Fe3O4) / MnOx<br/>Temp Window: 350 °C - 650 °C<br/>Reaction: CO + H2O → CO2 + H2<br/>PAHs/Tars → Light Syngas"]
+    end
+    C --> D["Clean, Energy-Dense Syngas Stream<br/>(H2, CO2, CH4)"]
 ```
 
 To ensure optimal catalytic kinetic rates, the operational temperature windows of the scrubbing stages are matched to the exit thermal profile of the primary pyrolytic reactor ($350\text{--}900\text{ }^\circ\text{C}$).
@@ -288,23 +238,20 @@ To transition advanced thermal sanitation concepts from laboratory conditions in
 
 The main pressure containment assembly uses a low-cost, cold-rolled 316 Stainless Steel cylindrical shell. Cold-rolling enhances tensile yield strength, allowing for reduced wall thicknesses while maintaining structural safety factors under cyclic working pressures.
 
-```
-       +-------------------------------------------------------------+
-       |          COLD-ROLLED 316 STAINLESS STEEL OUTER SHELL         |
-       |  +-------------------------------------------------------+  |
-       |  |       POTTED INTERNAL CERAMIC LINER (INSULATION)      |  |
-       |  |  +-------------------------------------------------+  |  |
-       |  |  |       INDUCTION HEATING COILS (ISOLATED)        |  |  |
-       |  |  |  +-------------------------------------------+  |  |  |
-       |  |  |  |    PYROLYTIC REACTION CORE (350 - 900 °C) |  |  |  |
-       |  |  |  |    - Partial pressure O2 approx equal to 0|  |  |  |
-       |  |  |  +-------------------------------------------+  |  |  |
-       |  |  +-------------------------------------------------+  |  |
-       |  +-------------------------------------------------------+  |
-       |                                                             |
-       |     [ HAWKINS-STYLE INSIDE-FITTING OVAL MANWAY LID ]       |
-       |     - Pressure-assisted seal (Internal P forces lid tight) |
-       +-------------------------------------------------------------+
+```mermaid
+graph TD
+    subgraph Vessel["Pressure Containment & Reactor Core Assembly"]
+        A["COLD-ROLLED 316 STAINLESS STEEL OUTER SHELL"]
+        B["POTTED INTERNAL CERAMIC LINER (INSULATION)"]
+        C["INDUCTION HEATING COILS (ISOLATED)"]
+        D["PYROLYTIC REACTION CORE (350 °C - 900 °C, PO2 ≈ 0)"]
+        E["HAWKINS-STYLE INSIDE-FITTING OVAL MANWAY LID<br/>(Pressure-assisted seal)"]
+
+        A --- B
+        B --- C
+        C --- D
+        A --- E
+    end
 ```
 
 Access and serviceability are provided by an integrated Hawkins-style inside-fitting oval manway lid assembly:
@@ -317,22 +264,10 @@ To isolate the electromagnetic induction coils from the internal heat of the rea
 
 Under the EPA Clean Air Act (CAA) Section 129 framework (40 CFR Parts 60 and 63; Docket EPA-HQ-OAR-2021-0382), considerable regulatory distinction exists between traditional waste incineration and non-combustion thermal processing. Conventional incineration units—such as Municipal Waste Combustors (MWC), Commercial Industrial Solid Waste Incinerators (CISWI), and Other Solid Waste Incineration (OSWI) units—rely on direct, open flame oxidation of solid waste under positive oxygen partial pressures.
 
-```
-                 +-----------------------------------+
-                 | EPA CAA Section 129 Framework     |
-                 | (40 CFR Parts 60 & 63)            |
-                 +-----------------------------------+
-                                   |
-         +-------------------------+-------------------------+
-         |                                                   |
-         v                                                   v
-+-------------------------------+                  +-------------------------------+
-| Incineration Units (OSWI/MWC) |                  | Pyrolysis Units (This System) |
-| - Exothermic combustion       |                  | - Endothermic devolatilization|
-| - High oxygen partial pressure|                  | - PO2 approx equal to 0       |
-| - Uncontained gas burning     |                  | - Sealed reactor core         |
-| - Large gas exhaust volumes   |                  | - Non-combustion technology   |
-+-------------------------------+                  +-------------------------------+
+```mermaid
+flowchart TD
+    A["EPA CAA Section 129 Framework<br/>(40 CFR Parts 60 & 63)"] --> B["Incineration Units (OSWI/MWC)<br/>• Exothermic combustion<br/>• High oxygen partial pressure<br/>• Uncontained gas burning<br/>• Large gas exhaust volumes"]
+    A --> C["Pyrolysis Units (This System)<br/>• Endothermic devolatilization<br/>• PO2 ≈ 0 near-zero atmosphere<br/>• Sealed reactor core<br/>• Non-combustion technology"]
 ```
 
 This platform's thermochemical operation positions it outside standard OSWI/MWC incineration classifications for the following structural and thermodynamic reasons:
