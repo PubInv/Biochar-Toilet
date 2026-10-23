@@ -8,7 +8,7 @@
 
 ## Abstract
 
-The global deployment of off-grid Non-Sewered Sanitation Systems (NSSS) relies fundamentally on optimizing thermal energy utilization. In unsewered regions, managing human fecal sludge requires processing high-moisture organic waste without access to grid electricity or continuous municipal water supplies. This paper presents the design and thermodynamic modeling of an autonomous off-grid sanitation platform integrating direct volumetric induction heating using a magnetite-clay susceptor matrix, high-frequency pulsed steam dewatering with dynamic algorithmic dryness detection ($D_p$), passive particle-sorting reactor geometry via the Reverse Brazil Nut Effect (RBNE), and a multi-phase catalytic scrubbing matrix (SCR and Water-Gas Shift/VOC cracking). The system reduces total process energy consumption to approximately $600\text{ kJ}$ ($0.16\text{ kWh}$) per nominal $128\text{ g}$ fecal load, guarantees 6-log ($99.9999\%$) pathogen destruction via supersonic steam flashing, and complies with ISO 30500 and EPA CAA Section 129 regulatory frameworks.
+The global deployment of off-grid Non-Sewered Sanitation Systems (NSSS) relies fundamentally on optimizing thermal energy utilization. In unsewered regions, managing human fecal sludge requires processing high-moisture organic waste without access to grid electricity or continuous municipal water supplies. This paper presents the design and thermodynamic modeling of an autonomous off-grid sanitation platform integrating direct volumetric induction heating using a magnetite-clay susceptor matrix (formulated from bentonite clay or commercial clay-based kitty litter thoroughly blended with magnetite), which serves as the initial stage that directly couples electromagnetic energy into the wet fecal and urine mass. Coupled with high-frequency pulsed steam dewatering with dynamic algorithmic dryness detection ($D_p$), passive particle-sorting reactor geometry via the Reverse Brazil Nut Effect (RBNE), and a multi-phase catalytic scrubbing matrix (SCR and Water-Gas Shift/VOC cracking), the system reduces total process energy consumption to approximately $600\text{ kJ}$ ($0.16\text{ kWh}$) per nominal $128\text{ g}$ fecal load, guarantees 6-log ($99.9999\%$) pathogen destruction via supersonic steam flashing, and complies with ISO 30500 and EPA CAA Section 129 regulatory frameworks.
 
 ---
 
@@ -18,14 +18,14 @@ The global deployment of off-grid Non-Sewered Sanitation Systems (NSSS) relies f
 
 ### Volumetric Heating vs. Resistance Incineration Analysis
 
-Conventional non-sewered waste treatment systems historically utilize indirect electric resistance heating to incinerate waste. In contrast, direct volumetric induction heating leverages a magnetite-clay susceptor matrix to couple electromagnetic energy directly into the core process mass. Electric resistance incineration relies on conductive and convective heat transfer from external resistance elements through thick vessel walls, resulting in significant thermal lag, surface heat loss, and high specific energy demands. Induction heating generates rapid, localized thermal dissipation directly within the susceptor matrix, driving the thermal decomposition of fecal sludge far more efficiently.
+Conventional non-sewered waste treatment systems historically utilize indirect electric resistance heating to incinerate waste. In contrast, direct volumetric induction heating leverages a magnetite-clay susceptor matrix—formulated from low-cost bentonite clay or commercial clay-based kitty litter thoroughly mixed with magnetite ($\text{Fe}_3\text{O}_4$) powder—to directly couple electromagnetic energy into the initial wet fecal and urine mass. Electric resistance incineration relies on conductive and convective heat transfer from external resistance elements through thick vessel walls, resulting in significant thermal lag, surface heat loss, and high specific energy demands. Induction heating generates rapid, localized thermal dissipation directly within the susceptor matrix surrounding and permeating the waste, driving the thermal decomposition of fecal sludge far more efficiently.
 
 While traditional incineration requires between $1,500$ and $3,000+\text{ kJ}$ to process a standard single-use $128\text{ g}$ fecal load due to continuous oxidative thermal losses and structural heat sinks, direct volumetric induction heating achieves full thermochemical conversion using approximately $600\text{ kJ}$ ($0.16\text{ kWh}$) per $128\text{ g}$ load. This drastic reduction in energy consumption enables battery-buffered solar photovoltaic or localized off-grid power integration.
 
-| System Parameter / Metric | Direct Volumetric Induction Heating (Magnetite-Clay Matrix) | Conventional Indirect Electric Resistance Incineration |
+| System Parameter / Metric | Direct Volumetric Induction Heating (Magnetite-Bentonite/Kitty Litter Matrix) | Conventional Indirect Electric Resistance Incineration |
 | :--- | :--- | :--- |
 | **Energy Consumption per 128 g Load** | $\sim 600\text{ kJ}$ ($0.16\text{ kWh}$) | $1,500\text{--}3,000+\text{ kJ}$ ($0.42\text{--}0.83+\text{ kWh}$) |
-| **Heating Efficiency** | High volumetric efficiency; direct targeted electromagnetic coupling within core | Low indirect efficiency; constrained by boundary layer thermal resistance |
+| **Heating Efficiency** | High volumetric efficiency; direct targeted electromagnetic coupling within fecal/urine mass | Low indirect efficiency; constrained by boundary layer thermal resistance |
 | **Thermal Lag** | Minimal; immediate electromagnetic coupling and rapid thermal response | High; prolonged pre-heating and slow boundary conductive ramp times |
 | **System Footprint** | Compact; reduced structural thermal insulation and slim reactor housing | Large; requires heavy thermal shielding and high-capacity resistance banks |
 
@@ -58,7 +58,7 @@ Because $K_a$ is nearly two orders of magnitude lower than $K_s$ and $K_w$, the 
 
 $$K_{\text{dry}} = \frac{0.135 \rho_d + 64.7}{2710 - 0.947 \rho_d}$$
 
-As phase change progresses, liquid water ($V_w$) is depleted and replaced by vapor and air ($V_a$). A high air volume fraction ($V_a/V$) severely degrades overall thermal conductivity ($K$). To counteract this drop, the system utilizes a compacted magnetite-clay susceptor matrix. Compacted magnetite particles sustain a high effective dry density $\rho_d$, ensuring that even as water vaporizes, $K_{\text{dry}}$ remains sufficiently high to conduct thermal energy efficiently into the decomposing organic solids without localized thermal insulation barriers.
+As phase change progresses, liquid water ($V_w$) is depleted and replaced by vapor and air ($V_a$). A high air volume fraction ($V_a/V$) severely degrades overall thermal conductivity ($K$). To counteract this drop, the system utilizes a compacted magnetite-bentonite/kitty litter susceptor matrix. Compacted magnetite particles sustain a high effective dry density $\rho_d$, ensuring that even as water vaporizes, $K_{\text{dry}}$ remains sufficiently high to conduct thermal energy efficiently into the decomposing organic solids without localized thermal insulation barriers.
 
 Maintaining endothermic pyrolytic conditions avoids heating non-reactive atmospheric carrier gases (such as atmospheric $\text{N}_2$), directing all input power into devolatilization and preparing the moisture fraction for targeted extraction.
 
@@ -133,8 +133,8 @@ To manage these granular dynamics, the main reaction chamber uses a vertically z
 ```mermaid
 graph TD
     subgraph Reactor["Flower Pot Tapered Reactor Geometry"]
-        A["Raw Wet Feedstock Entry"]
-        B["UPPER ZONE: High-Flux Induction Coupling<br/>• Large wet feedstock particles retained<br/>• High moisture, active flash drying"]
+        A["Raw Wet Feedstock Entry<br/>(Fecal Sludge & Urine + Magnetite/Kitty Litter Mix)"]
+        B["UPPER ZONE: High-Flux Induction Coupling<br/>• Direct energy coupling into wet waste/susceptor matrix<br/>• Large wet feedstock particles retained<br/>• High moisture, active flash drying"]
         C["MID-ZONE: Pyrolytic Devolatilization<br/>• Temperature: 350 °C - 900 °C<br/>• Hydrocarbon thermal cracking"]
         D["LOWER ZONE: Fine Char Discharge<br/>• RBNE passive particle sorting<br/>• Descending carbonized biochar"]
         E["Char Discharge Valve"]
@@ -147,7 +147,7 @@ graph TD
 ```
 
 This tapered geometry harnesses the granular segregation dynamics of the Reverse Brazil Nut Effect (RBNE). Under continuous low-amplitude thermal expansion stress and mechanical pulsing, fine particles migrate downward while larger, less dense particles rise or remain suspended in the upper zone. In this reactor:
-- Larger, wet raw feedstock particles remain in the upper, high-flux induction zone where electromagnetic coupling density is highest.
+- Larger, wet raw feedstock particles mixed with the magnetite-clay (bentonite/kitty litter) susceptor remain in the upper, high-flux induction zone where electromagnetic coupling density is highest.
 - As waste devolatilizes, loses moisture, and undergoes thermal cracking ($350\text{--}900\text{ }^\circ\text{C}$), it fractures into smaller, denser, carbon-rich biochar granules.
 - These smaller particles pass down through the narrowed bed taper via RBNE sorting, ensuring that only fully carbonized, fine biochar descends to the discharge zone. This passive mechanism prevents short-circuiting and guarantees uniform residence times for un-pyrolyzed solids.
 
