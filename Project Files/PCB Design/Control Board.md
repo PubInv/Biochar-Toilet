@@ -161,8 +161,10 @@ All necessary manufacturing files are included in this repository:
 | GPIO3 | ADC Pressure | ADC1_CH2 Input | 0–15 PSI (0–5V) Sensor via voltage divider |
 | GPIO4 | Main Coil Heater | Q2 base → SSR 1 | Main Vessel Induction Coil (PWM controlled) |
 | GPIO5 | Catalyst Heater | Q5 base → SSR 2 | Catalytic Converter Induction Heater (Active during cycle) |
+| GPIO8 | Status LED Driver | WS2812 RGB LED | Onboard RGB LED indicator (Green=IDLE, Orange=ACTIVE, Blue=DRY, Red Flashing=TRIP) |
 | GPIO10 | Solenoid 1 Control | Q1 MOSFET Driver | Main Vent Solenoid Valve 1 |
 | GPIO11 | Recirculating Pump | Q3 MOSFET Driver | Water/Fluid Recirculating Pump (Feature flagged) |
+| GPIO12 | Flush Button Input | Manual Push Switch | Active LOW input (internal pull-up) — short-press starts cycle, 3s long-press resets emergency trip |
 
 *Note: GPIO8/9 are internally tied to the ESP32-H2 32 MHz crystal oscillator and cannot be used for general I/O. GPIO14/15 are reserved for the 32 kHz RTC crystal.*
 

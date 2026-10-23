@@ -1,0 +1,209 @@
+Updating existing ESP-IDF at /home/jules/esp-idf to release/v5.3...
+Already on 'release/v5.3'
+Your branch is up to date with 'origin/release/v5.3'.
+Fetching submodule components/bootloader/subproject/components/micro-ecc/micro-ecc
+Fetching submodule components/bt/controller/lib_esp32
+Fetching submodule components/bt/controller/lib_esp32c2/esp32c2-bt-lib
+Fetching submodule components/bt/controller/lib_esp32c3_family
+Fetching submodule components/bt/controller/lib_esp32c5/esp32c5-bt-lib
+Fetching submodule components/bt/controller/lib_esp32c6/esp32c6-bt-lib
+Fetching submodule components/bt/controller/lib_esp32h2/esp32h2-bt-lib
+Fetching submodule components/bt/esp_ble_mesh/lib/lib
+Fetching submodule components/bt/host/nimble/nimble
+Fetching submodule components/cmock/CMock
+Fetching submodule components/cmock/CMock/vendor/c_exception
+Fetching submodule components/cmock/CMock/vendor/unity
+Fetching submodule components/esp_coex/lib
+Fetching submodule components/esp_phy/lib
+Fetching submodule components/esp_wifi/lib
+Fetching submodule components/heap/tlsf
+Fetching submodule components/json/cJSON
+Fetching submodule components/lwip/lwip
+Fetching submodule components/mbedtls/mbedtls
+Fetching submodule components/mqtt/esp-mqtt
+Fetching submodule components/openthread/lib
+Fetching submodule components/openthread/openthread
+Fetching submodule components/openthread/openthread/third_party/mbedtls/repo
+Fetching submodule components/openthread/openthread/third_party/mbedtls/repo/framework
+Fetching submodule components/protobuf-c/protobuf-c
+Fetching submodule components/spiffs/spiffs
+Fetching submodule components/unity/unity
+Already up to date.
+Installing ESP-IDF tools...
+Detecting the Python interpreter
+Checking "python3" ...
+Python 3.12.13
+"python3" has been detected
+Checking Python compatibility
+Installing ESP-IDF tools
+Selected targets are: esp32h2
+Current system platform: linux-amd64
+Installing tools: riscv32-esp-elf-gdb, riscv32-esp-elf, openocd-esp32, esp-rom-elfs
+Skipping riscv32-esp-elf-gdb@17.1_20260402 (already installed)
+Skipping riscv32-esp-elf@esp-13.2.0_20250707 (already installed)
+Skipping openocd-esp32@v0.12.0-esp32-20260703 (already installed)
+Skipping esp-rom-elfs@20240305 (already installed)
+Installing Python environment and packages
+Python 3.12.13
+pip 26.2.1 from /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages/pip (python 3.12)
+Requirement already satisfied: pip in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (26.2.1)
+Requirement already satisfied: setuptools in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (84.0.0)
+Looking in indexes: https://pypi.org/simple, https://dl.espressif.com/pypi
+Ignoring importlib_metadata: markers 'python_version < "3.8"' don't match your environment
+Requirement already satisfied: setuptools in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 3)) (84.0.0)
+Requirement already satisfied: packaging in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 4)) (26.3)
+Requirement already satisfied: click in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 7)) (8.1.8)
+Requirement already satisfied: pyserial in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 8)) (3.5)
+Requirement already satisfied: cryptography in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 9)) (42.0.8)
+Requirement already satisfied: pyparsing in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 10)) (3.2.5)
+Requirement already satisfied: pyelftools in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 11)) (0.33)
+Requirement already satisfied: idf-component-manager in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (2.5.2)
+Requirement already satisfied: esp-coredump in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 13)) (1.17.2)
+Requirement already satisfied: esptool in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 14)) (4.12.0)
+Requirement already satisfied: esp-idf-kconfig in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 15)) (2.5.4)
+Requirement already satisfied: esp-idf-monitor in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 16)) (1.10.0)
+Requirement already satisfied: esp-idf-nvs-partition-gen in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 17)) (0.1.9)
+Requirement already satisfied: esp-idf-size in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 18)) (1.7.1)
+Requirement already satisfied: esp-idf-panic-decoder in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 19)) (1.5.0)
+Requirement already satisfied: pyclang in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 20)) (0.7.0)
+Requirement already satisfied: construct in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 21)) (2.10.70)
+Requirement already satisfied: tree_sitter in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 24)) (0.26.0)
+Requirement already satisfied: tree_sitter_c in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 25)) (0.24.2)
+Requirement already satisfied: freertos_gdb in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from -r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 28)) (1.0.4)
+Requirement already satisfied: cffi>=1.12 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from cryptography->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 9)) (2.1.1)
+Requirement already satisfied: psutil in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (7.2.1)
+Requirement already satisfied: colorama in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (0.4.6)
+Requirement already satisfied: ruamel.yaml in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (0.19.1)
+Requirement already satisfied: requests in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (2.34.2)
+Requirement already satisfied: requests-file in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (3.0.1)
+Requirement already satisfied: requests-toolbelt in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (1.0.0)
+Requirement already satisfied: tqdm in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (4.70.1)
+Requirement already satisfied: jsonref in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (1.1.0)
+Requirement already satisfied: pydantic!=2.12.0 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (2.13.5)
+Requirement already satisfied: pydantic-core in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (2.46.5)
+Requirement already satisfied: pydantic-settings in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (2.15.0)
+Requirement already satisfied: pathvalidate in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (3.3.1)
+Requirement already satisfied: truststore in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (0.10.4)
+Requirement already satisfied: pygdbmi>=0.9.0.2 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from esp-coredump->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 13)) (0.11.0.0)
+Requirement already satisfied: esp-pylib>=1.1.4 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from esp-pylib[cli]>=1.1.4->esp-coredump->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 13)) (1.1.5)
+Requirement already satisfied: rich-click in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from esp-coredump->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 13)) (1.9.9)
+Requirement already satisfied: rich in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from esp-coredump->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 13)) (15.0.0)
+Requirement already satisfied: bitstring!=4.2.0,>=3.1.6 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from esptool->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 14)) (4.4.0)
+Requirement already satisfied: ecdsa>=0.16.0 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from esptool->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 14)) (0.19.2)
+Requirement already satisfied: reedsolo<1.8,>=1.5.3 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from esptool->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 14)) (1.7.0)
+Requirement already satisfied: PyYAML>=5.1 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from esptool->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 14)) (6.0.3)
+Requirement already satisfied: intelhex in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from esptool->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 14)) (2.3.0)
+Requirement already satisfied: argcomplete>=3 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from esptool->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 14)) (3.7.2)
+Requirement already satisfied: bitarray<4.0,>=3.0.0 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from bitstring!=4.2.0,>=3.1.6->esptool->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 14)) (3.11.0)
+Requirement already satisfied: tibs<0.6,>=0.5.6 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from bitstring!=4.2.0,>=3.1.6->esptool->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 14)) (0.5.7)
+Requirement already satisfied: pycparser in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from cffi>=1.12->cryptography->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 9)) (3.0)
+Requirement already satisfied: six>=1.9.0 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from ecdsa>=0.16.0->esptool->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 14)) (1.17.0)
+Requirement already satisfied: annotated-types>=0.6.0 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from pydantic!=2.12.0->idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (0.8.0)
+Requirement already satisfied: typing-extensions>=4.14.1 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from pydantic!=2.12.0->idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (4.16.0)
+Requirement already satisfied: typing-inspection>=0.4.2 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from pydantic!=2.12.0->idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (0.4.4)
+Requirement already satisfied: markdown-it-py>=2.2.0 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from rich->esp-coredump->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 13)) (4.2.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from rich->esp-coredump->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 13)) (2.21.0)
+Requirement already satisfied: mdurl~=0.1 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from markdown-it-py>=2.2.0->rich->esp-coredump->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 13)) (0.1.2)
+Requirement already satisfied: python-dotenv>=0.21.0 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from pydantic-settings->idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (1.2.3)
+Requirement already satisfied: charset_normalizer<4,>=2 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from requests->idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (3.5.1)
+Requirement already satisfied: idna<4,>=2.5 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from requests->idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (3.20)
+Requirement already satisfied: urllib3<3,>=1.26 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from requests->idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (1.26.20)
+Requirement already satisfied: certifi>=2023.5.7 in /home/jules/.espressif/python_env/idf5.3_py3.12_env/lib/python3.12/site-packages (from requests->idf-component-manager->-r /home/jules/esp-idf/tools/requirements/requirements.core.txt (line 12)) (2026.7.22)
+Skipping the download of /home/jules/.espressif/espidf.constraints.v5.3.txt because it was downloaded recently.
+Upgrading pip...
+Upgrading setuptools...
+Installing Python packages
+ Constraint file: /home/jules/.espressif/espidf.constraints.v5.3.txt
+ Requirement files:
+  - /home/jules/esp-idf/tools/requirements/requirements.core.txt
+All done! You can now run:
+
+  . ./export.sh
+
+Sourcing ESP-IDF environment...
+Detecting the Python interpreter
+Checking "python3" ...
+Python 3.12.13
+"python3" has been detected
+Checking Python compatibility
+Checking other ESP-IDF version.
+Adding ESP-IDF tools to PATH...
+Checking if Python packages are up to date...
+Python requirements are satisfied.
+Constraint file: /home/jules/.espressif/espidf.constraints.v5.3.txt
+Requirement files:
+ - /home/jules/esp-idf/tools/requirements/requirements.core.txt
+Python being checked: /home/jules/.espressif/python_env/idf5.3_py3.12_env/bin/python
+Added the following directories to PATH:
+  /home/jules/esp-idf/components/espcoredump
+  /home/jules/esp-idf/components/partition_table
+  /home/jules/esp-idf/components/app_update
+  /home/jules/.espressif/tools/riscv32-esp-elf-gdb/17.1_20260402/riscv32-esp-elf-gdb/bin
+  /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin
+  /home/jules/.espressif/tools/openocd-esp32/v0.12.0-esp32-20260703/openocd-esp32/bin
+  /home/jules/.espressif/python_env/idf5.3_py3.12_env/bin
+  /home/jules/esp-idf/tools
+Done! You can now compile ESP-IDF projects.
+Go to the project directory and run:
+
+  idf.py build
+
+Navigating to biochar induction firmware directory: /app/Project Files/Induction Heating Prototype/Firmware
+Cleaning old build files to prevent cache conflicts...
+Executing action: fullclean
+Build directory '/app/Project Files/Induction Heating Prototype/Firmware/build' not found. Nothing to clean.
+Executing action: remove_managed_components
+Done
+Setting target to esp32h2...
+Adding "set-target"'s dependency "fullclean" to list of commands with default set of options.
+Executing action: fullclean
+Build directory '/app/Project Files/Induction Heating Prototype/Firmware/build' not found. Nothing to clean.
+Executing action: set-target
+Set Target to: esp32h2, new sdkconfig will be created.
+Running cmake in directory '/app/Project Files/Induction Heating Prototype/Firmware/build'
+Executing "cmake -G Ninja -DPYTHON_DEPS_CHECKED=1 -DPYTHON=/home/jules/.espressif/python_env/idf5.3_py3.12_env/bin/python -DESP_PLATFORM=1 -DIDF_TARGET=esp32h2 -DCCACHE_ENABLE=0 '/app/Project Files/Induction Heating Prototype/Firmware'"...
+-- Found Git: /usr/bin/git (found version "2.53.0")
+-- The C compiler identification is GNU 13.2.0
+-- The CXX compiler identification is GNU 13.2.0
+-- The ASM compiler identification is GNU
+-- Found assembler: /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/riscv32-esp-elf-gcc
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - failed
+-- Check for working C compiler: /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/riscv32-esp-elf-gcc
+-- Check for working C compiler: /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/riscv32-esp-elf-gcc - broken
+CMake Error at /usr/share/cmake-3.28/Modules/CMakeTestCCompiler.cmake:67 (message):
+  The C compiler
+
+    "/home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/riscv32-esp-elf-gcc"
+
+  is not able to compile a simple test program.
+
+  It fails with the following output:
+
+    Change Dir: '/app/Project Files/Induction Heating Prototype/Firmware/build/CMakeFiles/CMakeScratch/TryCompile-BO9YgJ'
+
+    Run Build Command(s): /usr/bin/ninja -v cmTC_ca08a
+    [1/2] /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/riscv32-esp-elf-gcc   -march=rv32imac_zicsr_zifencei -o CMakeFiles/cmTC_ca08a.dir/testCCompiler.c.obj -c '/app/Project Files/Induction Heating Prototype/Firmware/build/CMakeFiles/CMakeScratch/TryCompile-BO9YgJ/testCCompiler.c'
+    [2/2] : && /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/riscv32-esp-elf-gcc -march=rv32imac_zicsr_zifencei -nostartfiles -march=rv32imac_zicsr_zifencei --specs=nosys.specs CMakeFiles/cmTC_ca08a.dir/testCCompiler.c.obj -o cmTC_ca08a   && :
+    FAILED: cmTC_ca08a
+    : && /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/riscv32-esp-elf-gcc -march=rv32imac_zicsr_zifencei -nostartfiles -march=rv32imac_zicsr_zifencei --specs=nosys.specs CMakeFiles/cmTC_ca08a.dir/testCCompiler.c.obj -o cmTC_ca08a   && :
+    /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/../lib/gcc/riscv32-esp-elf/13.2.0/../../../../riscv32-esp-elf/bin/ld: cannot find -lc: No such file or directory
+    /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/../lib/gcc/riscv32-esp-elf/13.2.0/../../../../riscv32-esp-elf/bin/ld: cannot find -lnosys: No such file or directory
+    /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/../lib/gcc/riscv32-esp-elf/13.2.0/../../../../riscv32-esp-elf/bin/ld: cannot find -lc: No such file or directory
+    /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/../lib/gcc/riscv32-esp-elf/13.2.0/../../../../riscv32-esp-elf/bin/ld: cannot find -lc: No such file or directory
+    /home/jules/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20250707/riscv32-esp-elf/bin/../lib/gcc/riscv32-esp-elf/13.2.0/../../../../riscv32-esp-elf/bin/ld: cannot find -lnosys: No such file or directory
+    collect2: error: ld returned 1 exit status
+    ninja: build stopped: subcommand failed.
+
+
+
+
+
+  CMake will not be able to correctly generate this project.
+Call Stack (most recent call first):
+  /home/jules/esp-idf/tools/cmake/project.cmake:571 (__project)
+  CMakeLists.txt:3 (project)
+
+
+-- Configuring incomplete, errors occurred!
+cmake failed with exit code 1, output of the command is in the /app/Project Files/Induction Heating Prototype/Firmware/build/log/idf_py_stderr_output_226658 and /app/Project Files/Induction Heating Prototype/Firmware/build/log/idf_py_stdout_output_226658

@@ -151,11 +151,13 @@ The ESP-IDF firmware (`Firmware/main/main.c`) implements all three control loops
 - Dry boiler detection (sustained low-pressure latch after active cycle)
 - Proportional temperature control with EMA smoothing and 2-second PWM window
 
-To build and flash:
+To build and flash (using provided build scripts or idf.py):
 ```bash
-idf.py set-target esp32h2
-idf.py build
-idf.py -p PORT flash monitor
+# Linux / macOS (runs build, flash, monitor)
+./build_firmware.sh flash monitor
+
+# Windows
+build_firmware.bat flash monitor
 ```
 
 Root-level Python scripts (`dryness_monitor.py`, `valve_controller.py`, and their tests) were earlier-stage software prototypes for the same logic.

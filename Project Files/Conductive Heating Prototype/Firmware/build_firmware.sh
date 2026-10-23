@@ -10,8 +10,15 @@ if [ -z "$IDF_PATH" ]; then
 fi
 
 if [ ! -d "$IDF_PATH" ]; then
-    echo "ESP-IDF not found at $IDF_PATH. Cloning..."
-    git clone -b v5.2.1 --recursive https://github.com/espressif/esp-idf.git "$IDF_PATH"
+    echo "ESP-IDF not found at $IDF_PATH. Cloning release/v5.3..."
+    git clone -b release/v5.3 --recursive https://github.com/espressif/esp-idf.git "$IDF_PATH"
+elif [ -d "$IDF_PATH/.git" ]; then
+    echo "Updating existing ESP-IDF at $IDF_PATH to release/v5.3..."
+    cd "$IDF_PATH"
+    git fetch origin || true
+    git checkout release/v5.3 || true
+    git pull --recurse-submodules || true
+    git submodule update --init --recursive || true
 fi
 
 echo "Installing ESP-IDF tools..."
@@ -21,17 +28,21 @@ cd "$IDF_PATH"
 echo "Sourcing ESP-IDF environment..."
 source "$IDF_PATH/export.sh"
 
-echo "Navigating to firmware directory: $PROJECT_DIR"
+echo "Navigating to biochar conductive firmware directory: $PROJECT_DIR"
 cd "$PROJECT_DIR"
 
 echo "Cleaning old build files to prevent cache conflicts..."
-rm -rf build
+rm -rf build sdkconfig sdkconfig.old
 idf.py fullclean
 
 echo "Setting target to esp32h2..."
 idf.py set-target esp32h2
 
-echo "Building firmware..."
-idf.py build
+echo "Building biochar conductive firmware..."
+if [ $# -eq 0 ]; then
+    idf.py build
+else
+    idf.py build "$@"
+fi
 
 echo "Build successful."

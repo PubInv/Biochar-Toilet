@@ -12,11 +12,12 @@
  *   GPIO3  → Pressure Sensor ADC  (ADC1_CH2, 0–15 PSI via 0–5V voltage divider)
  *   GPIO4  → SSR 1 / Main Coil Induction Heater (active HIGH — drives BJT base)
  *   GPIO5  → SSR 2 / Catalyst Induction Heater  (active HIGH — drives BJT base)
+ *   GPIO8  → WS2812 RGB LED                      (Status Indicator)
  *   GPIO10 → Solenoid Valve 1                    (MOSFET-driven)
  *   GPIO11 → Pump / Valve 2                      (MOSFET-driven, feature flagged)
+ *   GPIO12 → Flush Button                        (Active LOW with internal pull-up)
  *
  * PIN CONFIGURATION NOTES:
- *   GPIO8/9 are internally tied to the ESP32-H2 32 MHz crystal oscillator and unavailable.
  *   GPIO14/15 are reserved for 32 kHz RTC crystal on some variants.
  *   GPIO3 is shared with MTDI/JTAG.
  *
@@ -42,6 +43,8 @@
 #include "esp_adc/adc_oneshot.h"
 #include "esp_log.h"
 #include "esp_timer.h"
+#include "esp_cpu.h"
+#include "soc/gpio_reg.h"
 
 static const char *TAG = "biochar_induction";
 
@@ -58,8 +61,10 @@ static const char *TAG = "biochar_induction";
 #define PIN_ADC_PRESSURE    ADC_CHANNEL_2   // GPIO3  — Pressure sensor (ADC1_CH2)
 #define PIN_HEATER_MAIN     GPIO_NUM_4      // GPIO4  — SSR 1: Main Induction Coil
 #define PIN_HEATER_CATALYST GPIO_NUM_5      // GPIO5  — SSR 2: Catalytic Converter Heater
+#define PIN_LED_WS2812      GPIO_NUM_8      // GPIO8  — Onboard WS2812 RGB Status LED
 #define PIN_VALVE           GPIO_NUM_10     // GPIO10 — Solenoid Valve 1 (MOSFET)
 #define PIN_PUMP            GPIO_NUM_11     // GPIO11 — Pump (MOSFET, Solenoid Valve 2 driver)
+#define PIN_FLUSH_BUTTON    GPIO_NUM_12     // GPIO12 — Manual Flush Button (Active LOW with internal pull-up)
 
 // ===============================================================
 // ------------------- FEATURE FLAGS -----------------------------
@@ -80,18 +85,21 @@ static const char *TAG = "biochar_induction";
 #define MAX_SAFE_TEMP_C   250.0f   // Overtemp limit (kill heaters, latch valve open)
 
 // ===============================================================
-// --------------------- VALVE HYSTERESIS ------------------------
+// --------------------- LOGARITHMIC VALVE CONTROL ---------------
 // ===============================================================
-// Scaled thresholds for 0-15 PSI full-scale range:
-#define PSI_ON_THRESHOLD   1.20f   // Open valve above this pressure (8% full scale)
-#define PSI_OFF_THRESHOLD  1.05f   // Close valve below this pressure (7% full scale)
+#define MIN_SEAL_PRESSURE  4.0f    // Hard floor to preserve seal integrity
+#define TARGET_PRESSURE    8.0f    // Maximum target pressure before safety limits
+#define TARGET_TEMP_C      121.0f  // Target temperature for sterilization release
+#define VALVE_WINDOW_MS    2000    // Valve maximum burst duration (ms)
+#define VALVE_COOLDOWN_MS  2000    // Mandatory cooldown duration between bursts (ms)
 
 // ===============================================================
 // ------------------- DRY DETECTION (PRESSURE) ------------------
 // ===============================================================
-#define CYCLE_START_PSI   0.30f      // Pressure must exceed this to start a cycle
-#define DRY_PRESSURE_MAX  0.15f      // PSI below which dry detection is considered
-#define DRY_TIME_MS       15000UL    // Must stay dry for this long to latch
+#define CYCLE_START_PSI      0.30f      // Pressure must exceed this to start a cycle
+#define REPRESSURIZE_TIMEOUT_MS  (5UL * 60UL * 1000UL) // 5 minutes timeout to drop target pressure
+#define MAX_CYCLE_TIME_MS    (30UL * 60UL * 1000UL) // 30 minutes maximum cycle duration
+#define LONG_PRESS_RESET_MS  3000LL     // 3 seconds long-press to reset emergency trip
 
 // ===============================================================
 // ------------------ HEATER TEMPERATURE CONTROL -----------------
@@ -105,14 +113,40 @@ static const char *TAG = "biochar_induction";
 // ===============================================================
 // --------------------------- STATE -----------------------------
 // ===============================================================
+typedef enum {
+    STATE_OFF,
+    STATE_HEATING,
+    STATE_COOLING,
+    STATE_ERROR
+} system_state_t;
+
+static system_state_t current_state = STATE_OFF;
+static int negative_pressure_counter = 0;
+static int64_t cooling_start_time = 0;
+static float base_temp_for_runaway = -1.0f;
+static float base_temp_for_absolute_runaway = -1.0f;
+
+#define STAGNATION_WINDOW_SIZE 180
+static float heating_temp_history[STAGNATION_WINDOW_SIZE];
+static int64_t heating_time_history[STAGNATION_WINDOW_SIZE];
+static int history_head = 0;
+static int history_count = 0;
+static int64_t last_history_record_time = 0;
+
 static bool    valve_on            = false;
 static bool    pump_on             = false;
 static bool    cycle_active        = false;
 static bool    dry_latched         = false;
+static bool    has_pressurized     = false;
 static bool    emergency_tripped   = false;
 static int64_t dry_candidate_start = 0;
+static int64_t cycle_start_time    = 0;
+static int64_t button_press_start  = 0;
+static bool    button_was_pressed  = false;
+static bool    long_press_handled  = false;
 static float   temp_ema            = NAN;
 static int64_t window_start        = 0;
+static int64_t valve_window_start  = 0;
 
 static spi_device_handle_t       max31855_handle;
 static adc_oneshot_unit_handle_t adc_handle;
@@ -141,6 +175,46 @@ static void set_catalyst_heater(bool on) {
 static void set_pump(bool on) {
     pump_on = on;
     gpio_set_level(PIN_PUMP, on ? 1 : 0);
+}
+
+// ===============================================================
+// -------------------- WS2812 RGB LED DRIVER --------------------
+// ===============================================================
+static void set_led_color(uint8_t r, uint8_t g, uint8_t b) {
+    uint8_t grb[3] = {g, r, b};
+    uint32_t mask = (1UL << PIN_LED_WS2812);
+
+    portDISABLE_INTERRUPTS();
+    for (int i = 0; i < 3; i++) {
+        uint8_t byte = grb[i];
+        for (int bit = 7; bit >= 0; bit--) {
+            if (byte & (1 << bit)) {
+                // Bit 1: HIGH ~800ns (77 cycles at 96MHz), LOW ~350ns (34 cycles)
+                REG_WRITE(GPIO_OUT_W1TS_REG, mask);
+                uint32_t start = esp_cpu_get_cycle_count();
+                while ((esp_cpu_get_cycle_count() - start) < 77) { __asm__ __volatile__("nop"); }
+
+                REG_WRITE(GPIO_OUT_W1TC_REG, mask);
+                start = esp_cpu_get_cycle_count();
+                while ((esp_cpu_get_cycle_count() - start) < 34) { __asm__ __volatile__("nop"); }
+            } else {
+                // Bit 0: HIGH ~350ns (34 cycles at 96MHz), LOW ~800ns (77 cycles)
+                REG_WRITE(GPIO_OUT_W1TS_REG, mask);
+                uint32_t start = esp_cpu_get_cycle_count();
+                while ((esp_cpu_get_cycle_count() - start) < 34) { __asm__ __volatile__("nop"); }
+
+                REG_WRITE(GPIO_OUT_W1TC_REG, mask);
+                start = esp_cpu_get_cycle_count();
+                while ((esp_cpu_get_cycle_count() - start) < 77) { __asm__ __volatile__("nop"); }
+            }
+        }
+    }
+    portENABLE_INTERRUPTS();
+
+    // WS2812 Reset pulse > 50us (5000 cycles)
+    REG_WRITE(GPIO_OUT_W1TC_REG, mask);
+    uint32_t start = esp_cpu_get_cycle_count();
+    while ((esp_cpu_get_cycle_count() - start) < 5000) { __asm__ __volatile__("nop"); }
 }
 
 // ===============================================================
@@ -218,27 +292,75 @@ static void init_adc(void) {
 }
 
 static void init_gpio(void) {
-    gpio_config_t io_conf = {
+    // Configure outputs
+    gpio_config_t out_conf = {
         .pin_bit_mask  = (1ULL << PIN_VALVE)           |
                          (1ULL << PIN_PUMP)            |
                          (1ULL << PIN_HEATER_MAIN)     |
-                         (1ULL << PIN_HEATER_CATALYST),
+                         (1ULL << PIN_HEATER_CATALYST) |
+                         (1ULL << PIN_LED_WS2812),
         .mode          = GPIO_MODE_OUTPUT,
         .pull_up_en    = GPIO_PULLUP_DISABLE,
         .pull_down_en  = GPIO_PULLDOWN_ENABLE,   // Pull-down keeps drivers off at boot
         .intr_type     = GPIO_INTR_DISABLE,
     };
-    ESP_ERROR_CHECK(gpio_config(&io_conf));
+    ESP_ERROR_CHECK(gpio_config(&out_conf));
 
     gpio_set_level(PIN_VALVE,           0);   // Solenoid Valve 1 OFF
     gpio_set_level(PIN_PUMP,            0);   // Pump / Valve 2 OFF
     gpio_set_level(PIN_HEATER_MAIN,     0);   // SSR 1 Main Coil OFF
     gpio_set_level(PIN_HEATER_CATALYST, 0);   // SSR 2 Catalyst Heater OFF
+    gpio_set_level(PIN_LED_WS2812,      0);   // WS2812 LED pin LOW
+
+    set_led_color(0, 0, 0);                   // WS2812 reset
+
+    // Configure Flush Button input
+    gpio_config_t btn_conf = {
+        .pin_bit_mask  = (1ULL << PIN_FLUSH_BUTTON),
+        .mode          = GPIO_MODE_INPUT,
+        .pull_up_en    = GPIO_PULLUP_ENABLE,     // Pull-up resistor (Active LOW button press to GND)
+        .pull_down_en  = GPIO_PULLDOWN_DISABLE,
+        .intr_type     = GPIO_INTR_DISABLE,
+    };
+    ESP_ERROR_CHECK(gpio_config(&btn_conf));
 }
 
 // ===============================================================
 // ------------------------- MAIN TASK ---------------------------
 // ===============================================================
+static void transition_to(system_state_t new_state, float current_temp, int64_t now) {
+    if (current_state == STATE_ERROR) return;
+
+    current_state = new_state;
+
+    if (new_state == STATE_COOLING || new_state == STATE_OFF) {
+        cooling_start_time = now;
+    }
+
+    if (new_state == STATE_OFF || new_state == STATE_COOLING) {
+        base_temp_for_absolute_runaway = current_temp;
+        base_temp_for_runaway = current_temp;
+    }
+
+    if (new_state == STATE_HEATING) {
+        history_head = 0;
+        history_count = 0;
+        last_history_record_time = 0;
+        if (!isnan(current_temp)) {
+            heating_temp_history[0] = current_temp;
+            heating_time_history[0] = now;
+            history_head = 1;
+            history_count = 1;
+            last_history_record_time = now;
+        }
+    }
+
+    if (new_state == STATE_ERROR) {
+        emergency_tripped = true;
+        ESP_LOGE(TAG, "🚨 SYSTEM ENTERED ERROR STATE: All heaters DISABLED, valve FORCED OPEN!");
+    }
+}
+
 static void control_task(void *arg) {
     ESP_LOGI(TAG, "╔════════════════════════════════════════════════╗");
     ESP_LOGI(TAG, "║ SYSTEM READY: DUAL INDUCTION CONTROL SYSTEM    ║");
@@ -255,10 +377,13 @@ static void control_task(void *arg) {
     ESP_LOGI(TAG, "  GPIO3  → Pressure Sensor ADC (0-15 PSI)");
     ESP_LOGI(TAG, "  GPIO4  → SSR 1 (Main Induction Coil)");
     ESP_LOGI(TAG, "  GPIO5  → SSR 2 (Catalyst Induction Heater)");
+    ESP_LOGI(TAG, "  GPIO8  → WS2812 RGB LED Status Indicator");
     ESP_LOGI(TAG, "  GPIO10 → Solenoid Valve 1");
     ESP_LOGI(TAG, "  GPIO11 → Solenoid Valve 2 / Pump");
+    ESP_LOGI(TAG, "  GPIO12 → Flush Button (Active LOW)");
 
     window_start = esp_timer_get_time() / 1000LL;
+    valve_window_start = window_start;
 
     while (1) {
         int64_t now = esp_timer_get_time() / 1000LL;   // ms
@@ -279,6 +404,93 @@ static void control_task(void *arg) {
         adc_oneshot_read(adc_handle, PIN_ADC_PRESSURE, &adc_raw);
         float psi = adc_to_psi(adc_raw);
 
+        // ------------------- SAFETY INTERLOCKS -----------------
+        if (current_state != STATE_ERROR) {
+            // Lazy initialization of base temps
+            if (current_state == STATE_OFF || current_state == STATE_COOLING) {
+                if (base_temp_for_absolute_runaway < 0.0f && temp_valid) {
+                    base_temp_for_absolute_runaway = temp_ema;
+                }
+                if (base_temp_for_runaway < 0.0f && temp_valid) {
+                    base_temp_for_runaway = temp_ema;
+                }
+            }
+
+            // 1. Negative Pressure Failure
+            if (psi < -0.2f) {
+                negative_pressure_counter++;
+                if (negative_pressure_counter >= 3) {
+                    ESP_LOGE(TAG, "CRITICAL ERROR: Negative pressure detected (%.2f PSI)", psi);
+                    valve_on = true; // Vent valve OPEN
+                    transition_to(STATE_ERROR, temp_ema, now);
+                }
+            } else {
+                negative_pressure_counter = 0;
+            }
+
+            // 2. Unintended Temperature Rise
+            if ((current_state == STATE_OFF || current_state == STATE_COOLING) && temp_valid) {
+                // ABSOLUTE 50C RUNAWAY: TRIPS IMMEDIATELY, NO GRACE PERIOD
+                if (base_temp_for_absolute_runaway >= 0.0f) {
+                    if (temp_ema - base_temp_for_absolute_runaway >= 50.0f) {
+                        ESP_LOGE(TAG, "CRITICAL ERROR: Absolute thermal runaway (+50C in OFF/COOLING)");
+                        transition_to(STATE_ERROR, temp_ema, now);
+                    } else if (temp_ema < base_temp_for_absolute_runaway) {
+                        base_temp_for_absolute_runaway = temp_ema;
+                    }
+                }
+
+                // 5C STUCK BJT RUNAWAY: SUPPRESSED BY 1 HOUR GRACE PERIOD
+                if (base_temp_for_runaway >= 0.0f) {
+                    bool grace = ((current_state == STATE_COOLING || current_state == STATE_OFF) && cooling_start_time > 0 && (now - cooling_start_time) <= 3600000);
+                    if (!grace) {
+                        if (temp_ema - base_temp_for_runaway >= 5.0f) {
+                            ESP_LOGE(TAG, "CRITICAL ERROR: Stuck BJT thermal runaway (+5C)");
+                            transition_to(STATE_ERROR, temp_ema, now);
+                        } else if (temp_ema < base_temp_for_runaway) {
+                            base_temp_for_runaway = temp_ema;
+                        }
+                    }
+                }
+            }
+
+            // 3. Stagnation in Heating
+            if (current_state == STATE_HEATING && temp_valid) {
+                // Rate limit recording to ~20 seconds (1 hour window across 180 samples)
+                if (now - last_history_record_time >= 20000) {
+                    heating_temp_history[history_head] = temp_ema;
+                    heating_time_history[history_head] = now;
+                    last_history_record_time = now;
+                    history_head = (history_head + 1) % STAGNATION_WINDOW_SIZE;
+                    if (history_count < STAGNATION_WINDOW_SIZE) history_count++;
+                }
+
+                int oldest_idx = history_count == STAGNATION_WINDOW_SIZE ? history_head : 0;
+
+                while (history_count > 1 && (now - heating_time_history[oldest_idx]) > 3600000) {
+                    oldest_idx = (oldest_idx + 1) % STAGNATION_WINDOW_SIZE;
+                    history_count--;
+                }
+
+                if (history_count > 1 && (now - heating_time_history[oldest_idx]) >= 3595000) {
+                    float oldest_temp = heating_temp_history[oldest_idx];
+                    if (temp_ema - oldest_temp < 3.0f) {
+                        ESP_LOGE(TAG, "CRITICAL ERROR: Heater stagnation (temp rise < 3C over 1 hour)");
+                        transition_to(STATE_ERROR, temp_ema, now);
+                    }
+                }
+            }
+
+            // Sync states based on active cycle
+            if (cycle_active && !dry_latched) {
+                if (current_state != STATE_HEATING) transition_to(STATE_HEATING, temp_ema, now);
+            } else if (current_state == STATE_COOLING) {
+                if (current_state != STATE_COOLING) transition_to(STATE_COOLING, temp_ema, now);
+            } else {
+                if (current_state != STATE_OFF) transition_to(STATE_OFF, temp_ema, now);
+            }
+        }
+
         // ------------------- EMERGENCY TRIP CHECK ----------
         if (psi >= MAX_SAFE_PSI || (temp_valid && temp_ema >= MAX_SAFE_TEMP_C)) {
             if (!emergency_tripped) {
@@ -287,29 +499,185 @@ static void control_task(void *arg) {
             }
         }
 
-        // ------------------- VALVE CONTROL -----------------
-        if (emergency_tripped) {
+        // ------------------- LOGARITHMIC VALVE CONTROL -----------------
+        static bool release_active = false;
+        static int64_t burst_start_time = 0;
+        static int64_t burst_duration = 0;
+        static int64_t cooldown_start_time = -VALVE_COOLDOWN_MS;
+        static float dynamic_target_pressure = TARGET_PRESSURE;
+        static int64_t repressurize_timer_start = 0;
+        static bool is_repressurizing = false;
+
+        float vent_lower_bound = dynamic_target_pressure - 2.0f;
+        if (vent_lower_bound < MIN_SEAL_PRESSURE) {
+            vent_lower_bound = MIN_SEAL_PRESSURE;
+        }
+
+        if (current_state == STATE_ERROR) {
             valve_on = true;  // Latch valve OPEN in emergency trip
+            release_active = false;
+            is_repressurizing = false;
         } else {
-            if (!valve_on && psi >= PSI_ON_THRESHOLD)        valve_on = true;
-            else if (valve_on && psi <= PSI_OFF_THRESHOLD)   valve_on = false;
+            // ------------------- DRYNESS & DYNAMIC TARGET LOGIC -------------------
+            if (!valve_on && !release_active && !dry_latched && cycle_active) {
+                if (temp_valid && temp_ema >= 100.0f && psi < dynamic_target_pressure) {
+                    if (!is_repressurizing) {
+                        is_repressurizing = true;
+                        repressurize_timer_start = now;
+                    } else {
+                        if ((now - repressurize_timer_start) >= (int64_t)REPRESSURIZE_TIMEOUT_MS) {
+                            if (dynamic_target_pressure > MIN_SEAL_PRESSURE) {
+                                dynamic_target_pressure -= 1.0f;
+                                if (dynamic_target_pressure < MIN_SEAL_PRESSURE) {
+                                    dynamic_target_pressure = MIN_SEAL_PRESSURE;
+                                }
+                                ESP_LOGI(TAG, "⏱️ TIMEOUT: Dropped target pressure to %.1f PSI", dynamic_target_pressure);
+                                repressurize_timer_start = now;
+                                vent_lower_bound = dynamic_target_pressure - 2.0f;
+                                if (vent_lower_bound < MIN_SEAL_PRESSURE) {
+                                    vent_lower_bound = MIN_SEAL_PRESSURE;
+                                }
+                            } else {
+                                dry_latched = true;
+                                is_repressurizing = false;
+                                cycle_active = false;
+                                cycle_start_time = 0;
+                                ESP_LOGI(TAG, "🌱 DRY LATCHED: Failed to reach minimum seal pressure. Biochar drying stage complete!");
+                            }
+                        }
+                    }
+                } else {
+                    is_repressurizing = false;
+                }
+            } else {
+                is_repressurizing = false;
+            }
+
+            // Trigger release cycle only when both pressure and temp targets are met
+            if (!release_active && psi >= dynamic_target_pressure && temp_valid && temp_ema >= TARGET_TEMP_C) {
+                release_active = true;
+                ESP_LOGI(TAG, "💨 VALVE: Target %.1f PSI reached. Initiating release.", dynamic_target_pressure);
+                if (is_repressurizing) {
+                    ESP_LOGI(TAG, "📈 REPRESSURIZE: Time to target was %d ms", (int)(now - repressurize_timer_start));
+                }
+            }
+
+            if (release_active) {
+                // CRITICAL SAFETY FLOOR: If we drop to or below vent lower bound, close completely and end release
+                if (psi <= vent_lower_bound) {
+                    valve_on = false;
+                    release_active = false;
+                    ESP_LOGI(TAG, "💨 VALVE: Dropped below vent bound %.1f PSI. Closing.", vent_lower_bound);
+                } else {
+                    if (valve_on) {
+                        // We are in an active burst
+                        if ((now - burst_start_time) >= burst_duration) {
+                            // Burst finished, close valve and start cooldown
+                            valve_on = false;
+                            cooldown_start_time = now;
+                        }
+                    } else {
+                        // Valve is closed. Are we in cooldown?
+                        if ((now - cooldown_start_time) >= (int64_t)VALVE_COOLDOWN_MS) {
+                            // Cooldown finished, start a new burst
+                            float clamped_psi = psi > dynamic_target_pressure ? dynamic_target_pressure : psi;
+                            float range_p = dynamic_target_pressure - vent_lower_bound;
+                            float duty_cycle = 0.0f;
+
+                            if (range_p > 0.0f) {
+                                float t = (clamped_psi - vent_lower_bound) / range_p;
+                                float log_factor = logf(1.0f + (t * 1.71828f)) / 1.0f;
+                                duty_cycle = log_factor;
+                                if (duty_cycle < 0.0f) duty_cycle = 0.0f;
+                                if (duty_cycle > 1.0f) duty_cycle = 1.0f;
+                            }
+
+                            burst_duration = (int64_t)(duty_cycle * VALVE_WINDOW_MS);
+                            burst_start_time = now;
+                            valve_on = true;
+                        }
+                    }
+                }
+            } else {
+                // Keep valve closed while not releasing
+                valve_on = false;
+            }
         }
         gpio_set_level(PIN_VALVE, valve_on ? 1 : 0);
 
-        // ------------------- DRY DETECTION -----------------
-        if (!dry_latched && !emergency_tripped) {
-            if (!cycle_active && psi >= CYCLE_START_PSI)
-                cycle_active = true;
-
-            if (cycle_active) {
-                if (psi <= DRY_PRESSURE_MAX) {
-                    if (dry_candidate_start == 0)
-                        dry_candidate_start = now;
-                    if ((now - dry_candidate_start) >= (int64_t)DRY_TIME_MS)
-                        dry_latched = true;
-                } else {
-                    dry_candidate_start = 0;
+        // ------------------- FLUSH BUTTON & EMERGENCY RESET -
+        bool button_pressed = (gpio_get_level(PIN_FLUSH_BUTTON) == 0); // Active LOW
+        if (button_pressed) {
+            if (!button_was_pressed) {
+                button_was_pressed = true;
+                button_press_start = now;
+                long_press_handled = false;
+            } else {
+                int64_t hold_duration = now - button_press_start;
+                if (hold_duration >= LONG_PRESS_RESET_MS && !long_press_handled) {
+                    long_press_handled = true;
+                    if (emergency_tripped) {
+                        if (psi < MAX_SAFE_PSI && (!temp_valid || temp_ema < MAX_SAFE_TEMP_C)) {
+                            emergency_tripped = false;
+                            current_state = STATE_OFF;
+                            negative_pressure_counter = 0;
+                            base_temp_for_runaway = -1.0f;
+                            base_temp_for_absolute_runaway = -1.0f;
+                            valve_on = false;
+                            dry_latched = false;
+                            cycle_active = false;
+                            dynamic_target_pressure = TARGET_PRESSURE;
+                            ESP_LOGI(TAG, "✅ EMERGENCY TRIP RESET: Conditions safe. System returned to IDLE!");
+                        } else {
+                            ESP_LOGE(TAG, "⚠️ CANNOT RESET TRIP: System conditions still unsafe! P=%.2f PSI, T=%.1f°C", psi, temp_ema);
+                        }
+                    } else if (cycle_active) {
+                        cycle_active = false;
+                        dry_latched = false;
+                        has_pressurized = false;
+                        dry_candidate_start = 0;
+                        cycle_start_time = 0;
+                        current_state = STATE_OFF;
+                        ESP_LOGI(TAG, "🛑 CYCLE CANCELLED: Biochar cycle manually cancelled via long press!");
+                    }
                 }
+            }
+        } else {
+            if (button_was_pressed) {
+                int64_t hold_duration = now - button_press_start;
+                button_was_pressed = false;
+
+                if (!long_press_handled && hold_duration < LONG_PRESS_RESET_MS) {
+                    if (!cycle_active && !emergency_tripped) {
+                        cycle_active = true;
+                        cycle_start_time = now;
+                        dry_latched = false;
+                        dynamic_target_pressure = TARGET_PRESSURE;
+                        ESP_LOGI(TAG, "🚽 FLUSH BUTTON PRESSED: Biochar cycle initiated manually!");
+                    }
+                }
+            }
+        }
+
+        // Pressure-based auto cycle start (if not already started)
+        if (!cycle_active && !emergency_tripped && psi >= CYCLE_START_PSI) {
+            cycle_active = true;
+            cycle_start_time = now;
+            dry_latched = false;
+            dynamic_target_pressure = TARGET_PRESSURE;
+            ESP_LOGI(TAG, "🔥 CYCLE STARTED: Pressure exceeded threshold (%.2f PSI)", psi);
+        }
+
+        // ------------------- CYCLE TIMEOUT ---
+        if (cycle_active) {
+            int64_t cycle_elapsed = now - cycle_start_time;
+
+            // Check 30-minute max cycle timeout
+            if (cycle_elapsed >= (int64_t)MAX_CYCLE_TIME_MS) {
+                ESP_LOGI(TAG, "⏰ CYCLE COMPLETE: Reached maximum cycle duration (30 mins). Resetting to IDLE.");
+                cycle_active = false;
+                dry_latched = false;
+                cycle_start_time = 0;
             }
         }
 
@@ -317,7 +685,7 @@ static void control_task(void *arg) {
         bool  main_heater_on = false;
         float duty           = 0.0f;
 
-        if (!dry_latched && !emergency_tripped && temp_valid) {
+        if (cycle_active && !dry_latched && !emergency_tripped && temp_valid) {
             float error = SETPOINT_C - temp_ema;
             duty = (temp_ema >= SETPOINT_C + HYST_C) ? 0.0f : KP * error;
             if (duty < 0.0f) duty = 0.0f;
@@ -345,9 +713,32 @@ static void control_task(void *arg) {
         set_pump(false);
 #endif
 
+        // ------------------- WS2812 LED STATUS INDICATOR ---
+        static bool flash_state = false;
+        static int64_t last_flash_toggle = 0;
+        if (now - last_flash_toggle >= 500) {
+            flash_state = !flash_state;
+            last_flash_toggle = now;
+        }
+
+        if (emergency_tripped) {
+            // RED Flashing
+            if (flash_state) set_led_color(255, 0, 0);
+            else             set_led_color(0, 0, 0);
+        } else if (current_state == STATE_HEATING) {
+            // ORANGE/YELLOW
+            set_led_color(255, 120, 0);
+        } else if (dry_latched) {
+            // BLUE
+            set_led_color(0, 0, 255);
+        } else {
+            // GREEN (IDLE / Ready)
+            set_led_color(0, 255, 0);
+        }
+
         // ------------------- LOG OUTPUT --------------------
         ESP_LOGI(TAG,
-            "P=%.2fpsi | Valve=%s | Pump=%s | MainHeater=%s | CatHeater=%s | TRIP=%s | DRY=%s | Duty=%.0f%%",
+            "P=%.2fpsi | Valve=%s | Pump=%s | MainHeater=%s | CatHeater=%s | TRIP=%s | DRY=%s | CycleActive=%s | Duty=%.0f%%",
             psi,
             valve_on           ? "OPEN" : "CLOSED",
             pump_on            ? "ON"   : "OFF",
@@ -355,6 +746,7 @@ static void control_task(void *arg) {
             catalyst_heater_on ? "ON"   : "OFF",
             emergency_tripped  ? "YES"  : "NO",
             dry_latched        ? "YES"  : "NO",
+            cycle_active       ? "YES"  : "NO",
             duty * 100.0f
         );
 

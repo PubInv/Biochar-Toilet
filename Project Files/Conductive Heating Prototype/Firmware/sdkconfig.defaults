@@ -1,0 +1,2 @@
+# Minimum supported ESP32-H2 revision: rev1.2
+CONFIG_ESP_REV_MIN_FULL=102
